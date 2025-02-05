@@ -1,19 +1,19 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
+//import React from 'react';
 
 import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
+import { windowAverage, windowWidth } from '@/constants/dimensions';
 
-
-import CalcSVG from '../navigation/CalcSVG';
-import HomeSVG from '../navigation/HomeSVG';
-import ExercisesSVG from '../navigation/ExercisesSVG';
-import TrainsSVG from '../navigation/TrainsSVG';
+import CalcSVG from '../../assets/images/navigation/CalcSVG';
+import HomeSVG from '../../assets/images/navigation/HomeSVG';
+import ExercisesSVG from '../../assets/images/navigation/ExercisesSVG';
+import TrainsSVG from '../../assets/images/navigation/TrainsSVG';
 
 export default function TabLayout() {
 
   const tabDarkTheme = {
-    bg: "#242424",
+    bg: "#1D2028",
     element: "#16A34A"
   }
 
@@ -23,44 +23,49 @@ export default function TabLayout() {
   }
 
   return (
-    <Tabs
+    <Tabs 
       screenOptions={{
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
         tabBarShowLabel: false,
+        
         tabBarStyle: {
-          backgroundColor: tabDarkTheme.bg, // add theme
-          display: "flex",
+          backgroundColor: "#1D2028", // add theme
           justifyContent: "center",
           alignItems: "center",
-          height: 56,
-          paddingTop: 8,
-          paddingBottom: 8,
+          height: windowAverage * 28,
+          width: windowWidth,
+          paddingTop: windowAverage * 4.8,
+          paddingBottom: windowAverage * 4,
+          borderTopLeftRadius: windowAverage * 4,
+          borderTopRightRadius: windowAverage * 4,
+          borderTopWidth: 0,
+          position: "absolute"       
         }
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          tabBarIcon: () => <HomeSVG color='#16A34A' size='40px' />,
+          tabBarIcon: ({focused}) => <HomeSVG color={focused ? "#2873fd" : "#16A34A"} size={`${windowAverage*20}px`} />,
         }}
       />
       <Tabs.Screen
         name="Trains"
         options={{
-          tabBarIcon: () => <TrainsSVG color='#16A34A' size='40px' />,
+          tabBarIcon: ({focused}) => <TrainsSVG color={focused ? "#2873fd" : "#16A34A"} size={`${windowAverage*20}px`} />,
         }}
       />
       <Tabs.Screen
         name="Exercises"
         options={{
-          tabBarIcon: () => <ExercisesSVG color='#16A34A' size='40px' />,
+          tabBarIcon: ({focused}) => <ExercisesSVG color={focused ? "#2873fd" : "#16A34A"} size={`${windowAverage*20}px`} />,
         }}
       />
       <Tabs.Screen
         name="Calculators"
         options={{
-          tabBarIcon: () => <CalcSVG color='#16A34A' size='40px' />,
+          tabBarIcon: ({focused}) => <CalcSVG color={focused ? "#2873fd" : "#16A34A"} size={`${windowAverage*20}px`} />,
         }}
       />
     </Tabs>
