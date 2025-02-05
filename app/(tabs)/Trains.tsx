@@ -1,13 +1,7 @@
 import { StyleSheet, Image, Platform, View, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 'react-native-reanimated';
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+
 
 export default function Trains() {
 
@@ -16,9 +10,9 @@ export default function Trains() {
     const onGestureEvent = (event: any) => {
       const { translationX } = event.nativeEvent;
   
-      if (translationX > 50) {
+      if (translationX > 80) {
         router.push('/(tabs)');
-      } else if (translationX < -50) {
+      } else if (translationX < -80) {
         router.push('/(tabs)/Exercises');
       }
     };
@@ -26,7 +20,7 @@ export default function Trains() {
   return (
     <GestureHandlerRootView>
       <PanGestureHandler onGestureEvent={onGestureEvent}>
-        <View>
+        <View style={{backgroundColor: "red"}}>
           <Text>Trains page</Text>
         </View>
       </PanGestureHandler>

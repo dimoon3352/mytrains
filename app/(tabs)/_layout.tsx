@@ -1,49 +1,71 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+//import React from 'react';
 
 import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { windowAverage, windowWidth } from '@/constants/dimensions';
+
+import CalcSVG from '../../assets/images/navigation/CalcSVG';
+import HomeSVG from '../../assets/images/navigation/HomeSVG';
+import ExercisesSVG from '../../assets/images/navigation/ExercisesSVG';
+import TrainsSVG from '../../assets/images/navigation/TrainsSVG';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+
+  const tabDarkTheme = {
+    bg: "#1D2028",
+    element: "#16A34A"
+  }
+
+  const tabLightTheme = {
+    bg: "#fff",
+    element: "#16A34A"
+  }
 
   return (
-    <Tabs
+    <Tabs 
       screenOptions={{
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
+        tabBarShowLabel: false,
+        
+        tabBarStyle: {
+          backgroundColor: "#1D2028", // add theme
+          justifyContent: "center",
+          alignItems: "center",
+          height: windowAverage * 28,
+          width: windowWidth,
+          paddingTop: windowAverage * 4.8,
+          paddingBottom: windowAverage * 4,
+          borderTopLeftRadius: windowAverage * 4,
+          borderTopRightRadius: windowAverage * 4,
+          borderTopWidth: 0,
+          position: "absolute"       
+        }
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          headerTitle: "index",
-          title: "index",
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({focused}) => <HomeSVG color={focused ? "#2873fd" : "#16A34A"} size={`${windowAverage*20}px`} />,
         }}
       />
       <Tabs.Screen
-        name="trains"
+        name="Trains"
         options={{
-          headerTitle: "trains",
-          title: "trains",
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({focused}) => <TrainsSVG color={focused ? "#2873fd" : "#16A34A"} size={`${windowAverage*20}px`} />,
         }}
       />
       <Tabs.Screen
-        name="exercises"
+        name="Exercises"
         options={{
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          tabBarIcon: ({focused}) => <ExercisesSVG color={focused ? "#2873fd" : "#16A34A"} size={`${windowAverage*20}px`} />,
         }}
       />
       <Tabs.Screen
-        name="calculators"
+        name="Calculators"
         options={{
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          tabBarIcon: ({focused}) => <CalcSVG color={focused ? "#2873fd" : "#16A34A"} size={`${windowAverage*20}px`} />,
         }}
       />
     </Tabs>
