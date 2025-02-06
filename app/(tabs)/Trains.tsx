@@ -1,6 +1,7 @@
 import { StyleSheet, Image, Platform, View, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
+import { windowHeight } from '@/constants/dimensions';
 
 
 export default function Trains() {
@@ -10,9 +11,9 @@ export default function Trains() {
     const onGestureEvent = (event: any) => {
       const { translationX } = event.nativeEvent;
   
-      if (translationX > 80) {
+      if (translationX > 40) {
         router.push('/(tabs)');
-      } else if (translationX < -80) {
+      } else if (translationX < -40) {
         router.push('/(tabs)/Exercises');
       }
     };
@@ -20,7 +21,7 @@ export default function Trains() {
   return (
     <GestureHandlerRootView>
       <PanGestureHandler onGestureEvent={onGestureEvent}>
-        <View style={{backgroundColor: "red"}}>
+        <View style={{height: windowHeight}}>
           <Text>Trains page</Text>
         </View>
       </PanGestureHandler>

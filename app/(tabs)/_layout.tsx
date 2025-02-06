@@ -28,8 +28,7 @@ export default function TabLayout() {
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
-        tabBarShowLabel: false,
-        
+        tabBarShowLabel: false,      
         tabBarStyle: {
           backgroundColor: "#1D2028", // add theme
           justifyContent: "center",
