@@ -5,6 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+import { View } from 'react-native';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -27,8 +28,12 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false, statusBarBackgroundColor: "#1D2028" }} />
-    </Stack>
+    <View style={{ flex: 1, backgroundColor: "#242424" }}>  
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false, statusBarBackgroundColor: "#1D2028", animation: "slide_from_left"}} />
+        <Stack.Screen name="(calculators)" options={{ headerShown: false, statusBarBackgroundColor: "#1D2028", animation: "slide_from_right"}} />
+        <Stack.Screen name="(settings)" options={{ headerShown: false, statusBarBackgroundColor: "#1D2028", animation: "slide_from_right"}} />
+      </Stack>  
+    </View>
   );
 }

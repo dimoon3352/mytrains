@@ -2,6 +2,7 @@ import { StyleSheet, Image, Platform, View, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import { windowAverage, windowWidth } from '@/constants/dimensions';
+import { Link } from 'expo-router';
 
 import SettingsSVG from '@/assets/images/header/SettingsSVG';
 
@@ -22,9 +23,11 @@ export default function Header({bgColor, textColor, iconColor}: HeaderProps) {
           Home
         </Text>
       </View>
-      <View style={styles.item}>
-        <SettingsSVG color={iconColor} size={`${windowAverage * 15}px`} />
-      </View> 
+      <Link href="/(settings)/Settings">
+        <View style={styles.item}>
+          <SettingsSVG color={iconColor} size={`${windowAverage * 15}px`} />
+        </View> 
+      </Link>
     </View>
   );
 }
