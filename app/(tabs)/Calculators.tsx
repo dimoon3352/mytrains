@@ -1,28 +1,36 @@
-import { StyleSheet, Image, Platform, View, Text } from 'react-native';
+import { StyleSheet, Image, Platform, View, Text, ScrollView} from 'react-native';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-
+import MainPartHome from '@/components/MainPartHome';
+import MainPartCalculators from '@/components/MainPartCalculators';
+import { windowAverage, windowHeight } from '@/constants/dimensions';
 
 export default function Calculators() {
 
     const router = useRouter();
   
     const onGestureEvent = (event: any) => {
-      const { translationX } = event.nativeEvent;
+      const { translationX, translationY } = event.nativeEvent;
   
-      if (translationX > 80) {
-        router.push('/(tabs)/Exercises');
+      //console.error(Math.abs(translationX), Math.abs(translationY))
+
+      if (Math.abs(translationX) > Math.abs(translationY)) {
+        if (translationX > 40) {
+          router.push('/(tabs)/Exercises');
+        }
       }
     };
 
   return (
-    <GestureHandlerRootView>
-      <PanGestureHandler onGestureEvent={onGestureEvent}>
-        <View style={{backgroundColor: "green"}}>
-          <Text>Calculators page</Text>
-        </View>
-      </PanGestureHandler>
-    </GestureHandlerRootView>
+    <ScrollView style={{backgroundColor: "#242424"}} >
+      <GestureHandlerRootView>
+        <PanGestureHandler onGestureEvent={onGestureEvent}>
+          <View style={{height: windowHeight, alignItems: "center", justifyContent: "center"}}>
+            <MainPartCalculators bgColor='#242424' textColor='#fff' />
+          </View>
+        </PanGestureHandler>
+      </GestureHandlerRootView>
+    </ScrollView>
   );
 }
 
