@@ -30,18 +30,7 @@ export default function TabLayout() {
         tabBarBackground: TabBarBackground,
         tabBarShowLabel: false,      
         tabBarStyle: {
-          backgroundColor: "#1D2028", // add theme
-          justifyContent: "center",
-          alignItems: "center",
-          height: windowAverage * 28,
-          width: windowWidth,
-          paddingTop: windowAverage * 4.8,
-          paddingBottom: windowAverage * 4,
-          borderTopLeftRadius: windowAverage * 4,
-          borderTopRightRadius: windowAverage * 4,
-          borderTopWidth: 0,
-          position: "absolute",
-          opacity: 0         
+          display: "none"       
         }
       }}>
       <Tabs.Screen
