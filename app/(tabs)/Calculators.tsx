@@ -45,8 +45,8 @@ export default function Calculators() {
     <ScrollView style={{backgroundColor: "#242424"}} >
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>
-          <View style={{height: windowHeight, alignItems: "center", justifyContent: "center", gap: windowAverage * 40, bottom: windowAverage * 30}}>
-            <MainPartCalculators bgColor='#242424' textColor='#fff' />
+          <View style={{alignItems: "center", justifyContent: "center", gap: windowAverage * 40}}>
+            <MainPartCalculators bgColor='#242424' textColor='#16A34A' bgItemColor='#1D2028' />      
           </View>
         </PanGestureHandler>
       </GestureHandlerRootView>
