@@ -8,15 +8,14 @@ import SettingsSVG from '@/assets/images/header/SettingsSVG';
 
 
 interface MainPartHomeProps {
-  bgColor: string,
-  textColor: string,
+  textColor: string
 }
 
-export default function MainPartHome({bgColor, textColor}: MainPartHomeProps) {
+export default function MainPartHome({textColor}: MainPartHomeProps) {
 
   return (
     <View style={styles.container} >
-      <Text style={styles.text}>
+      <Text style={[styles.text, {color: textColor}]}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
         minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -50,13 +49,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: windowAverage * 28
   },
-  scrollView: {
-    backgroundColor: 'pink',
-  },
   text: {
     fontSize: 14,
     padding: 12,
-    color: "white"
   },
 });
 

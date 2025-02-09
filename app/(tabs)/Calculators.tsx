@@ -8,12 +8,16 @@ import BenchPress from '@/components/BenchPress';
 import MainPartCalculators from '@/components/MainPartCalculators';
 import { useFonts } from 'expo-font';
 import { SplashScreen } from 'expo-router';
+import { useAppTheme } from '@/components/ThemeAppProvider';
+import { ThemeAppProvider } from '@/components/ThemeAppProvider';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function Calculators() {
 
     const router = useRouter();
+
+    const AppTheme = useAppTheme()
 
     const [loaded] = useFonts({
             SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
@@ -45,8 +49,8 @@ export default function Calculators() {
     <ScrollView style={{backgroundColor: "#242424"}} >
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>
-          <View style={{alignItems: "center", justifyContent: "center", gap: windowAverage * 40}}>
-            <MainPartCalculators bgColor='#242424' textColor='#16A34A' bgItemColor='#1D2028' />      
+          <View>
+            <MainPartCalculators bgColor='#070707' textColor='#16A34A' bgItemColor='#1d2025' />  
           </View>
         </PanGestureHandler>
       </GestureHandlerRootView>

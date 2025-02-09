@@ -6,6 +6,9 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { View } from 'react-native';
+import { ThemeAppProvider } from '@/components/ThemeAppProvider';
+import { useAppTheme } from '@/components/ThemeAppProvider';
+import App from './App';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -27,13 +30,11 @@ export default function RootLayout() {
     return null;
   }
 
+ // const { color, toggle } = useAppTheme()
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#242424" }}>  
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false, statusBarBackgroundColor: "#1D2028", animation: "slide_from_left"}} />
-        <Stack.Screen name="(calculators)" options={{ headerShown: false, statusBarBackgroundColor: "#1D2028", animation: "slide_from_right"}} />
-        <Stack.Screen name="(settings)" options={{ headerShown: false, statusBarBackgroundColor: "#1D2028", animation: "slide_from_right"}} />
-      </Stack>  
-    </View>
+    <ThemeAppProvider>
+      <App />
+    </ThemeAppProvider>
   );
 }

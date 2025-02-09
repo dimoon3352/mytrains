@@ -31,7 +31,7 @@ export default function TabLayout() {
         tabBarShowLabel: false,  
         animation: "shift",    
         tabBarStyle: {
-          backgroundColor: "#1D2028", // add theme
+          backgroundColor: "#1D2025", // add theme
           justifyContent: "center",
           alignItems: "center",
           height: windowAverage * 28,
@@ -47,25 +47,25 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          tabBarIcon: ({focused}) => <HomeSVG color={focused ? "#2873fd" : "#16A34A"} size={`${windowAverage*20}px`} />,
+          tabBarIcon: ({focused}) => <HomeSVG color={focused ? "#008ef4" : "#808487"} size={`${windowAverage*20}px`} />,
         }}
       />
       <Tabs.Screen
         name="Trains"
         options={{
-          tabBarIcon: ({focused}) => <TrainsSVG color={focused ? "#2873fd" : "#16A34A"} size={`${windowAverage*20}px`} />,
+          tabBarIcon: ({focused}) => <TrainsSVG color={focused ? "#008ef4" : "#808487"} size={`${windowAverage*20}px`} />,
         }}
       />
       <Tabs.Screen
         name="Exercises"
         options={{
-          tabBarIcon: ({focused}) => <ExercisesSVG color={focused ? "#2873fd" : "#16A34A"} size={`${windowAverage*20}px`} />,
+          tabBarIcon: ({focused}) => <ExercisesSVG color={focused ? "#008ef4" : "#808487"} size={`${windowAverage*20}px`} />,
         }}
       />
       <Tabs.Screen
         name="Calculators"
         options={{
-          tabBarIcon: ({focused}) => <CalcSVG color={focused ? "#2873fd" : "#16A34A"} size={`${windowAverage*20}px`} />,
+          tabBarIcon: ({focused}) => <CalcSVG color={focused ? "#008ef4" : "#808487"} size={`${windowAverage*20}px`} />,
         }}
       />
     </Tabs>

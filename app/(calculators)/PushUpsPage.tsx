@@ -11,16 +11,14 @@ import { useFonts } from 'expo-font';
 import { SplashScreen } from 'expo-router';
 import { Alert } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { useAppTheme } from '@/components/ThemeAppProvider';
 
 
-//SplashScreen.preventAutoHideAsync();
-export default function BenchPressPage() {
+SplashScreen.preventAutoHideAsync();
+export default function PushUpsPage() {
 
-    
+    const theme = useTheme();
+    theme.colors.background = 'transparent';
     const router = useRouter();
-
-    const AppTheme = useAppTheme()
 
     const [loaded] = useFonts({
         SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
@@ -41,23 +39,24 @@ export default function BenchPressPage() {
 
       if (Math.abs(translationX) > Math.abs(translationY)) {
         if (translationX > 40) {
-          router.push('/(tabs)/Calculators');
+          router.push('/(calculators)/PullUpsPage');
         } 
       } 
 
       if (Math.abs(translationY) < 40) {
         if (translationX < -40) {
-          router.push('/(calculators)/PullUpsPage');
+          router.push('/(calculators)/SquatPage');
         }
-      }     
-    }; 
+      }
+    }; //<Text style={{color: "#fff", fontSize: windowAverage * 10}}>Bench-press calculator</Text>
 
   return (
-    <View style={{backgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#070707", flex: 1}} >
+    <View style={{backgroundColor: "#242424", flex: 1}} >
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>
           <View style={{height: windowHeight, alignItems: "center", justifyContent: "center", gap: windowAverage * 40, bottom: windowAverage * 30}}>
-            <BenchPress bgColor={AppTheme?.theme === "light" ? "#ffffff" : "#070707"} textColor='#fff' />
+           <Text>Push Ups</Text>
+            <BenchPress bgColor='#242424' textColor='#fff' />
           </View>
         </PanGestureHandler>
       </GestureHandlerRootView>
