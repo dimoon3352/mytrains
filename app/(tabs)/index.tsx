@@ -6,9 +6,12 @@ import { View, Pressable, Text, ScrollView } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import Header from '@/components/Header';
 import MainPartHome from '@/components/MainPartHome';
+import { useAppTheme } from '@/components/ThemeAppProvider';
 
 
 export default function HomeScreen() {
+
+  const AppTheme = useAppTheme()
 
   const router = useRouter();
 
@@ -23,12 +26,12 @@ export default function HomeScreen() {
   };
 
   return (  
-    <ScrollView style={{backgroundColor: "#242424"}} >
+    <ScrollView style={{backgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#070707" }}>
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>                     
           <View>          
             <Header bgColor='#1D2028' textColor='#fff' iconColor='#16A34A' />
-            <MainPartHome bgColor='#242424' textColor='#fff' />          
+            <MainPartHome textColor='#fff' />          
           </View>             
         </PanGestureHandler>
       </GestureHandlerRootView>
