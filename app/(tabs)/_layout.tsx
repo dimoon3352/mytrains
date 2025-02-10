@@ -47,23 +47,23 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          tabBarIcon: ({focused}) => <HomeSVG color={focused ? "#008ef4" : "#808487"} size={`${windowAverage*20}px`} />,
+          tabBarIcon: ({focused}) => <HomeSVG color={focused ? "#008ef4" : "#808487"} size={`${windowAverage*20}px`}/>,
         }}
       />
       <Tabs.Screen
-        name="Trains"
+        name="TrainsPage"
         options={{
           tabBarIcon: ({focused}) => <TrainsSVG color={focused ? "#008ef4" : "#808487"} size={`${windowAverage*20}px`} />,
         }}
       />
       <Tabs.Screen
-        name="Exercises"
+        name="ExercisesPage"
         options={{
           tabBarIcon: ({focused}) => <ExercisesSVG color={focused ? "#008ef4" : "#808487"} size={`${windowAverage*20}px`} />,
         }}
       />
       <Tabs.Screen
-        name="Calculators"
+        name="CalculatorsPage"
         options={{
           tabBarIcon: ({focused}) => <CalcSVG color={focused ? "#008ef4" : "#808487"} size={`${windowAverage*20}px`} />,
         }}

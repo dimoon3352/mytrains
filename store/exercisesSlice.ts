@@ -6,15 +6,44 @@ interface ChangeExerciseTitle {
   ExerciseName: string
 }
 
+interface ChangeImage {
+  ID: number,
+  ImagePath: string
+}
+
 interface Exercise {
 	ID: number,
 	ExerciseName: string,
   AdditionDate: string,
+  ImagePath: string
 }
 
 export type Exercises = Exercise[]
 
-const initialState: Exercises = []
+const initialState: Exercises = [{
+    ID: 0,
+    ExerciseName: "barbell 60kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 1,
+    ExerciseName: "barbell 70kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 2,
+    ExerciseName: "barbell 80kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 3,
+    ExerciseName: "barbell 90kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  }]
 
 export const exercisesSlice = createSlice({
   name: 'exercises',
@@ -43,6 +72,14 @@ export const exercisesSlice = createSlice({
       }
       //localStorage.setItem("exercises", JSON.stringify(state))
     },
+    changeImage: (state, action: PayloadAction<ChangeImage>) => {
+      for (let i = 0; i < state.length; i++) {
+          if (state[i].ID === action.payload.ID) {
+              state[i].ImagePath = action.payload.ImagePath
+          }
+      }
+      //localStorage.setItem("exercises", JSON.stringify(state))
+    },
     eraseExercises: (state) => {
       state = []
       //localStorage.setItem("exercises", JSON.stringify(state))
@@ -50,4 +87,4 @@ export const exercisesSlice = createSlice({
   }
 })
 
-export const { setExercises, addExercise, delExercise, changeExerciseTitle, eraseExercises } = exercisesSlice.actions
+export const { setExercises, addExercise, delExercise, changeExerciseTitle, changeImage, eraseExercises } = exercisesSlice.actions

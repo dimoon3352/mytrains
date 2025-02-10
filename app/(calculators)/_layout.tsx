@@ -11,6 +11,9 @@ import ExercisesSVG from '../../assets/images/navigation/ExercisesSVG';
 import TrainsSVG from '../../assets/images/navigation/TrainsSVG';
 import { Text, View } from 'react-native';
 import BenchPressNavSVG from '@/assets/images/navigation/BenchPressNavSVG';
+import PullUpNavSVG from '@/assets/images/navigation/PullUpsNavSVG';
+import PushUpNavSVG from '@/assets/images/navigation/PushUpNavSVG';
+import SquatNavSVG from '@/assets/images/navigation/SquatNavSVG';
 
 export default function TabLayout() {
 
@@ -27,7 +30,7 @@ export default function TabLayout() {
   return (
     <Tabs 
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
         tabBarShowLabel: false,  
@@ -63,7 +66,7 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({focused}) => 
             <View style={{width: windowWidth / 4, justifyContent: "center", alignItems: "center"}}>
-              <TrainsSVG color={focused ? "#00bfbf" : "#808487"} size={`${windowAverage*14}px`} />
+              <PullUpNavSVG color={focused ? "#00bfbf" : "#808487"} size={`${windowAverage*14}px`} />
               <Text style={{color: focused ? "#00bfbf" : "#808487", fontSize: windowAverage * 5, fontWeight: "600"}}>
                 Pull-ups
               </Text>
@@ -75,7 +78,7 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({focused}) => 
             <View style={{width: windowWidth / 4, justifyContent: "center", alignItems: "center"}}>
-              <ExercisesSVG color={focused ? "#00bfbf" : "#808487"} size={`${windowAverage*14}px`} />
+              <PushUpNavSVG color={focused ? "#00bfbf" : "#808487"} size={`${windowAverage*14}px`} />
               <Text style={{color: focused ? "#00bfbf" : "#808487", fontSize: windowAverage * 5, fontWeight: "600"}}>
                 Push-ups
               </Text>
@@ -87,7 +90,7 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({focused}) => 
             <View style={{width: windowWidth / 4, justifyContent: "center", alignItems: "center"}}>
-              <CalcSVG color={focused ? "#00bfbf" : "#808487"} size={`${windowAverage*14}px`} />
+              <SquatNavSVG color={focused ? "#00bfbf" : "#808487"} size={`${windowAverage*14}px`} />
               <Text style={{color: focused ? "#00bfbf" : "#808487", fontSize: windowAverage * 5, fontWeight: "600"}}>
                 Squat
               </Text>

@@ -25,7 +25,17 @@ export interface Train {
 
 export type Trains = Train[]
 
-const initialState: Trains = []
+const initialState: Trains = [{
+  ID: 0,
+  Date: "17.01.2024",
+  Exercises: {
+    0: ["5", "4", "3", "3", "3"],
+    1: ["5", "4", "3", "3", "3"],
+    2: ["5", "4", "3", "3", "3"],
+    3: ["5", "4", "3", "3", "3"],
+    4: ["5", "4", "3", "3", "3"]
+  }
+}]
 
 export const trainsSlice = createSlice({
   name: "trains",

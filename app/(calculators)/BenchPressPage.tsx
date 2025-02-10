@@ -34,14 +34,14 @@ export default function BenchPressPage() {
     
       if (!loaded) {
         return null;
-      }
+      } // #ec4a89 
   
     const onGestureEvent = (event: any) => {
       const { translationX, translationY } = event.nativeEvent;
 
       if (Math.abs(translationX) > Math.abs(translationY)) {
         if (translationX > 40) {
-          router.push('/(tabs)/Calculators');
+          router.push('/(tabs)/CalculatorsPage');
         } 
       } 
 

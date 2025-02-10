@@ -13,7 +13,7 @@ import { ThemeAppProvider } from '@/components/ThemeAppProvider';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function Calculators() {
+export default function CalculatorsPage() {
 
     const router = useRouter();
 
@@ -40,7 +40,7 @@ export default function Calculators() {
 
       if (Math.abs(translationX) > Math.abs(translationY)) {
         if (translationX > 40) {
-          router.push('/(tabs)/Exercises');
+          router.push('/(tabs)/ExercisesPage');
         }
       }
     }; //<Text style={{color: "#fff", fontSize: windowAverage * 10}}>Bench-press calculator</Text>

@@ -43,7 +43,7 @@ export default function App() {
       <Stack>
         <Stack.Screen name="(tabs)" options={{ 
           headerShown: false, 
-          statusBarBackgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#070707", 
+          statusBarBackgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#1D2025", 
           navigationBarColor: AppTheme?.theme === "light" ? "#ffffff" : "#1D2025",
           animation: "slide_from_left"
         }}/>
