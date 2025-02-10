@@ -9,8 +9,11 @@ import { View } from 'react-native';
 import { ThemeAppProvider } from '@/components/ThemeAppProvider';
 import { useAppTheme } from '@/components/ThemeAppProvider';
 import App from './App';
+import { store } from '@/store/store';
+import { Provider } from 'react-redux';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -33,8 +36,10 @@ export default function RootLayout() {
  // const { color, toggle } = useAppTheme()
 
   return (
-    <ThemeAppProvider>
-      <App />
-    </ThemeAppProvider>
+    <Provider store={store}>
+      <ThemeAppProvider>
+        <App />
+      </ThemeAppProvider>
+    </Provider>
   );
 }

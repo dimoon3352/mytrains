@@ -2,8 +2,10 @@ import { StyleSheet, Image, Platform, View, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import { windowHeight } from '@/constants/dimensions';
+import MainPartTrains from '@/components/MainPartTrains';
 
-export default function Exercises() {
+
+export default function TrainsPage() {
 
     const router = useRouter();
   
@@ -11,9 +13,9 @@ export default function Exercises() {
       const { translationX } = event.nativeEvent;
   
       if (translationX > 40) {
-        router.push('/(tabs)/Trains');
+        router.push('/(tabs)');
       } else if (translationX < -40) {
-        router.push('/(tabs)/Calculators');
+        router.push('/(tabs)/ExercisesPage');
       }
     };
 
@@ -21,7 +23,7 @@ export default function Exercises() {
     <GestureHandlerRootView>
       <PanGestureHandler onGestureEvent={onGestureEvent}>
         <View style={{height: windowHeight}}>
-          <Text>Exercises page</Text>
+          <MainPartTrains bgColor='#070707' textColor='#fff' bgItemColor='#1d2025' headerColor='#1D2025'/>
         </View>
       </PanGestureHandler>
     </GestureHandlerRootView>

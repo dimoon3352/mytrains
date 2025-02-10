@@ -7,6 +7,9 @@ import { Link, useRouter } from 'expo-router';
 import Header from '@/components/Header';
 import MainPartHome from '@/components/MainPartHome';
 import { useAppTheme } from '@/components/ThemeAppProvider';
+import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
+import { useNavigation } from 'expo-router';
 
 
 export default function HomeScreen() {
@@ -20,7 +23,7 @@ export default function HomeScreen() {
 
     if (Math.abs(translationX) > Math.abs(translationY)) {
       if (translationX < -40) {
-        router.push('/(tabs)/Trains');
+        router.push('/(tabs)/TrainsPage');
       }
     }
   };
@@ -30,7 +33,7 @@ export default function HomeScreen() {
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>                     
           <View>          
-            <Header bgColor='#1D2028' textColor='#fff' iconColor='#16A34A' />
+            <Header bgColor='#1D2025' textColor='#fff' iconColor='#808487' />
             <MainPartHome textColor='#fff' />          
           </View>             
         </PanGestureHandler>

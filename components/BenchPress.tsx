@@ -8,6 +8,7 @@ import { useState } from 'react';
 
 import SettingsSVG from '@/assets/images/header/SettingsSVG';
 import { Picker } from '@react-native-picker/picker';
+import { useAppTheme } from './ThemeAppProvider';
 
 
 interface BenchPressProps {
@@ -77,16 +78,16 @@ export default function BenchPress({bgColor, textColor}: BenchPressProps) {
   return (
     <View style={[styles.container, {backgroundColor: "#1D2028"}]} >
       <View style={{gap: windowAverage * 4, flexDirection: "row", alignItems: "center"}}>
-        <Text style={styles.text}>
+        <Text style={[styles.text, {color: textColor}]}>
           Barbell's weight:
         </Text>
         <TextInput style={[styles.input, {backgroundColor: "#fff", color: "#000"}]} value={weight} onChangeText={inputOnChange}/>
-        <Text style={styles.text}>
+        <Text style={[styles.text, {color: textColor}]}>
           kg
         </Text>   
       </View>
       <View style={{gap: windowAverage * 4, flexDirection: "row", alignItems: "center"}}>
-        <Text style={styles.text}>
+        <Text style={[styles.text, {color: textColor}]}>
           Number of repetitions:
         </Text>
         <View style={[styles.select__container, {}]}>
@@ -117,73 +118,73 @@ export default function BenchPress({bgColor, textColor}: BenchPressProps) {
         </View>       
       </View>
 
-      <View style={{backgroundColor: "#16A34A", height: 1, width: windowAverage * 142}}></View>  
+      <View style={{backgroundColor: textColor, height: 1, width: windowAverage * 142}}></View>  
 
       <View style={{flexDirection: "row", justifyContent: "space-between"}}>
         <View style={{gap: windowAverage * 3}}>
-          <Text style={styles.text}>
+          <Text style={[styles.text, {color: textColor}]}>
             Epley's formula
           </Text>
-          <Text style={styles.text}>
+          <Text style={[styles.text, {color: textColor}]}>
             Brzycki's formula
           </Text>
-          <Text style={styles.text}>
+          <Text style={[styles.text, {color: textColor}]}>
             Lander's formula
           </Text>
-          <Text style={styles.text}>
+          <Text style={[styles.text, {color: textColor}]}>
             Lombardi's formula
           </Text>
-          <Text style={styles.text}>
+          <Text style={[styles.text, {color: textColor}]}>
             Mayhew's formula
           </Text>
-          <Text style={styles.text}>
+          <Text style={[styles.text, {color: textColor}]}>
             O'Conner's formula
           </Text>
-          <Text style={styles.text}>
+          <Text style={[styles.text, {color: textColor}]}>
             Wathen's formula
           </Text>
         </View>
         <View style={{gap: windowAverage * 3, paddingRight: windowAverage * 12}}>
-          <Text style={styles.text}>
+          <Text style={[styles.text, {color: textColor}]}>
             {calculateEpley()}
           </Text>
-          <Text style={styles.text}>
+          <Text style={[styles.text, {color: textColor}]}>
             {calculateBrzycki()}
           </Text>
-          <Text style={styles.text}>
+          <Text style={[styles.text, {color: textColor}]}>
             {calculateLander()}
           </Text>
-          <Text style={styles.text}>
+          <Text style={[styles.text, {color: textColor}]}>
             {calculateLombardi()}
           </Text>
-          <Text style={styles.text}>
+          <Text style={[styles.text, {color: textColor}]}>
             {calculateMayhew()}
           </Text>
-          <Text style={styles.text}>
+          <Text style={[styles.text, {color: textColor}]}>
             {calculateOConner()}
           </Text>
-          <Text style={styles.text}>
+          <Text style={[styles.text, {color: textColor}]}>
             {calculateWathen()}
           </Text>
         </View>
       </View>
 
-      <View style={{backgroundColor: "#16A34A", height: 1, width: windowAverage * 142}}></View>
+      <View style={{backgroundColor: textColor, height: 1, width: windowAverage * 142}}></View>
 
       <View style={{flexDirection: "row", justifyContent: "space-between"}}>
         <View style={{gap: windowAverage * 3}}>
-          <Text style={{fontSize: 16, color: "#16A34A"}}>
+          <Text style={{fontSize: 16, color: textColor}}>
             Maximum in bench-press:
           </Text>
         </View>
         <View style={{gap: windowAverage * 3, paddingRight: windowAverage * 12}}>
-          <Text style={{fontSize: 16, color: "#16A34A"}}>
+          <Text style={{fontSize: 16, color: textColor}}>
             {calculateMaximum()}
           </Text>
         </View>
       </View>
 
-      <View style={{backgroundColor: "#16A34A", height: 1, width: windowAverage * 142}}></View>
+      <View style={{backgroundColor: textColor, height: 1, width: windowAverage * 142}}></View>
       
     </View>
   );
@@ -200,8 +201,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: windowAverage * 2
   },
   text: {
-    fontSize: 14,
-    color: "#16A34A"
+    fontSize: 14
   },
   input: {
     height: windowAverage * 13,
