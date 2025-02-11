@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: windowAverage * 4,
     width: windowWidth,
-    paddingTop: windowAverage * 5,
+    paddingTop: windowAverage * 3,
     paddingBottom: windowAverage * 35,
     justifyContent: "center"
   },

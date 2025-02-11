@@ -1,42 +1,50 @@
-import { StyleSheet, Image, Platform, View, Text } from 'react-native';
+import { StyleSheet, Image, Platform, View, Text, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import { windowAverage, windowWidth } from '@/constants/dimensions';
 import { Link } from 'expo-router';
 
 import SettingsSVG from '@/assets/images/header/SettingsSVG';
+import ArrowLeftSVG from '@/assets/images/common/ArrowLeftSVG';
 
 
 interface HeaderProps {
+  children: React.ReactNode,
   bgColor: string,
   textColor: string,
   iconColor: string
 }
 
-export default function Header({bgColor, textColor, iconColor}: HeaderProps) {
+export default function HeaderBack({children, bgColor, textColor, iconColor}: HeaderProps) {
+
+  const router = useRouter()
+
+  function onTouchEnd() {
+    router.push("/(tabs)/ExercisesPage")
+  }
 
   return (
     <View style={[styles.container, {backgroundColor: bgColor}]}>
-      <View style={styles.item}></View>
+      <View style={styles.item}>
+        <TouchableOpacity onPress={onTouchEnd}>
+          <ArrowLeftSVG color={iconColor} size={`${windowAverage * 15}px`} />
+        </TouchableOpacity>
+      </View>  
       <View style={styles.textContainer}>
         <Text style={{color: textColor, fontSize: windowAverage * 10}}>
-          Home
+          {children}
         </Text>
       </View>
-      <Link href="/(settings)/Settings">
-        <View style={styles.item}>
-          <SettingsSVG color={iconColor} size={`${windowAverage * 15}px`} />
-        </View> 
-      </Link>
+      <View style={styles.item}></View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: "row",   
     height: windowAverage * 32,
+    alignItems: "center",
     width: windowWidth,
     borderBottomLeftRadius: windowAverage * 4,
     borderBottomRightRadius: windowAverage * 4
@@ -45,8 +53,8 @@ const styles = StyleSheet.create({
     width: windowWidth / 4,
     height: windowAverage * 28,
     justifyContent: "center",
-    alignItems: "flex-end",
-    paddingRight: windowAverage * 8
+    alignItems: "flex-start",
+    paddingLeft: windowAverage * 8
   },
   textContainer: {
     width: windowWidth / 2,

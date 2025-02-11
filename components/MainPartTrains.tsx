@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Link } from 'expo-router';
 import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -85,6 +85,8 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, headerC
     setIsWorkoutPopupActive(isWorkoutPopupActive => !isWorkoutPopupActive)
   }
 
+  //========
+
   return (
     <>
     <View style={[styles.header, {backgroundColor: headerColor}]}>
@@ -92,12 +94,16 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, headerC
         <SearchSVG size="18px" color='#838383'/>
         <TextInput placeholder="Enter the date of the train" placeholderTextColor="#838383" cursorColor="#008ef4" style={[styles.search, {backgroundColor: "#303134", color: textColor}]}/>
       </View> 
-      <View style={[styles.icon, {backgroundColor: "#303134"}]}>
-        <SortSVG size='18px' color={textColor}/>
-      </View> 
-      <View style={[styles.icon, {backgroundColor: "#303134", width: windowAverage * 26}]}>
-        <AddSVG size='22px' color={textColor}/>
-      </View>  
+      <TouchableOpacity>
+        <View style={[styles.icon, {backgroundColor: "#303134"}]}>
+          <SortSVG size='18px' color={textColor}/>
+        </View> 
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <View style={[styles.icon, {backgroundColor: "#303134", width: windowAverage * 26}]}>
+          <AddSVG size='22px' color={textColor}/>
+        </View>  
+      </TouchableOpacity>
     </View>
     
     <View style={[styles.container, {backgroundColor: bgColor}]}>

@@ -10,11 +10,14 @@ import { useFonts } from 'expo-font';
 import { SplashScreen } from 'expo-router';
 import { useAppTheme } from '@/components/ThemeAppProvider';
 import { ThemeAppProvider } from '@/components/ThemeAppProvider';
+import { useLocalSearchParams } from 'expo-router';
 import HeaderBack from '@/components/HeaderBack';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function CalculatorsPage() {
+export default function ExercisesIndex() {
+
+    const { id } = useLocalSearchParams();
 
     const router = useRouter();
 
@@ -41,22 +44,22 @@ export default function CalculatorsPage() {
 
       if (Math.abs(translationX) > Math.abs(translationY)) {
         if (translationX > 40) {
-          router.push('/(tabs)/ExercisesPage');
+          router.push('/(tabs)/TrainsPage');
         }
       }
     }; //<Text style={{color: "#fff", fontSize: windowAverage * 10}}>Bench-press calculator</Text>
 
   return (
-    <ScrollView>
-      <GestureHandlerRootView>
-        <PanGestureHandler onGestureEvent={onGestureEvent}>
-          <View>
-            <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487'>Info</HeaderBack>
-            <MainPartCalculators bgColor='#070707' textColor='#16A34A' bgItemColor='#1d2025' />  
-          </View>
-        </PanGestureHandler>
-      </GestureHandlerRootView>
-    </ScrollView>
+      <ScrollView style={{backgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#070707" }}>
+        <GestureHandlerRootView>
+          <PanGestureHandler onGestureEvent={onGestureEvent}>                     
+            <View>          
+              <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487'>Exercise {id}</HeaderBack>
+              <MainPartHome textColor='#fff' />          
+            </View>             
+          </PanGestureHandler>
+        </GestureHandlerRootView>
+      </ScrollView>
   );
 }
 
