@@ -1,8 +1,8 @@
-import { StyleSheet, View, Text, Alert } from 'react-native';
+import { StyleSheet, View, Text, Alert, TouchableOpacity, Button } from 'react-native';
 import { Link } from 'expo-router';
 import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { windowAverage, windowWidth } from '@/constants/dimensions';
+import { windowAverage, windowHeight, windowWidth } from '@/constants/dimensions';
 import { setExercises } from '@/store/exercisesSlice';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
@@ -18,6 +18,9 @@ import { changeImage } from '@/store/exercisesSlice';
 import { TextInput } from 'react-native';
 import type { Trains } from '@/store/trainsSlice';
 import type { Exercises } from '@/store/exercisesSlice';
+import { addExercise } from '@/store/exercisesSlice';
+import type { NativeSyntheticEvent } from 'react-native';
+import { TextInputChangeEventData } from 'react-native';
 
 //import * as FileSystem from 'expo-file-system';
 
@@ -140,41 +143,108 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, head
 
   return (
     <>
+    <Popup isPopupActive={isPopupActive} setIsPopupActive={setIsPopupActive}/>
+
     <View style={[styles.header, {backgroundColor: headerColor}]}>
       <View style={[styles.searchContainer, {backgroundColor: "#303134"}]}>
         <SearchSVG size="18px" color='#838383'/>
         <TextInput placeholder="Enter the exercise's name" placeholderTextColor="#838383" cursorColor="#008ef4" style={[styles.search, {backgroundColor: "#303134", color: textColor}]}/>
       </View> 
-      <View style={[styles.icon, {backgroundColor: "#303134"}]}>
-        <SortSVG size='18px' color={textColor}/>
-      </View> 
-      <View style={[styles.icon, {backgroundColor: "#303134", width: windowAverage * 26}]}>
-        <AddSVG size='22px' color={textColor}/>
-      </View>  
+      <TouchableOpacity>
+        <View style={[styles.icon, {backgroundColor: "#303134"}]}>
+          <SortSVG size='18px' color={textColor}/>
+        </View> 
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => setIsPopupActive(isPopupActive => !isPopupActive)}>
+        <View style={[styles.icon, {backgroundColor: "#303134", width: windowAverage * 26}]}>
+          <AddSVG size='22px' color={textColor}/>
+        </View>  
+      </TouchableOpacity>
     </View>
     
     <View style={[styles.container, {backgroundColor: bgColor}]}>
       <View style={styles.wrapper}> 
       {sortedArr.map((item: any, index: any) => (
-        // <Link key={item.ID} href="/(calculators)/BenchPressPage">
-          <View 
-            key={item.ID} 
-            style={[styles.item, {backgroundColor: bgItemColor}, item.ImagePath.trim().length > 0 ? {paddingBottom: windowAverage * 6, justifyContent: "flex-start"} : {paddingVertical: windowAverage * 12, justifyContent: "center"}]} 
-            onTouchEnd={() => pickImage(item.ID)}
-          >
-            {item.ImagePath.trim().length > 0 && <Image source={{ uri: item.ImagePath}} style={styles.image} />}
-            <Text style={[styles.text, {color: textColor, paddingHorizontal: windowAverage * 6}]}>
-              {item.ExerciseName}
-            </Text>
-          </View>
-          
-        // </Link>
+          <Link key={item.ID} href={`/(exercises)/${item.ID}:`}>
+            <View 
+              key={item.ID} 
+              style={[styles.item, {backgroundColor: bgItemColor}, item.ImagePath.trim().length > 0 ? {paddingBottom: windowAverage * 6, justifyContent: "flex-start"} : {paddingVertical: windowAverage * 12, justifyContent: "center"}]} 
+              // onTouchEnd={() => pickImage(item.ID)}
+            >
+              {item.ImagePath.trim().length > 0 && <Image source={{ uri: item.ImagePath}} style={styles.image} />}
+              <Text style={[styles.text, {color: textColor, paddingHorizontal: windowAverage * 6}]}>
+                {item.ExerciseName}
+              </Text>
+            </View>        
+          </Link>
       ))}
     </View>
      
     </View>
     </>
   );
+}
+
+
+interface PopupProps {
+  isPopupActive: boolean,
+  setIsPopupActive: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const Popup = ({ isPopupActive, setIsPopupActive }: PopupProps) => {
+
+  const dispatch = useAppDispatch()
+
+  const exercises = useAppSelector((state) => state.exercises)
+
+  const [text, setText] = useState<string>("")
+
+  function createExercise() {
+    if (text.trim() !== "" && text.trim().length <= 20) {
+      
+      const date = new Date()
+
+      const day = String(date.getDate()).padStart(2, '0'); 
+      const month = String(date.getMonth() + 1).padStart(2, '0'); 
+      const year = date.getFullYear();
+
+      const formattedDate = `${day}.${month}.${year}`;
+
+      dispatch(addExercise({
+        ID: defineID(exercises),
+        ExerciseName: text,
+        AdditionDate: formattedDate,
+        ImagePath: ""
+      }))
+
+      setText("")
+      setIsPopupActive(false)
+    }  
+  }
+
+  function onChange(event: NativeSyntheticEvent<TextInputChangeEventData>) {
+    if (text.trim().length <= 20) {
+      setText(event.nativeEvent.text)
+    } else {
+      setText(text.slice(0, 20))
+    }
+  }
+
+  return (
+    <>
+    {isPopupActive &&
+    <View style={styles.PopupContainer} onTouchEnd={() => setIsPopupActive(false)}>
+      <View style={styles.PopupWrapper} onTouchEnd={e => e.stopPropagation()}>
+        <Text style={{color: "#fff", fontSize: windowAverage * 9}}>
+          Enter an exercise title
+        </Text>
+        <TextInput value={text} onChange={(e) => onChange(e)} style={styles.PopupInput} placeholder='barbell 100kg'/>
+        <Button onPress={createExercise} title='Click'/>
+      </View>
+    </View>
+    }
+    </>
+  )
 }
 
 
@@ -235,6 +305,31 @@ const styles = StyleSheet.create({
     width: (windowWidth / 2 - windowAverage * 6.3),
     height: windowAverage * 70,
     top: 0
+  },
+  PopupContainer: {
+    justifyContent: "center", 
+    alignItems: "center", 
+    position: "absolute", 
+    height: windowHeight, 
+    width: windowWidth, 
+    zIndex: 1
+  },
+  PopupWrapper: {
+    justifyContent: "space-evenly", 
+    alignItems: "center", 
+    flexDirection: "column", 
+    backgroundColor: "#000", 
+    opacity: 70,
+    width: windowAverage * 140,
+    height: windowAverage * 100,
+    borderRadius: windowAverage * 4
+  },
+  PopupInput: {
+    backgroundColor: "#fff",
+    width: windowAverage * 110,
+    height: windowAverage * 21,
+    borderRadius: windowAverage * 5,
+    paddingLeft: windowAverage * 5
   }
 });
 
