@@ -76,12 +76,12 @@ export default function BenchPress({bgColor, textColor}: BenchPressProps) {
   }
 
   return (
-    <View style={[styles.container, {backgroundColor: "#1D2028"}]} >
+    <View style={[styles.container, {backgroundColor: bgColor}]} >
       <View style={{gap: windowAverage * 4, flexDirection: "row", alignItems: "center"}}>
         <Text style={[styles.text, {color: textColor}]}>
           Barbell's weight:
         </Text>
-        <TextInput style={[styles.input, {backgroundColor: "#fff", color: "#000"}]} value={weight} onChangeText={inputOnChange}/>
+        <TextInput style={[styles.input, {backgroundColor: "#fff", color: "#000"}]} value={weight} onChangeText={inputOnChange} cursorColor={bgColor}/>
         <Text style={[styles.text, {color: textColor}]}>
           kg
         </Text>   
@@ -90,10 +90,10 @@ export default function BenchPress({bgColor, textColor}: BenchPressProps) {
         <Text style={[styles.text, {color: textColor}]}>
           Number of repetitions:
         </Text>
-        <View style={[styles.select__container, {}]}>
+        <View style={styles.select__container}>
           <Picker
             selectedValue={repeats}
-            style={[styles.select, {color: "#000", backgroundColor: "#fff", fontSize: 12}]}
+            style={[styles.select, {color: "#000", backgroundColor: "#fff"}]}
             onValueChange={(itemValue) => setRepeats(itemValue)}>
             <Picker.Item label="2" value="2" style={styles.select__item}/>
             <Picker.Item label="3" value="3" style={styles.select__item}/>
@@ -201,12 +201,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: windowAverage * 2
   },
   text: {
-    fontSize: 14
+    fontSize: windowAverage * 7
   },
   input: {
     height: windowAverage * 13,
     width: windowAverage * 40,  
     borderRadius: windowAverage * 4,
+    paddingLeft: windowAverage * 5,
     paddingTop: windowAverage,
     paddingBottom: windowAverage,
   },
@@ -219,7 +220,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   select: {
-    width: windowAverage * 50,    
+    width: windowAverage * 50,  
+    paddingLeft: windowAverage * 5,
+    fontSize: windowAverage * 6  
   },
   select__item: {
     fontSize: windowAverage * 7,

@@ -51,7 +51,7 @@ export default function CalculatorsPage() {
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>
           <View>
-            <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487'>Info</HeaderBack>
+            <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487'>Actions</HeaderBack>
             <MainPartCalculators bgColor='#070707' textColor='#16A34A' bgItemColor='#1d2025' />  
           </View>
         </PanGestureHandler>

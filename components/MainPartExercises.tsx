@@ -21,6 +21,8 @@ import type { Exercises } from '@/store/exercisesSlice';
 import { addExercise } from '@/store/exercisesSlice';
 import type { NativeSyntheticEvent } from 'react-native';
 import { TextInputChangeEventData } from 'react-native';
+import type { Exercise } from '@/store/exercisesSlice';
+import { Picker } from '@react-native-picker/picker';
 
 //import * as FileSystem from 'expo-file-system';
 
@@ -53,7 +55,9 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, head
   //   }
   // }, [dispatch])
   
+  const [sortType, setSortType] = useState<string>("date")
   const [isPopupActive, setIsPopupActive] = useState(false)
+  const [isSortPopupActive, setIsSortPopupActive] = useState(false)
   const [sortedArr, setSortedArr] = useState(exercises)
 
   useEffect(() => {
@@ -141,17 +145,42 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, head
     }
   };
 
+  useEffect(() => {
+    function onSort() {
+      if (sortType === "date") {
+        const arr = [...exercises].sort((a, b) => a.ID - b.ID)
+        setSortedArr(arr)
+      }
+  
+      if (sortType === "name") {
+        const arr = [...exercises].sort((a, b) => {
+          return b.ExerciseName.localeCompare(a.ExerciseName)       
+      });
+        setSortedArr(arr)
+      }
+    }
+
+    onSort()
+  }, [sortType])
+
+  function onSearch(event: NativeSyntheticEvent<TextInputChangeEventData>) {
+    const filteredArr = [...exercises].filter(item =>
+      item.ExerciseName.toLowerCase().includes(event.nativeEvent.text.toLowerCase()))
+    setSortedArr(filteredArr)
+  }
+
   return (
     <>
     <Popup isPopupActive={isPopupActive} setIsPopupActive={setIsPopupActive}/>
+    <SortPopup isPopupActive={isSortPopupActive} setIsPopupActive={setIsSortPopupActive} sortType={sortType} setSortType={setSortType}/>
 
     <View style={[styles.header, {backgroundColor: headerColor}]}>
       <View style={[styles.searchContainer, {backgroundColor: "#303134"}]}>
         <SearchSVG size="18px" color='#838383'/>
-        <TextInput placeholder="Enter the exercise's name" placeholderTextColor="#838383" cursorColor="#008ef4" style={[styles.search, {backgroundColor: "#303134", color: textColor}]}/>
+        <TextInput placeholder="Enter the exercise's name" placeholderTextColor="#838383" cursorColor="#008ef4" style={[styles.search, {backgroundColor: "#303134", color: textColor}]} onChange={(e) => onSearch(e)}/>
       </View> 
-      <TouchableOpacity>
-        <View style={[styles.icon, {backgroundColor: "#303134"}]}>
+      <TouchableOpacity onPress={() => setIsSortPopupActive(isSortPopupActive => !isSortPopupActive)}>
+        <View style={[styles.icon, {backgroundColor: "#303134"}]}>     
           <SortSVG size='18px' color={textColor}/>
         </View> 
       </TouchableOpacity>
@@ -164,21 +193,21 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, head
     
     <View style={[styles.container, {backgroundColor: bgColor}]}>
       <View style={styles.wrapper}> 
-      {sortedArr.map((item: any, index: any) => (
-          <Link key={item.ID} href={`/(exercises)/${item.ID}:`}>
-            <View 
-              key={item.ID} 
-              style={[styles.item, {backgroundColor: bgItemColor}, item.ImagePath.trim().length > 0 ? {paddingBottom: windowAverage * 6, justifyContent: "flex-start"} : {paddingVertical: windowAverage * 12, justifyContent: "center"}]} 
-              // onTouchEnd={() => pickImage(item.ID)}
-            >
-              {item.ImagePath.trim().length > 0 && <Image source={{ uri: item.ImagePath}} style={styles.image} />}
-              <Text style={[styles.text, {color: textColor, paddingHorizontal: windowAverage * 6}]}>
-                {item.ExerciseName}
-              </Text>
-            </View>        
-          </Link>
+      {sortedArr.map((item: Exercise, index: number) => (
+        <Link key={item.ID} href={`/(exercises)/${item.ID}:`}>
+          <View 
+            key={item.ID} 
+            style={[styles.item, {backgroundColor: bgItemColor}, item.ImagePath.trim().length > 0 ? {paddingBottom: windowAverage * 6, justifyContent: "flex-start"} : {paddingVertical: windowAverage * 12, justifyContent: "center"}]} 
+            // onTouchEnd={() => pickImage(item.ID)}
+          >
+            {item.ImagePath.trim().length > 0 && <Image source={{ uri: item.ImagePath}} style={styles.image} />}
+            <Text style={[styles.text, {color: textColor, paddingHorizontal: windowAverage * 6}]}>
+              {item.ExerciseName}
+            </Text>
+          </View>        
+        </Link>
       ))}
-    </View>
+      </View>
      
     </View>
     </>
@@ -236,10 +265,72 @@ const Popup = ({ isPopupActive, setIsPopupActive }: PopupProps) => {
     <View style={styles.PopupContainer} onTouchEnd={() => setIsPopupActive(false)}>
       <View style={styles.PopupWrapper} onTouchEnd={e => e.stopPropagation()}>
         <Text style={{color: "#fff", fontSize: windowAverage * 9}}>
-          Enter an exercise title
+          Enter an exercise name
         </Text>
         <TextInput value={text} onChange={(e) => onChange(e)} style={styles.PopupInput} placeholder='barbell 100kg'/>
-        <Button onPress={createExercise} title='Click'/>
+        <TouchableOpacity>
+          <View style={[styles.PopupButton, {backgroundColor: "#16a34a"}]} onTouchEnd={createExercise}>
+            <Text style={{color: "#fff"}}>Add new exercise</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </View>
+    }
+    </>
+  )
+}
+
+
+interface SortPopupProps extends PopupProps {
+  sortType: string,
+  setSortType: React.Dispatch<React.SetStateAction<string>>
+}
+
+const SortPopup = ({ isPopupActive, setIsPopupActive, sortType, setSortType }: SortPopupProps) => {
+
+  const dispatch = useAppDispatch()
+
+  const exercises = useAppSelector((state) => state.exercises)
+
+  function setDateType() {
+    setSortType("date")
+    setIsPopupActive(false)
+  }
+
+  function setNameType() {
+    setSortType("name")
+    setIsPopupActive(false)
+  }
+
+  return (
+    <>
+    {isPopupActive &&
+    <View style={styles.SortPopupContainer} onTouchEnd={() => setIsPopupActive(false)}>
+      <View style={styles.SortPopupWrapper} onTouchEnd={e => e.stopPropagation()}>
+        <Text style={{color: "#fff", fontSize: windowAverage * 10}}>
+          Choose the sort
+        </Text>
+        <View style={{backgroundColor: "#2a2d32", borderRadius: windowAverage * 4, width: (windowWidth - windowAverage * 20), marginTop: windowAverage * 10}}>
+          <View style={{paddingHorizontal: windowAverage * 6, paddingVertical: windowAverage * 6, flexDirection: "row", alignItems: "center", gap: windowAverage * 6}} onTouchEnd={setDateType}>
+            <View style={[styles.SortPopupChoose, sortType === "date" ? {backgroundColor: "#16A34A", borderColor: "#16A34A"} : {backgroundColor: "#233f4e", borderColor: "#374a5b"}]}>
+              {sortType === "date" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
+            </View>
+            <Text style={{color: "#fff", fontSize: windowAverage * 7}}>
+              Sort by creation date
+            </Text>
+          </View>
+
+          <View style={{backgroundColor: "#44474c", height: 1, width: (windowWidth - windowAverage * 26), alignSelf: "flex-end"}}></View>
+
+          <View style={{paddingHorizontal: windowAverage * 6, paddingVertical: windowAverage * 6, flexDirection: "row", alignItems: "center", gap: windowAverage * 6}} onTouchEnd={setNameType}>
+            <View style={[styles.SortPopupChoose, sortType === "name" ? {backgroundColor: "#16A34A", borderColor: "#374a5b"} : {backgroundColor: "#233f4e", borderColor: "#374a5b"}]}>
+              {sortType === "name" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
+            </View>
+            <Text style={{color: "#fff", fontSize: windowAverage * 7}}>
+              Sort by exercise's name
+            </Text>
+          </View>
+        </View>
       </View>
     </View>
     }
@@ -318,18 +409,50 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly", 
     alignItems: "center", 
     flexDirection: "column", 
-    backgroundColor: "#000", 
-    opacity: 70,
-    width: windowAverage * 140,
+    backgroundColor: "#1D2025", 
+    width: windowAverage * 160,
     height: windowAverage * 100,
-    borderRadius: windowAverage * 4
+    borderRadius: windowAverage * 20
   },
   PopupInput: {
     backgroundColor: "#fff",
-    width: windowAverage * 110,
+    width: windowAverage * 120,
     height: windowAverage * 21,
     borderRadius: windowAverage * 5,
     paddingLeft: windowAverage * 5
+  },
+  PopupButton: {
+    paddingHorizontal: windowAverage * 8,
+    paddingVertical: windowAverage * 5,
+    borderRadius: windowAverage * 4
+  },
+  SortPopupContainer: {
+    justifyContent: "flex-end",
+    paddingBottom: windowAverage * 25, 
+    alignItems: "center", 
+    position: "absolute", 
+    inset: 0, 
+    zIndex: 1
+  },
+  SortPopupWrapper: {
+    justifyContent: "flex-start", 
+    alignItems: "flex-start",
+    paddingTop: windowAverage * 10,
+    paddingLeft: windowAverage * 10, 
+    flexDirection: "column", 
+    backgroundColor: "#1D2025", 
+    width: windowWidth,
+    height: windowAverage * 100,
+    borderTopLeftRadius: windowAverage * 20,
+    borderTopRightRadius: windowAverage * 20
+  },
+  SortPopupChoose: {
+    width: windowAverage * 10, 
+    height: windowAverage * 10, 
+    borderRadius: windowAverage * 5, 
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 
