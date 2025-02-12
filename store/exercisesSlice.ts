@@ -11,7 +11,7 @@ interface ChangeImage {
   ImagePath: string
 }
 
-interface Exercise {
+export interface Exercise {
 	ID: number,
 	ExerciseName: string,
   AdditionDate: string,

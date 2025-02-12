@@ -57,7 +57,7 @@ export default function BenchPressPage() {
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>
           <View style={{height: windowHeight, alignItems: "center", justifyContent: "center", gap: windowAverage * 40, bottom: windowAverage * 30}}>
-            <BenchPress bgColor={AppTheme?.theme === "light" ? "#ffffff" : "#070707"} textColor='#fff' />
+            <BenchPress bgColor={AppTheme?.theme === "light" ? "#ffffff" : "#1D2025"} textColor='#fff' />
           </View>
         </PanGestureHandler>
       </GestureHandlerRootView>

@@ -41,7 +41,7 @@ export default function TabLayout() {
           borderTopLeftRadius: windowAverage * 4,
           borderTopRightRadius: windowAverage * 4,
           borderTopWidth: 0,
-          position: "absolute"       
+          position: "absolute"
         }
       }}>
       <Tabs.Screen

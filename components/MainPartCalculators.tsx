@@ -94,6 +94,28 @@ export default function MainPartCalculators({bgColor, textColor, bgItemColor}: M
         </Link>
       </View>
 
+      <View>
+        <Text style={{color: textColor, fontSize: windowAverage * 12, paddingLeft: windowAverage * 5}}>
+          Others:
+        </Text>
+        <View style={{backgroundColor: textColor, height: 2, width: (windowWidth - windowAverage * 10), alignSelf: "center"}}></View>
+      </View>
+
+      <View style={{flexDirection: "row", justifyContent: "space-evenly"}}> 
+        <View style={[styles.item, {backgroundColor: bgItemColor}]}>
+          <View style={{flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+            <Text style={{color: textColor, fontSize: windowAverage * 12}}>Coming</Text>
+            <Text style={{color: textColor, fontSize: windowAverage * 12}}>soon</Text>
+          </View>
+        </View>
+        <View style={[styles.item, {backgroundColor: bgItemColor}]}>
+          <View style={{flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+            <Text style={{color: textColor, fontSize: windowAverage * 12}}>Coming</Text>
+            <Text style={{color: textColor, fontSize: windowAverage * 12}}>soon</Text>
+          </View>
+        </View>
+      </View>
+
     </View>
   );
 }
