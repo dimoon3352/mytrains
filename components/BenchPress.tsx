@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     height: windowAverage * 13,
     width: windowAverage * 40,  
     borderRadius: windowAverage * 4,
-    paddingLeft: windowAverage * 5,
+    paddingLeft: windowAverage * 3,
     paddingTop: windowAverage,
     paddingBottom: windowAverage,
   },
@@ -216,15 +216,15 @@ const styles = StyleSheet.create({
     width: windowAverage * 40,  
     borderRadius: windowAverage * 4,   
     height: windowAverage * 14,
+    paddingLeft: windowAverage * 3,
     justifyContent: "center",
     alignItems: "center",
   },
   select: {
     width: windowAverage * 50,  
-    paddingLeft: windowAverage * 5,
-    fontSize: windowAverage * 6  
+    fontSize: windowAverage * 6
   },
   select__item: {
-    fontSize: windowAverage * 7,
+    fontSize: windowAverage * 7
   },
 });
