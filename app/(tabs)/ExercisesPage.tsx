@@ -3,10 +3,12 @@ import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import { windowHeight } from '@/constants/dimensions';
 import { useNavigation } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import MainPartExercises from '@/components/MainPartExercises';
 
 export default function ExercisesPage() {
+
+    const [isPopupActive, setIsPopupActive] = useState(false)
 
     const router = useRouter();
   
@@ -14,8 +16,10 @@ export default function ExercisesPage() {
       const { translationX } = event.nativeEvent;
   
       if (translationX > 40) {
+        setIsPopupActive(false)
         router.push('/(tabs)/TrainsPage');
       } else if (translationX < -40) {
+        setIsPopupActive(false)
         router.push('/(tabs)/CalculatorsPage');
       }
     };
@@ -24,7 +28,14 @@ export default function ExercisesPage() {
     <GestureHandlerRootView>
       <PanGestureHandler onGestureEvent={onGestureEvent}>
         <View style={{height: windowHeight}}>
-          <MainPartExercises bgColor='#070707' textColor='#fff' bgItemColor='#1d2025' headerColor='#1D2025'/>
+          <MainPartExercises 
+            bgColor='#070707' 
+            textColor='#fff' 
+            bgItemColor='#1d2025' 
+            headerColor='#1D2025'
+            isPopupActive={isPopupActive}
+            setIsPopupActive={setIsPopupActive}
+          />
         </View>
       </PanGestureHandler>
     </GestureHandlerRootView>
