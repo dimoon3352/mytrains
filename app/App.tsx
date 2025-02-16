@@ -46,7 +46,7 @@ export default function App() {
           navigationBarColor: AppTheme?.theme === "light" ? "#ffffff" : "#1D2025",
           animation: "slide_from_left"
         }}/>
-        <Stack.Screen name="(calculators)" options={{ 
+        <Stack.Screen name="(info)" options={{ 
           headerShown: false, 
           statusBarBackgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#070707", 
           navigationBarColor: AppTheme?.theme === "light" ? "#ffffff" : "#1D2025",

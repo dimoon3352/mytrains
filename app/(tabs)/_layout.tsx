@@ -63,7 +63,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="CalculatorsPage"
+        name="ActionsPage"
         options={{
           tabBarIcon: ({focused}) => <CalcSVG color={focused ? "#008ef4" : "#808487"} size={`${windowAverage*20}px`} />,
         }}

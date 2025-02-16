@@ -47,9 +47,9 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, head
   //   }
   // }, [dispatch])
 
-  const [isSortPopupActive, setIsSortPopupActive] = useState(false)
+  const [isSortPopupActive, setIsSortPopupActive] = useState<boolean>(false)
   const [sortType, setSortType] = useState<string>("date")
-  const [sortedArr, setSortedArr] = useState(exercises)
+  const [sortedArr, setSortedArr] = useState<Exercises>(exercises)
   
   useEffect(() => {
     setSortedArr(exercises)
@@ -126,8 +126,8 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, head
         <Link key={item.ID} href={`/(exercises)/${item.ID}:`}>
           <View 
             key={item.ID} 
-            style={[styles.item, {backgroundColor: bgItemColor}, item.ImagePath.trim().length > 0 ? {paddingBottom: windowAverage * 6, justifyContent: "flex-start"} : {paddingVertical: windowAverage * 12, justifyContent: "center"}]} 
-            // onTouchEnd={() => pickImage(item.ID)}
+            style={[styles.item, {backgroundColor: bgItemColor}, item.ImagePath.trim().length > 0 ? 
+              {paddingBottom: windowAverage * 6, justifyContent: "flex-start"} : {paddingVertical: windowAverage * 12, justifyContent: "center"}]} 
           >
             {item.ImagePath.trim().length > 0 && <Image source={{ uri: item.ImagePath}} style={styles.image} />}
             <Text style={[styles.text, {color: textColor, paddingHorizontal: windowAverage * 6}]}>
@@ -137,6 +137,7 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, head
         </Link>
       ))}
       </View>
+
       <DraggableSort isPopupActive={isSortPopupActive} setIsPopupActive={setIsSortPopupActive} sortType={sortType} setSortType={setSortType}/>
     </View>
     </>
@@ -217,7 +218,7 @@ interface SortPopupProps extends PopupProps {
 }
 
 const DraggableSort = ({ isPopupActive, setIsPopupActive, sortType, setSortType }: SortPopupProps) => {
-  const translateY = useSharedValue(0); // Изначальное положение
+  const translateY = useSharedValue(windowHeight); // Изначальное положение
   const isDismissing = useSharedValue(false);
 
   useEffect(() => {
@@ -366,6 +367,7 @@ const styles = StyleSheet.create({
     width: (windowWidth / 2 - windowAverage * 6.3),
     borderRadius: windowAverage * 5,  
     flexShrink: 0,
+    height: "100%",
     gap: windowAverage * 4
   },
   text: {
