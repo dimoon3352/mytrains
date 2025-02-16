@@ -1,7 +1,7 @@
 import { StyleSheet, Image, Platform, View, Text, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { windowAverage, windowWidth } from '@/constants/Dimensions';
+import { windowAverage, windowWidth } from '@/constants/dimensions';
 import { Link } from 'expo-router';
 
 import SettingsSVG from '@/assets/images/header/SettingsSVG';

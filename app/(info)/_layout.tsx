@@ -3,7 +3,7 @@ import { Tabs } from 'expo-router';
 
 import { HapticTab } from '@/components/HapticTab';
 
-import { windowAverage, windowWidth } from '@/constants/Dimensions';
+import { windowAverage, windowWidth } from '@/constants/dimensions';
 
 
 import BenchPressNavSVG from '@/assets/images/navigation/BenchPressNavSVG';

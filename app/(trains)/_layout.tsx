@@ -2,7 +2,6 @@ import { Tabs } from 'expo-router';
 //import React from 'react';
 
 import { HapticTab } from '@/components/HapticTab';
-import { windowAverage, windowWidth } from '@/constants/Dimensions';
 import { useTheme } from '@react-navigation/native';
 
 

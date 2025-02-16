@@ -2,7 +2,7 @@ import { Tabs } from 'expo-router';
 //import React from 'react';
 
 import { HapticTab } from '@/components/HapticTab';
-import { windowAverage, windowWidth } from '@/constants/Dimensions';
+import { windowAverage, windowWidth } from '@/constants/dimensions';
 
 import CalcSVG from '../../assets/images/navigation/CalcSVG';
 import HomeSVG from '../../assets/images/navigation/HomeSVG';

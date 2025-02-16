@@ -22,6 +22,5 @@ export const ThemeAppProvider = ({ children }: {children: React.ReactNode}) => {
 };
 
 export const useAppTheme = () => {
-  //console.error(useContext(ThemeContext))
   return useContext(ThemeContext);
 };
