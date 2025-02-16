@@ -20,7 +20,7 @@ export default function ExercisesPage() {
         router.push('/(tabs)/TrainsPage');
       } else if (translationX < -40) {
         setIsPopupActive(false)
-        router.push('/(tabs)/CalculatorsPage');
+        router.push('/(tabs)/ActionsPage');
       }
     };
 

@@ -5,7 +5,7 @@ import MainPartHome from '@/components/MainPartHome';
 import { useEffect } from 'react';
 import { windowAverage, windowHeight } from '@/constants/dimensions';
 import BenchPress from '@/components/BenchPress';
-import MainPartCalculators from '@/components/MainPartCalculators';
+import MainPartCalculators from '@/components/MainPartActions';
 import { useFonts } from 'expo-font';
 import { SplashScreen } from 'expo-router';
 import { useAppTheme } from '@/components/ThemeAppProvider';

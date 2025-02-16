@@ -14,7 +14,7 @@ interface MainPartCalculatorsProps {
   bgItemColor: string,
 }
 
-export default function MainPartCalculators({bgColor, textColor, bgItemColor}: MainPartCalculatorsProps) {
+export default function MainPartActions({bgColor, textColor, bgItemColor}: MainPartCalculatorsProps) {
 
   return (
     <View style={[styles.container, {backgroundColor: bgColor}]}>
@@ -26,7 +26,7 @@ export default function MainPartCalculators({bgColor, textColor, bgItemColor}: M
       </View>
 
       <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>   
-        <Link href="/(calculators)/PullUpsPage">
+        <Link href="/(info)/PullUpsPage">
           <View style={[styles.item, {backgroundColor: bgItemColor, position: "relative"}]}>
             <View style={{flexDirection: "column", position: "absolute", right: windowAverage * 8}}>
               <Text style={{color: textColor, fontSize: windowAverage * 9}}>Pull-ups</Text>
@@ -36,7 +36,7 @@ export default function MainPartCalculators({bgColor, textColor, bgItemColor}: M
             </View>        
           </View>
         </Link>
-        <Link href="/(calculators)/PushUpsPage">
+        <Link href="/(info)/PushUpsPage">
           <View style={[styles.item, {backgroundColor: bgItemColor, position: "relative"}]}>
             <View style={{flexDirection: "column", position: "absolute", right: windowAverage * 8}}>
               <Text style={{color: textColor, fontSize: windowAverage * 9}}>Push-ups</Text>
@@ -49,7 +49,7 @@ export default function MainPartCalculators({bgColor, textColor, bgItemColor}: M
       </View>
       
       <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>   
-        <Link href="/(calculators)/SquatPage">
+        <Link href="/(info)/SquatPage">
           <View style={[styles.item, {backgroundColor: bgItemColor, position: "relative"}]}>
             <View style={{flexDirection: "column", position: "absolute", right: windowAverage * 8}}>
               <Text style={{color: textColor, fontSize: windowAverage * 9}}>Squat</Text>
@@ -81,7 +81,7 @@ export default function MainPartCalculators({bgColor, textColor, bgItemColor}: M
             <Text style={{color: textColor, fontSize: windowAverage * 12}}>soon</Text>
           </View>
         </View>
-        <Link href="/(calculators)/BenchPressPage">
+        <Link href="/(info)/BenchPressPage">
           <View style={[styles.item, {backgroundColor: bgItemColor, position: "relative"}]}>
             <View style={{flexDirection: "column", position: "absolute", right: windowAverage * 8}}>
               <Text style={{color: textColor, fontSize: windowAverage * 9}}>Bench</Text>

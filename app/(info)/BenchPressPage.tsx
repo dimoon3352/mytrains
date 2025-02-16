@@ -35,13 +35,13 @@ export default function BenchPressPage() {
 
       if (Math.abs(translationX) > Math.abs(translationY)) {
         if (translationX > 40) {
-          router.push('/(tabs)/CalculatorsPage');
+          router.push('/(tabs)/ActionsPage');
         } 
       } 
 
       if (Math.abs(translationY) < 40) {
         if (translationX < -40) {
-          router.push('/(calculators)/PullUpsPage');
+          router.push('/(info)/PullUpsPage');
         }
       }     
     }; 

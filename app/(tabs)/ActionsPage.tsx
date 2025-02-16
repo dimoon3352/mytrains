@@ -5,16 +5,17 @@ import MainPartHome from '@/components/MainPartHome';
 import { useEffect } from 'react';
 import { windowAverage, windowHeight } from '@/constants/dimensions';
 import BenchPress from '@/components/BenchPress';
-import MainPartCalculators from '@/components/MainPartCalculators';
+import MainPartCalculators from '@/components/MainPartActions';
 import { useFonts } from 'expo-font';
 import { SplashScreen } from 'expo-router';
 import { useAppTheme } from '@/components/ThemeAppProvider';
 import { ThemeAppProvider } from '@/components/ThemeAppProvider';
 import HeaderBack from '@/components/HeaderBack';
+import MainPartActions from '@/components/MainPartActions';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function CalculatorsPage() {
+export default function ActionsPage() {
 
     const router = useRouter();
 
@@ -52,7 +53,7 @@ export default function CalculatorsPage() {
         <PanGestureHandler onGestureEvent={onGestureEvent}>
           <View>
             <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487'>Actions</HeaderBack>
-            <MainPartCalculators bgColor='#070707' textColor='#16A34A' bgItemColor='#1d2025' />  
+            <MainPartActions bgColor='#070707' textColor='#16A34A' bgItemColor='#1d2025' />  
           </View>
         </PanGestureHandler>
       </GestureHandlerRootView>

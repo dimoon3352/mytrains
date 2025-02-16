@@ -8,12 +8,12 @@ import { windowAverage, windowHeight } from '@/constants/dimensions';
 import { useAppTheme } from '@/components/ThemeAppProvider';
 
 
-export default function SquatPage() {
+export default function PullUpsPage() {
 
     const AppTheme = useAppTheme()
 
     const router = useRouter();
- 
+
     const [loaded] = useFonts({
         SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
     });
@@ -33,7 +33,13 @@ export default function SquatPage() {
 
       if (Math.abs(translationX) > Math.abs(translationY)) {
         if (translationX > 40) {
-          router.push('/(calculators)/PushUpsPage');
+          router.push('/(info)/BenchPressPage');
+        } 
+      } 
+
+      if (Math.abs(translationY) < 40) {
+        if (translationX < -40) {
+          router.push('/(info)/PushUpsPage');
         }
       }
     };
