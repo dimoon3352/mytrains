@@ -10,8 +10,6 @@ import { ThemeAppProvider } from '@/components/ThemeAppProvider';
 import { useAppTheme } from '@/components/ThemeAppProvider';
 import { useTheme } from '@react-navigation/native';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 

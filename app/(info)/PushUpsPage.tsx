@@ -4,7 +4,7 @@ import { useFonts } from 'expo-font';
 import { useRouter, SplashScreen } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 
-import { windowAverage, windowHeight } from '@/constants/dimensions';
+import { windowAverage, windowHeight } from '@/constants/Dimensions';
 import { useAppTheme } from '@/components/ThemeAppProvider';
 
 

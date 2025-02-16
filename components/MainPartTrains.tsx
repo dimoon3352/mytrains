@@ -5,10 +5,10 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { windowAverage, windowWidth } from '@/constants/dimensions';
 import { setExercises } from '@/store/exercisesSlice';
 
-import BenchPressSVG from '@/assets/images/calculators/BenchPressSVG';
-import PullUpSVG from '@/assets/images/calculators/PullUpSVG';
-import PushUpSVG from '@/assets/images/calculators/PushUpSVG';
-import SquatSVG from '@/assets/images/calculators/SquatSVG';
+import BenchPressSVG from '@/assets/images/actions/BenchPressSVG';
+import PullUpSVG from '@/assets/images/actions/PullUpSVG';
+import PushUpSVG from '@/assets/images/actions/PushUpSVG';
+import SquatSVG from '@/assets/images/actions/SquatSVG';
 import SortSVG from '@/assets/images/common/SortSVG';
 import AddSVG from '@/assets/images/common/AddSVG';
 import SearchSVG from '@/assets/images/common/SearchSVG';

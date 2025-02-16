@@ -2,10 +2,10 @@ import { StyleSheet, View, Text } from 'react-native';
 import { Link } from 'expo-router';
 import { windowAverage, windowWidth } from '@/constants/dimensions';
 
-import BenchPressSVG from '@/assets/images/calculators/BenchPressSVG';
-import PullUpSVG from '@/assets/images/calculators/PullUpSVG';
-import PushUpSVG from '@/assets/images/calculators/PushUpSVG';
-import SquatSVG from '@/assets/images/calculators/SquatSVG';
+import BenchPressSVG from '@/assets/images/actions/BenchPressSVG';
+import PullUpSVG from '@/assets/images/actions/PullUpSVG';
+import PushUpSVG from '@/assets/images/actions/PushUpSVG';
+import SquatSVG from '@/assets/images/actions/SquatSVG';
 
 
 interface MainPartCalculatorsProps {

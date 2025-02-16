@@ -2,8 +2,7 @@ import { Tabs } from 'expo-router';
 //import React from 'react';
 
 import { HapticTab } from '@/components/HapticTab';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { windowAverage, windowWidth } from '@/constants/dimensions';
+import { windowAverage, windowWidth } from '@/constants/Dimensions';
 import { useTheme } from '@react-navigation/native';
 
 
@@ -33,7 +32,6 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
         tabBarShowLabel: false,      
         tabBarStyle: {
           backgroundColor: "#1D2028", // add theme

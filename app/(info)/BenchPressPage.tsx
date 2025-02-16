@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { View, Text} from 'react-native';
+import { View } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useRouter, SplashScreen } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';

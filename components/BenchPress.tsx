@@ -3,7 +3,7 @@ import type { NativeSyntheticEvent, TextInputChangeEventData } from 'react-nativ
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { windowAverage, windowHeight, windowWidth } from '@/constants/dimensions';
+import { windowAverage, windowHeight, windowWidth } from '@/constants/Dimensions';
 import { useState } from 'react';
 
 import SettingsSVG from '@/assets/images/header/SettingsSVG';

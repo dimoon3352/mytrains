@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import MainPartHome from '@/components/MainPartHome';
 import { useEffect } from 'react';
-import { windowAverage, windowHeight } from '@/constants/dimensions';
+import { windowAverage, windowHeight } from '@/constants/Dimensions';
 import BenchPress from '@/components/BenchPress';
 import MainPartCalculators from '@/components/MainPartActions';
 import { useFonts } from 'expo-font';

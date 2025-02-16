@@ -1,7 +1,7 @@
 import { StyleSheet, Image, Platform, View, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { windowHeight } from '@/constants/dimensions';
+import { windowHeight } from '@/constants/Dimensions';
 import MainPartTrains from '@/components/MainPartTrains';
 
 

@@ -1,15 +1,11 @@
+import { Text, View } from 'react-native';
 import { Tabs } from 'expo-router';
-//import React from 'react';
 
 import { HapticTab } from '@/components/HapticTab';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { windowAverage, windowWidth } from '@/constants/dimensions';
 
-import CalcSVG from '../../assets/images/navigation/CalcSVG';
-import HomeSVG from '../../assets/images/navigation/HomeSVG';
-import ExercisesSVG from '../../assets/images/navigation/ExercisesSVG';
-import TrainsSVG from '../../assets/images/navigation/TrainsSVG';
-import { Text, View } from 'react-native';
+import { windowAverage, windowWidth } from '@/constants/Dimensions';
+
+
 import BenchPressNavSVG from '@/assets/images/navigation/BenchPressNavSVG';
 import PullUpNavSVG from '@/assets/images/navigation/PullUpsNavSVG';
 import PushUpNavSVG from '@/assets/images/navigation/PushUpNavSVG';
@@ -32,7 +28,6 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
         tabBarShowLabel: false,  
         animation: "shift",    
         tabBarStyle: {
