@@ -3,7 +3,6 @@ import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import MainPartHome from '@/components/MainPartHome';
 import { useEffect } from 'react';
-import { windowAverage, windowHeight } from '@/constants/dimensions';
 import BenchPress from '@/components/BenchPress';
 import MainPartCalculators from '@/components/MainPartActions';
 import { useFonts } from 'expo-font';
@@ -12,6 +11,7 @@ import { useAppTheme } from '@/components/ThemeAppProvider';
 import { ThemeAppProvider } from '@/components/ThemeAppProvider';
 import HeaderBack from '@/components/HeaderBack';
 import MainPartActions from '@/components/MainPartActions';
+import { useFontLoad } from '@/hooks/useFontLoad';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -21,19 +21,7 @@ export default function ActionsPage() {
 
     const AppTheme = useAppTheme()
 
-    const [loaded] = useFonts({
-            SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
-          });
-        
-          useEffect(() => {
-            if (loaded) {
-              SplashScreen.hideAsync();
-            }
-          }, [loaded]);
-        
-          if (!loaded) {
-            return null;
-          }
+    const loaded = useFontLoad()
   
     const onGestureEvent = (event: any) => {
       const { translationX, translationY } = event.nativeEvent;
@@ -52,7 +40,9 @@ export default function ActionsPage() {
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>
           <View>
-            <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487'>Actions</HeaderBack>
+            <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487' routerPath="(tabs)/ExercisesPage">
+              Actions
+            </HeaderBack>
             <MainPartActions bgColor='#070707' textColor='#16A34A' bgItemColor='#1d2025' />  
           </View>
         </PanGestureHandler>

@@ -1,10 +1,8 @@
-import { StyleSheet, Image, Platform, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
-import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { windowAverage, windowWidth } from '@/constants/dimensions';
-import { Link } from 'expo-router';
 
-import SettingsSVG from '@/assets/images/header/SettingsSVG';
+import { windowAverage, windowWidth } from '@/constants/Dimensions';
+
 import ArrowLeftSVG from '@/assets/images/common/ArrowLeftSVG';
 
 
@@ -12,15 +10,16 @@ interface HeaderProps {
   children: React.ReactNode,
   bgColor: string,
   textColor: string,
-  iconColor: string
+  iconColor: string,
+  routerPath: string
 }
 
-export default function HeaderBack({children, bgColor, textColor, iconColor}: HeaderProps) {
+export default function HeaderBack({children, bgColor, textColor, iconColor, routerPath}: HeaderProps) {
 
   const router = useRouter()
 
   function onTouchEnd() {
-    router.push("/(tabs)/ExercisesPage")
+    router.push(`/${routerPath}`)
   }
 
   return (

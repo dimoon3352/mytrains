@@ -1,74 +1,52 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
 import { View } from 'react-native';
-import { ThemeAppProvider } from '@/components/ThemeAppProvider';
+import { Stack } from 'expo-router';
+
 import { useAppTheme } from '@/components/ThemeAppProvider';
-import { useTheme } from '@react-navigation/native';
+import { Colors } from '@/constants/Colors';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
-  const Rtheme = useTheme();
-      Rtheme.colors.background = 'transparent';
 
   const AppTheme = useAppTheme()
 
-  const theme = typeof(AppTheme?.theme) === "string" ? AppTheme.theme : "light"
-
   return (
-    <View style={{ flex: 1, backgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#070707" }}>  
+    <View style={{ flex: 1, backgroundColor: AppTheme?.theme === "light" ? Colors.light.background : Colors.dark.background }}>  
       <Stack>
         <Stack.Screen name="(tabs)" options={{ 
           headerShown: false, 
-          statusBarBackgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#1D2025", 
-          navigationBarColor: AppTheme?.theme === "light" ? "#ffffff" : "#1D2025",
+          statusBarBackgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground, 
+          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground,
           animation: "slide_from_left"
         }}/>
         <Stack.Screen name="(info)" options={{ 
           headerShown: false, 
-          statusBarBackgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#070707", 
-          navigationBarColor: AppTheme?.theme === "light" ? "#ffffff" : "#1D2025",
+          statusBarBackgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground, 
+          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground,
           animation: "slide_from_right"
         }}/>
         <Stack.Screen name="(settings)" options={{ 
           headerShown: false, 
-          statusBarBackgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#070707", 
-          navigationBarColor: AppTheme?.theme === "light" ? "#ffffff" : "#070707",
+          statusBarBackgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground, 
+          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground,
           animation: "slide_from_right"
         }}/>
         <Stack.Screen name="(exercises)" options={{ 
           headerShown: false, 
-          statusBarBackgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#1D2025", 
-          navigationBarColor: AppTheme?.theme === "light" ? "#ffffff" : "#070707",
+          statusBarBackgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground, 
+          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground,
           animation: "slide_from_right"
         }}/>
         <Stack.Screen name="(trains)" options={{ 
           headerShown: false, 
-          statusBarBackgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#1D2025", 
-          navigationBarColor: AppTheme?.theme === "light" ? "#ffffff" : "#070707",
+          statusBarBackgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground, 
+          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground,
           animation: "slide_from_right"
+        }}/>
+        <Stack.Screen name="(createTrain)" options={{ 
+          headerShown: false, 
+          statusBarBackgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground, 
+          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground,
+          animation: "none"
         }}/>
       </Stack>  
     </View>

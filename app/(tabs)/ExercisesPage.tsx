@@ -1,7 +1,7 @@
-import { StyleSheet, Image, Platform, View, Text } from 'react-native';
+import { StyleSheet, Image, Platform, View, Text, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { windowHeight } from '@/constants/dimensions';
+import { windowHeight } from '@/constants/Dimensions';
 import { useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import MainPartExercises from '@/components/MainPartExercises';
@@ -25,20 +25,22 @@ export default function ExercisesPage() {
     };
 
   return (
-    <GestureHandlerRootView>
-      <PanGestureHandler onGestureEvent={onGestureEvent}>
-        <View style={{height: windowHeight}}>
-          <MainPartExercises 
-            bgColor='#070707' 
-            textColor='#fff' 
-            bgItemColor='#1d2025' 
-            headerColor='#1D2025'
-            isPopupActive={isPopupActive}
-            setIsPopupActive={setIsPopupActive}
-          />
-        </View>
-      </PanGestureHandler>
-    </GestureHandlerRootView>
+    <ScrollView style={{height: windowHeight}}>
+      <GestureHandlerRootView>
+        <PanGestureHandler onGestureEvent={onGestureEvent}>
+          <View>
+            <MainPartExercises 
+              bgColor='#070707' 
+              textColor='#fff' 
+              bgItemColor='#1d2025' 
+              headerColor='#1D2025'
+              isPopupActive={isPopupActive}
+              setIsPopupActive={setIsPopupActive}
+            />
+          </View>
+        </PanGestureHandler>
+      </GestureHandlerRootView>
+    </ScrollView>
   );
 }
 

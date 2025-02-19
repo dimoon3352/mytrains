@@ -3,7 +3,6 @@ import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import MainPartHome from '@/components/MainPartHome';
 import { useEffect } from 'react';
-import { windowAverage, windowHeight } from '@/constants/dimensions';
 import BenchPress from '@/components/BenchPress';
 import MainPartCalculators from '@/components/MainPartActions';
 import { useFonts } from 'expo-font';
@@ -54,7 +53,7 @@ export default function ExercisesIndex() {
         <GestureHandlerRootView>
           <PanGestureHandler onGestureEvent={onGestureEvent}>                     
             <View>          
-              <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487'>Exercise {id}</HeaderBack>
+              <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487' routerPath='(tabs)/TrainsPage'>Train {id}</HeaderBack>
               <MainPartHome textColor='#fff' />          
             </View>             
           </PanGestureHandler>

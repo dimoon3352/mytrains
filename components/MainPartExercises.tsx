@@ -5,7 +5,7 @@ import Animated, { Easing, runOnJS, useAnimatedGestureHandler, useAnimatedStyle,
 import { PanGestureHandler } from 'react-native-gesture-handler';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { windowAverage, windowHeight, windowWidth } from '@/constants/dimensions';
+import { windowAverage, windowWidth, windowHeight } from '@/constants/Dimensions';
 import { addExercise } from '@/store/exercisesSlice';
 
 import type { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';

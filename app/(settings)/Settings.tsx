@@ -1,12 +1,14 @@
 import { StyleSheet, Image, Platform, View, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { windowHeight } from '@/constants/dimensions';
+import { windowHeight } from '@/constants/Dimensions';
 import { useAppTheme } from '@/components/ThemeAppProvider';
 
 export default function Settings() {
 
     const router = useRouter();
+
+    const AppTheme = useAppTheme()
   
     const onGestureEvent = (event: any) => {
       const { translationX, translationY } = event.nativeEvent;
@@ -21,8 +23,8 @@ export default function Settings() {
   return (
     <GestureHandlerRootView>
       <PanGestureHandler onGestureEvent={onGestureEvent}>
-        <View style={{height: windowHeight}}>
-          <Text>Exercises page</Text>
+        <View style={{height: windowHeight}} onTouchEnd={AppTheme?.toggleTheme}>
+          <Text style={{color: "red"}}>Settings page</Text>
         </View>
       </PanGestureHandler>
     </GestureHandlerRootView>

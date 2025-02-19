@@ -1,13 +1,15 @@
-import { useEffect } from 'react';
-import { View, Text} from 'react-native';
-import { useFonts } from 'expo-font';
-import { useRouter, SplashScreen } from 'expo-router';
+import { View } from 'react-native';
+import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 
-import { windowAverage, windowHeight } from '@/constants/dimensions';
+import { windowAverage, windowHeight } from '@/constants/Dimensions';
 import { useAppTheme } from '@/components/ThemeAppProvider';
 
 import BenchPress from '@/components/BenchPress';
+import { Colors } from '@/constants/Colors';
+
+
+import HeaderBack from '@/components/HeaderBack';
 
 
 export default function BenchPressPage() {
@@ -15,20 +17,6 @@ export default function BenchPressPage() {
     const AppTheme = useAppTheme()
 
     const router = useRouter();
-
-    const [loaded] = useFonts({
-        SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
-    });
-    
-    useEffect(() => {
-      if (loaded) {
-        SplashScreen.hideAsync();
-      }
-    }, [loaded]);
-  
-    if (!loaded) {
-      return null;
-    } // #ec4a89 
   
     const onGestureEvent = (event: any) => {
       const { translationX, translationY } = event.nativeEvent;
@@ -47,11 +35,14 @@ export default function BenchPressPage() {
     }; 
 
   return (
-    <View style={{backgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#070707", flex: 1}} >
+    <View style={{backgroundColor: AppTheme?.theme === "light" ? Colors.light.background : Colors.dark.background, flex: 1}} >
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>
-          <View style={{height: windowHeight, alignItems: "center", justifyContent: "center", gap: windowAverage * 40, bottom: windowAverage * 30}}>
-            <BenchPress bgColor={AppTheme?.theme === "light" ? "#ffffff" : "#1D2025"} textColor='#fff' />
+          <View style={{height: windowHeight, alignItems: "center", gap: windowAverage * 70}}>
+            <HeaderBack bgColor={AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground} textColor={AppTheme?.theme === "light" ? Colors.light.text : Colors.dark.text} iconColor={AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} routerPath="(tabs)/ActionsPage">
+              Bench-press
+            </HeaderBack>
+            <BenchPress bgColor={AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground} textColor={AppTheme?.theme === "light" ? Colors.light.text : Colors.dark.text} bgInput={AppTheme?.theme === "light" ? Colors.light.controlsBackground : Colors.dark.controlsBackground}/>
           </View>
         </PanGestureHandler>
       </GestureHandlerRootView>
