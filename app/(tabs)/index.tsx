@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Platform, TranslateXTransform } from 'react-native';
 
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { windowAverage, windowHeight } from '@/constants/dimensions';
+import { windowAverage, windowHeight } from '@/constants/Dimensions';
 import { View, Pressable, Text, ScrollView } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import Header from '@/components/Header';

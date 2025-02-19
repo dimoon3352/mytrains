@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text } from 'react-native';
 import { Link } from 'expo-router';
-import { windowAverage, windowWidth } from '@/constants/dimensions';
+import { windowAverage, windowWidth } from '@/constants/Dimensions';
 
 import BenchPressSVG from '@/assets/images/actions/BenchPressSVG';
 import PullUpSVG from '@/assets/images/actions/PullUpSVG';

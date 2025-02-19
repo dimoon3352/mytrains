@@ -53,7 +53,7 @@ export default function ExercisesIndex() {
         <GestureHandlerRootView>
           <PanGestureHandler onGestureEvent={onGestureEvent}>                     
             <View>          
-              <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487'>Exercise {id}</HeaderBack>
+              <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487' routerPath='(tabs)/TrainsPage'>Train {id}</HeaderBack>
               <MainPartHome textColor='#fff' />          
             </View>             
           </PanGestureHandler>

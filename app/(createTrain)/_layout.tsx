@@ -2,7 +2,6 @@ import { Tabs } from 'expo-router';
 //import React from 'react';
 
 import { HapticTab } from '@/components/UI/HapticTab';
-import { windowAverage, windowWidth } from '@/constants/Dimensions';
 import { useTheme } from '@react-navigation/native';
 
 
@@ -31,13 +30,17 @@ export default function TabLayout() {
     <Tabs 
       screenOptions={{
         headerShown: false,
-        tabBarShowLabel: false,      
+        tabBarShowLabel: false, 
+        animation: "none",     
         tabBarStyle: {
           display: "none"      
         }
       }}>
       <Tabs.Screen
-        name="Settings"
+        name="CreateTrain"
+        options={{
+          animation: "none"
+        }}
       />
     </Tabs>
   );

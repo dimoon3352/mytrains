@@ -1,22 +1,17 @@
-import { StyleSheet, Image, Platform, View, Text, ScrollView, SafeAreaView, TextInput, Button, KeyboardAvoidingView } from 'react-native';
-import type { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
-import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { windowAverage } from '@/constants/dimensions';
 import { useState } from 'react';
-
-import SettingsSVG from '@/assets/images/header/SettingsSVG';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { useAppTheme } from './ThemeAppProvider';
+
+import { windowAverage } from '@/constants/Dimensions';
 
 
 interface BenchPressProps {
   bgColor: string,
   textColor: string,
+  bgInput: string
 }
 
-export default function BenchPress({bgColor, textColor}: BenchPressProps) {
+export default function BenchPress({bgColor, textColor, bgInput}: BenchPressProps) {
 
   const [weight, setWeight] = useState<string>("")
   const [repeats, setRepeats] = useState<string>("")
@@ -72,7 +67,13 @@ export default function BenchPress({bgColor, textColor}: BenchPressProps) {
   function inputOnChange(text: string) {
     if (!isNaN(Number(text))) {
       setWeight(text)
-    }   
+    } else if (text.includes(",") && text.trim().length > 1) {
+      const newText = text.replace(/,/g, '.');
+      setWeight(newText)
+    } else if (text === ".") {
+      const newText = "";
+      setWeight(newText)
+    }
   }
 
   return (
@@ -81,7 +82,7 @@ export default function BenchPress({bgColor, textColor}: BenchPressProps) {
         <Text style={[styles.text, {color: textColor}]}>
           Barbell's weight:
         </Text>
-        <TextInput style={[styles.input, {backgroundColor: "#fff", color: "#000"}]} value={weight} onChangeText={inputOnChange} cursorColor={bgColor}/>
+        <TextInput style={[styles.input, {backgroundColor: bgInput, color: textColor}]} value={weight} onChangeText={inputOnChange} cursorColor={textColor}/>
         <Text style={[styles.text, {color: textColor}]}>
           kg
         </Text>   
@@ -93,8 +94,8 @@ export default function BenchPress({bgColor, textColor}: BenchPressProps) {
         <View style={styles.select__container}>
           <Picker
             selectedValue={repeats}
-            style={[styles.select, {color: "#000", backgroundColor: "#fff"}]}
-            onValueChange={(itemValue) => setRepeats(itemValue)}>
+            style={[styles.select, {color: textColor, backgroundColor: bgInput}]}
+            onValueChange={(itemValue) => setRepeats(itemValue)} dropdownIconColor={textColor}>
             <Picker.Item label="2" value="2" style={styles.select__item}/>
             <Picker.Item label="3" value="3" style={styles.select__item}/>
             <Picker.Item label="4" value="4" style={styles.select__item}/>

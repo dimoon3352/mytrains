@@ -4,7 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 
 import { store } from '@/store/store';
 import { ThemeAppProvider } from '@/components/ThemeAppProvider';
-import 'react-native-reanimated';
+import { useFontLoad } from '@/hooks/useFontLoad';
 
 import App from './App';
 
@@ -15,6 +15,8 @@ export default function RootLayout() {
 
   const theme = useTheme();
   theme.colors.background = 'transparent';
+
+  const loaded = useFontLoad()
 
   return (
     <Provider store={store}>

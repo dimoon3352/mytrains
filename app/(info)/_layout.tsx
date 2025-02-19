@@ -1,27 +1,20 @@
 import { Text, View } from 'react-native';
 import { Tabs } from 'expo-router';
 
-import { HapticTab } from '@/components/HapticTab';
-
-import { windowAverage, windowWidth } from '@/constants/dimensions';
-
+import { HapticTab } from '@/components/UI/HapticTab';
+import { useAppTheme } from '@/components/ThemeAppProvider';
+import { windowAverage, windowWidth } from '@/constants/Dimensions';
+import { Colors } from '@/constants/Colors';
 
 import BenchPressNavSVG from '@/assets/images/navigation/BenchPressNavSVG';
 import PullUpNavSVG from '@/assets/images/navigation/PullUpsNavSVG';
 import PushUpNavSVG from '@/assets/images/navigation/PushUpNavSVG';
 import SquatNavSVG from '@/assets/images/navigation/SquatNavSVG';
 
+
 export default function TabLayout() {
 
-  const tabDarkTheme = {
-    bg: "#1D2028",
-    element: "#16A34A"
-  }
-
-  const tabLightTheme = {
-    bg: "#fff",
-    element: "#16A34A"
-  }
+  const AppTheme = useAppTheme()
 
   return (
     <Tabs 
@@ -31,7 +24,7 @@ export default function TabLayout() {
         tabBarShowLabel: false,  
         animation: "shift",    
         tabBarStyle: {
-          backgroundColor: "#1D2025", // add theme
+          backgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground,
           justifyContent: "center",
           alignItems: "center",
           height: windowAverage * 28,
@@ -49,8 +42,8 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({focused}) => 
             <View style={{width: windowWidth / 4, justifyContent: "center", alignItems: "center"}}>
-              <BenchPressNavSVG color={focused ? "#00bfbf" : "#808487"} size={`${windowAverage*14}px`} />
-              <Text style={{color: focused ? "#00bfbf" : "#808487", fontSize: windowAverage * 5, fontWeight: "600"}}>
+              <BenchPressNavSVG color={focused && AppTheme?.theme === "light" ? Colors.light.infoNavIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.infoNavIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} size={`${windowAverage*14}px`} />
+              <Text style={[{fontSize: windowAverage * 5, fontWeight: "600"}, {color: focused && AppTheme?.theme === "light" ? Colors.light.infoNavIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.infoNavIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon}]}>
                 Bench-press
               </Text>
             </View>,       
@@ -61,8 +54,8 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({focused}) => 
             <View style={{width: windowWidth / 4, justifyContent: "center", alignItems: "center"}}>
-              <PullUpNavSVG color={focused ? "#00bfbf" : "#808487"} size={`${windowAverage*14}px`} />
-              <Text style={{color: focused ? "#00bfbf" : "#808487", fontSize: windowAverage * 5, fontWeight: "600"}}>
+              <PullUpNavSVG color={focused && AppTheme?.theme === "light" ? Colors.light.infoNavIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.infoNavIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} size={`${windowAverage*14}px`} />
+              <Text style={[{fontSize: windowAverage * 5, fontWeight: "600"}, {color: focused && AppTheme?.theme === "light" ? Colors.light.infoNavIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.infoNavIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon}]}>
                 Pull-ups
               </Text>
             </View>,       
@@ -73,8 +66,8 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({focused}) => 
             <View style={{width: windowWidth / 4, justifyContent: "center", alignItems: "center"}}>
-              <PushUpNavSVG color={focused ? "#00bfbf" : "#808487"} size={`${windowAverage*14}px`} />
-              <Text style={{color: focused ? "#00bfbf" : "#808487", fontSize: windowAverage * 5, fontWeight: "600"}}>
+              <PushUpNavSVG color={focused && AppTheme?.theme === "light" ? Colors.light.infoNavIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.infoNavIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} size={`${windowAverage*14}px`} />
+              <Text style={[{fontSize: windowAverage * 5, fontWeight: "600"}, {color: focused && AppTheme?.theme === "light" ? Colors.light.infoNavIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.infoNavIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon}]}>
                 Push-ups
               </Text>
             </View>,       
@@ -85,8 +78,8 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({focused}) => 
             <View style={{width: windowWidth / 4, justifyContent: "center", alignItems: "center"}}>
-              <SquatNavSVG color={focused ? "#00bfbf" : "#808487"} size={`${windowAverage*14}px`} />
-              <Text style={{color: focused ? "#00bfbf" : "#808487", fontSize: windowAverage * 5, fontWeight: "600"}}>
+              <SquatNavSVG color={focused && AppTheme?.theme === "light" ? Colors.light.infoNavIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.infoNavIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} size={`${windowAverage*14}px`} />
+              <Text style={[{fontSize: windowAverage * 5, fontWeight: "600"}, {color: focused && AppTheme?.theme === "light" ? Colors.light.infoNavIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.infoNavIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon}]}>
                 Squat
               </Text>
             </View>,       

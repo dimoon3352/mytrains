@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 //import React from 'react';
 
-import { HapticTab } from '@/components/HapticTab';
+import { HapticTab } from '@/components/UI/HapticTab';
 import { useTheme } from '@react-navigation/native';
 
 
@@ -13,8 +13,8 @@ import TrainsSVG from '../../assets/images/navigation/TrainsSVG';
 
 export default function TabLayout() {
 
-  const theme = useTheme();
-  theme.colors.background = 'transparent';
+  // const theme = useTheme();
+  // theme.colors.background = 'transparent';
 
   const tabDarkTheme = {
     bg: "#1D2028",

@@ -1,11 +1,15 @@
-import { StyleSheet, Image, Platform, View, Text } from 'react-native';
+import { StyleSheet, Image, Platform, View, Text, ScrollView, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { windowHeight } from '@/constants/dimensions';
+import { windowAverage, windowHeight } from '@/constants/Dimensions';
 import MainPartTrains from '@/components/MainPartTrains';
+import { useState } from 'react';
 
 
 export default function TrainsPage() {
+
+  const [isSortPopupActive, setIsSortPopupActive] = useState<boolean>(false)
+  const [scrollY, setScrollY] = useState<number>(0);
 
     const router = useRouter();
   
@@ -19,14 +23,24 @@ export default function TrainsPage() {
       }
     };
 
+    const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      if (scrollY < windowAverage * 29) {
+        setScrollY(event.nativeEvent.contentOffset.y);
+      } else if (scrollY >= windowAverage * 29 && event.nativeEvent.contentOffset.y < windowAverage * 29) {
+        setScrollY(event.nativeEvent.contentOffset.y);
+      }   
+    };
+
   return (
-    <GestureHandlerRootView>
-      <PanGestureHandler onGestureEvent={onGestureEvent}>
-        <View style={{height: windowHeight}}>
-          <MainPartTrains bgColor='#070707' textColor='#fff' bgItemColor='#1d2025' headerColor='#1D2025'/>
-        </View>
-      </PanGestureHandler>
-    </GestureHandlerRootView>
+    <ScrollView style={{height: windowHeight}} scrollEnabled={!isSortPopupActive} onScroll={handleScroll} scrollEventThrottle={16}>
+      <GestureHandlerRootView>
+        <PanGestureHandler onGestureEvent={onGestureEvent}>
+          <View>
+            <MainPartTrains bgColor='#070707' textColor='#fff' bgItemColor='#1d2025' headerColor='#1D2025' isSortPopupActive={isSortPopupActive} setIsSortPopupActive={setIsSortPopupActive} scrollY={scrollY}/>
+          </View>
+        </PanGestureHandler>
+      </GestureHandlerRootView>
+    </ScrollView>
   );
 }
 

@@ -40,7 +40,9 @@ export default function ActionsPage() {
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>
           <View>
-            <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487'>Actions</HeaderBack>
+            <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487' routerPath="(tabs)/ExercisesPage">
+              Actions
+            </HeaderBack>
             <MainPartActions bgColor='#070707' textColor='#16A34A' bgItemColor='#1d2025' />  
           </View>
         </PanGestureHandler>

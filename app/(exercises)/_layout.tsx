@@ -4,8 +4,8 @@ import { Tabs } from 'expo-router';
 
 export default function TabLayout() {
 
-  const theme = useTheme();
-  theme.colors.background = 'transparent';
+  // const theme = useTheme();
+  // theme.colors.background = 'transparent';
 
   const tabDarkTheme = {
     bg: "#1D2028",
