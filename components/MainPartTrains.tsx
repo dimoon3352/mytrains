@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, NativeSyntheticEvent, TextInputChangeEventData, ScrollView, NativeScrollEvent } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, NativeSyntheticEvent, TextInputChangeEventData, ScrollView, NativeScrollEvent, BackHandler } from 'react-native';
 import { Link, router } from 'expo-router';
 import { useState, useEffect, SetStateAction } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -107,6 +107,25 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, headerC
     setIsSquaresSelected(isSquaresSelected => !isSquaresSelected)
   }
 
+  useEffect(() => {
+    const backAction = () => {
+      if (isSortPopupActive) {
+        // Если попап активен, изменяем его состояние
+        setIsSortPopupActive(false);
+        return true; // Возвращаем true, чтобы предотвратить переход назад
+      }
+      return false; // Возвращаем false, чтобы продолжить действия по умолчанию
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    // Убираем слушатель при размонтировании компонента
+    return () => backHandler.remove();
+  }, [isSortPopupActive]);
+
   //========
 
   
@@ -201,6 +220,7 @@ interface SortPopupProps {
 const DraggableSort = ({ isPopupActive, setIsPopupActive, sortType, setSortType, scrollY }: SortPopupProps) => {
   const translateY = useSharedValue(0); // Изначальное положение
   const isDismissing = useSharedValue(false);
+  
 
   useEffect(() => {
     if (isPopupActive) {
@@ -210,6 +230,7 @@ const DraggableSort = ({ isPopupActive, setIsPopupActive, sortType, setSortType,
       }); 
       isDismissing.value = false; 
     } else {
+      console.log("hide")
       translateY.value = withTiming(windowHeight, { // Скрываем компонент
         duration: 500,
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
@@ -264,37 +285,37 @@ const DraggableSort = ({ isPopupActive, setIsPopupActive, sortType, setSortType,
   }
 
   return (
-      <PanGestureHandler onGestureEvent={(gestureHandler)} enabled={isPopupActive}>
-        <Animated.View style={[styles.SortPopupContainer, animatedStyle, {display: isPopupActive ? "flex" : "none", top: (-windowAverage * 82 + scrollY)}]}>
-          <View style={styles.SortPopupWrapper}>
-            <View style={{backgroundColor: "#2a2d32", width: windowAverage * 18, height: windowAverage * 2, alignSelf: "center", marginRight: windowAverage * 10, borderRadius: windowAverage * 4, marginBottom: windowAverage * 3}}></View>
-            <Text style={{color: "#fff", fontSize: windowAverage * 12}}>
-              Choose the sort
-            </Text>
-            <View style={{backgroundColor: "#2a2d32", borderRadius: windowAverage * 4, width: (windowWidth - windowAverage * 20), marginTop: windowAverage * 7}}>
-              <View style={{paddingHorizontal: windowAverage * 6, paddingVertical: windowAverage * 6, flexDirection: "row", alignItems: "center", gap: windowAverage * 6}} onTouchEnd={setDateType}>
-                <View style={[styles.SortPopupChoose, sortType === "date" ? {backgroundColor: "#16A34A", borderColor: "#16A34A"} : {backgroundColor: "#233f4e", borderColor: "#374a5b"}]}>
-                  {sortType === "date" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
-                </View>
-                <Text style={{color: "#fff", fontSize: windowAverage * 7}}>
-                  Sort by creation date
-                </Text>
+    <PanGestureHandler onGestureEvent={(gestureHandler)} enabled={isPopupActive}>
+      <Animated.View style={[styles.SortPopupContainer, animatedStyle, {display: isPopupActive ? "flex" : "none", top: (-windowAverage * 82 + scrollY)}]}>
+        <View style={styles.SortPopupWrapper}>
+          <View style={{backgroundColor: "#2a2d32", width: windowAverage * 18, height: windowAverage * 2, alignSelf: "center", marginRight: windowAverage * 10, borderRadius: windowAverage * 4, marginBottom: windowAverage * 3}}></View>
+          <Text style={{color: "#fff", fontSize: windowAverage * 12}}>
+            Choose the sort
+          </Text>
+          <View style={{backgroundColor: "#2a2d32", borderRadius: windowAverage * 4, width: (windowWidth - windowAverage * 20), marginTop: windowAverage * 7}}>
+            <View style={{paddingHorizontal: windowAverage * 6, paddingVertical: windowAverage * 6, flexDirection: "row", alignItems: "center", gap: windowAverage * 6}} onTouchEnd={setDateType}>
+              <View style={[styles.SortPopupChoose, sortType === "date" ? {backgroundColor: "#16A34A", borderColor: "#16A34A"} : {backgroundColor: "#233f4e", borderColor: "#374a5b"}]}>
+                {sortType === "date" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
               </View>
+              <Text style={{color: "#fff", fontSize: windowAverage * 7}}>
+                Sort by creation date
+              </Text>
+            </View>
 
-              <View style={{backgroundColor: "#44474c", height: 1, width: (windowWidth - windowAverage * 26), alignSelf: "flex-end"}}></View>
-    
-              <View style={{paddingHorizontal: windowAverage * 6, paddingVertical: windowAverage * 6, flexDirection: "row", alignItems: "center", gap: windowAverage * 6}} onTouchEnd={setDateInvertType}>
-                <View style={[styles.SortPopupChoose, sortType === "date_invert" ? {backgroundColor: "#16A34A", borderColor: "#374a5b"} : {backgroundColor: "#233f4e", borderColor: "#374a5b"}]}>
-                  {sortType === "date_invert" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
-                </View>
-                <Text style={{color: "#fff", fontSize: windowAverage * 7}}>
-                  Sort by creation date invert
-                </Text>
+            <View style={{backgroundColor: "#44474c", height: 1, width: (windowWidth - windowAverage * 26), alignSelf: "flex-end"}}></View>
+  
+            <View style={{paddingHorizontal: windowAverage * 6, paddingVertical: windowAverage * 6, flexDirection: "row", alignItems: "center", gap: windowAverage * 6}} onTouchEnd={setDateInvertType}>
+              <View style={[styles.SortPopupChoose, sortType === "date_invert" ? {backgroundColor: "#16A34A", borderColor: "#374a5b"} : {backgroundColor: "#233f4e", borderColor: "#374a5b"}]}>
+                {sortType === "date_invert" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
               </View>
+              <Text style={{color: "#fff", fontSize: windowAverage * 7}}>
+                Sort by creation date invert
+              </Text>
             </View>
           </View>
-        </Animated.View>
-      </PanGestureHandler>
+        </View>
+      </Animated.View>
+    </PanGestureHandler>
   );
 }
 
@@ -302,6 +323,7 @@ const DraggableSort = ({ isPopupActive, setIsPopupActive, sortType, setSortType,
 const styles = StyleSheet.create({
   container: {
     width: windowWidth,
+    minHeight: (windowHeight - windowAverage * 86),
     paddingTop: windowAverage * 5,
     paddingBottom: windowAverage * 35,
   },

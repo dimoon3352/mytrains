@@ -13,6 +13,10 @@ interface ThemeColors {
       controlsBackground: string;
       controlsIcon: string;
       infoNavIconFocused: string;
+      settingsTitleColor: string;
+      settingsItemBackground: string;
+      checkboxBackground: string;
+      checkboxBorder: string;
   };
   dark: {
       text: string;
@@ -23,6 +27,10 @@ interface ThemeColors {
       controlsBackground: string;
       controlsIcon: string;
       infoNavIconFocused: string;
+      settingsTitleColor: string;
+      settingsItemBackground: string;
+      checkboxBackground: string;
+      checkboxBorder: string;
   };
 }
 
@@ -35,7 +43,11 @@ export const Colors: ThemeColors = {
     navIconFocused: '#008ef4',
     controlsBackground: '#f2f5fa',
     controlsIcon: '#1D2025',
-    infoNavIconFocused: '#00bfbf'
+    infoNavIconFocused: '#00bfbf',
+    settingsTitleColor: '#838383',
+    settingsItemBackground: '#ffffff',
+    checkboxBackground: '#fdfdfd',
+    checkboxBorder: '#d2d2d2'
   },
   dark: {
     text: '#ffffff',
@@ -45,7 +57,11 @@ export const Colors: ThemeColors = {
     navIconFocused: '#008ef4',
     controlsBackground: '#303134',
     controlsIcon: '#ffffff',
-    infoNavIconFocused: '#00bfbf'
+    infoNavIconFocused: '#00bfbf',
+    settingsTitleColor: '#838383',
+    settingsItemBackground: '#1c1c1e',
+    checkboxBackground: '#1e1e1e',
+    checkboxBorder: '#2c2c2c'
   },
 };
 

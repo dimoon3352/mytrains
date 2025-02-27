@@ -30,7 +30,7 @@ export default function HeaderBack({children, bgColor, textColor, iconColor, rou
         </TouchableOpacity>
       </View>  
       <View style={styles.textContainer}>
-        <Text style={{color: textColor, fontSize: windowAverage * 10}}>
+        <Text style={{color: textColor, fontSize: windowAverage * 11, fontFamily: "YS-text"}}>
           {children}
         </Text>
       </View>

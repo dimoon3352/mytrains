@@ -1,4 +1,4 @@
-import { StyleSheet, Image, Platform, View, Text } from 'react-native';
+import { StyleSheet, Image, Platform, View, Text, Pressable, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import { windowAverage, windowWidth } from '@/constants/Dimensions';
@@ -15,19 +15,25 @@ interface HeaderProps {
 
 export default function Header({bgColor, textColor, iconColor}: HeaderProps) {
 
+  const router = useRouter()
+
+  function onPress() {
+    router.push("/(settings)/Settings")
+  }
+
   return (
     <View style={[styles.container, {backgroundColor: bgColor}]}>
       <View style={styles.item}></View>
       <View style={styles.textContainer}>
-        <Text style={{color: textColor, fontSize: windowAverage * 10}}>
+        <Text style={{color: textColor, fontSize: windowAverage * 11, fontFamily: "YS-text"}}>
           Home
         </Text>
       </View>
-      <Link href="/(settings)/Settings">
+      <TouchableOpacity  onPress={onPress}>
         <View style={styles.item}>
           <SettingsSVG color={iconColor} size={`${windowAverage * 15}px`} />
         </View> 
-      </Link>
+      </TouchableOpacity> 
     </View>
   );
 }

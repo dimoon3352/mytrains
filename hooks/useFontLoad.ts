@@ -7,6 +7,7 @@ export const useFontLoad = () => {
 
   const [loaded] = useFonts({
       SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+      'YS-text': require('../assets/fonts/YandexSansText-Regular.ttf')
   });
   
   useEffect(() => {
