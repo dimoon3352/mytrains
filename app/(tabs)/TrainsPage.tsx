@@ -4,12 +4,17 @@ import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-
 import { windowAverage, windowHeight } from '@/constants/Dimensions';
 import MainPartTrains from '@/components/MainPartTrains';
 import { useState } from 'react';
+import { useAppTheme } from '@/components/ThemeAppProvider';
+import { Colors } from '@/constants/Colors';
 
 
 export default function TrainsPage() {
 
   const [isSortPopupActive, setIsSortPopupActive] = useState<boolean>(false)
   const [scrollY, setScrollY] = useState<number>(0);
+
+    const AppTheme = useAppTheme()
+    const {light, dark} = Colors
 
     const router = useRouter();
   
@@ -32,11 +37,11 @@ export default function TrainsPage() {
     };
 
   return (
-    <ScrollView style={{height: windowHeight}} scrollEnabled={!isSortPopupActive} onScroll={handleScroll} scrollEventThrottle={16}>
+    <ScrollView style={{height: windowHeight}} scrollEnabled={!isSortPopupActive} onScroll={handleScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>
           <View>
-            <MainPartTrains bgColor='#070707' textColor='#fff' bgItemColor='#1d2025' headerColor='#1D2025' isSortPopupActive={isSortPopupActive} setIsSortPopupActive={setIsSortPopupActive} scrollY={scrollY}/>
+            <MainPartTrains bgColor={AppTheme?.theme === "light" ? light.background : dark.background} textColor='#fff' bgItemColor='#1d2025' headerColor='#1D2025' isSortPopupActive={isSortPopupActive} setIsSortPopupActive={setIsSortPopupActive} scrollY={scrollY}/>
           </View>
         </PanGestureHandler>
       </GestureHandlerRootView>
