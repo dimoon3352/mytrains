@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
 import { View } from 'react-native';
 import { SplashScreen, Stack } from 'expo-router';
-import { useFonts } from 'expo-font';
 
 import { useAppTheme } from '@/components/ThemeAppProvider';
 import { Colors } from '@/constants/Colors';
@@ -54,7 +52,13 @@ export default function App() {
         <Stack.Screen name="(createTrain)" options={{ 
           headerShown: false, 
           statusBarBackgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground, 
-          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground,
+          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.background : Colors.dark.background,
+          animation: "none"
+        }}/>
+        <Stack.Screen name="(createMockup)" options={{ 
+          headerShown: false, 
+          statusBarBackgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground, 
+          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.background : Colors.dark.background,
           animation: "none"
         }}/>
       </Stack>  

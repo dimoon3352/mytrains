@@ -67,3 +67,4 @@ export const Colors: ThemeColors = {
 
 // #ec4a89 
 // #00bfbf
+// #16A34A

@@ -5,15 +5,17 @@ import { windowAverage, windowWidth } from '@/constants/Dimensions';
 import { Link } from 'expo-router';
 
 import SettingsSVG from '@/assets/images/header/SettingsSVG';
+import { ReactNode } from 'react';
 
 
 interface HeaderProps {
   bgColor: string,
   textColor: string,
-  iconColor: string
+  iconColor: string,
+  children: ReactNode
 }
 
-export default function Header({bgColor, textColor, iconColor}: HeaderProps) {
+export default function Header({bgColor, textColor, iconColor, children}: HeaderProps) {
 
   const router = useRouter()
 
@@ -26,7 +28,7 @@ export default function Header({bgColor, textColor, iconColor}: HeaderProps) {
       <View style={styles.item}></View>
       <View style={styles.textContainer}>
         <Text style={{color: textColor, fontSize: windowAverage * 11, fontFamily: "YS-text"}}>
-          Home
+          {children}
         </Text>
       </View>
       <TouchableOpacity  onPress={onPress}>
@@ -45,7 +47,8 @@ const styles = StyleSheet.create({
     height: windowAverage * 32,
     width: windowWidth,
     borderBottomLeftRadius: windowAverage * 4,
-    borderBottomRightRadius: windowAverage * 4
+    borderBottomRightRadius: windowAverage * 4,
+    boxShadow: "0px 4px 10px 4px rgba(34, 60, 80, 0.2)"
   },
   item: {
     width: windowWidth / 4,
