@@ -43,6 +43,126 @@ const initialState: Exercises = [{
     ExerciseName: "barbell 90kg",
     AdditionDate: "01.05.2021",
     ImagePath: ""
+  },
+  {
+    ID: 4,
+    ExerciseName: "barbell 60kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 5,
+    ExerciseName: "barbell 70kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 6,
+    ExerciseName: "barbell 80kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 7,
+    ExerciseName: "barbell 90kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 8,
+    ExerciseName: "barbell 60kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 9,
+    ExerciseName: "barbell 70kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 10,
+    ExerciseName: "barbell 80kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 11,
+    ExerciseName: "barbell 90kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 12,
+    ExerciseName: "barbell 60kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 13,
+    ExerciseName: "barbell 70kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 14,
+    ExerciseName: "barbell 80kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 15,
+    ExerciseName: "barbell 90kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 16,
+    ExerciseName: "barbell 60kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 17,
+    ExerciseName: "barbell 70kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 18,
+    ExerciseName: "barbell 80kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 19,
+    ExerciseName: "barbell 90kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 20,
+    ExerciseName: "barbell 60kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 21,
+    ExerciseName: "barbell 70kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 22,
+    ExerciseName: "barbell 80kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
+  },
+  {
+    ID: 23,
+    ExerciseName: "barbell 90kg",
+    AdditionDate: "01.05.2021",
+    ImagePath: ""
   }]
 
 export const exercisesSlice = createSlice({

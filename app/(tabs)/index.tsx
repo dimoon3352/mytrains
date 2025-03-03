@@ -1,20 +1,18 @@
-import { Image, StyleSheet, Platform, TranslateXTransform } from 'react-native';
-
+import { View, ScrollView } from 'react-native';
+import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { windowAverage, windowHeight } from '@/constants/Dimensions';
-import { View, Pressable, Text, ScrollView } from 'react-native';
-import { Link, useRouter } from 'expo-router';
+
+import { useAppTheme } from '@/components/ThemeAppProvider';
+import { Colors } from '@/constants/Colors';
+
 import Header from '@/components/Header';
 import MainPartHome from '@/components/MainPartHome';
-import { useAppTheme } from '@/components/ThemeAppProvider';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import { useNavigation } from 'expo-router';
 
 
 export default function HomeScreen() {
 
   const AppTheme = useAppTheme()
+  const {light, dark} = Colors
 
   const router = useRouter();
 
@@ -33,30 +31,13 @@ export default function HomeScreen() {
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>                     
           <View>          
-            <Header bgColor='#1D2025' textColor='#fff' iconColor='#808487' />
-            <MainPartHome textColor='#fff' />          
+            <Header bgColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} textColor={AppTheme?.theme === "light" ? light.text : dark.text} iconColor={light.navIcon}>
+              {AppTheme?.language === "rus" ? "Главная" : AppTheme?.language === "eng" ? "Home" : "Startseite"}
+            </Header>
+            <MainPartHome bgColor={AppTheme?.theme === "light" ? light.background : dark.background} textColor={AppTheme?.theme === "light" ? light.text : dark.text} specialText={light.navIconFocused}/>          
           </View>             
         </PanGestureHandler>
       </GestureHandlerRootView>
     </ScrollView> 
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});

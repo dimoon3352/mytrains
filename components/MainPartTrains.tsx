@@ -158,7 +158,7 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, headerC
             </Text>
           </View>   
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/(createMockup)/CreateMockup")}>
           <View style={[styles.icon, {backgroundColor: "#303134", width: "auto", paddingHorizontal: windowAverage * 5, flexDirection: "row", gap: windowAverage * 3}]}>
             <AddSVG size='22px' color={textColor}/>
             <Text style={{color: "#fff", borderLeftColor: "#838383", borderLeftWidth: 1, paddingLeft: windowAverage * 6}}>
@@ -396,26 +396,26 @@ const styles = StyleSheet.create({
       position: "absolute",
       height: windowHeight,
       zIndex: 1
-    },
-    SortPopupWrapper: {
-      justifyContent: "flex-start", 
-      alignItems: "flex-start",
-      paddingTop: windowAverage * 8,
-      paddingBottom: windowAverage * 16,
-      paddingLeft: windowAverage * 10, 
-      flexDirection: "column", 
-      backgroundColor: "#1D2025", 
-      width: windowWidth,
-      borderTopLeftRadius: windowAverage * 20,
-      borderTopRightRadius: windowAverage * 20
-    },
-    SortPopupChoose: {
-      width: windowAverage * 10, 
-      height: windowAverage * 10, 
-      borderRadius: windowAverage * 5, 
-      borderWidth: 1,
-      justifyContent: "center",
-      alignItems: "center"
-    }
+  },
+  SortPopupWrapper: {
+    justifyContent: "flex-start", 
+    alignItems: "flex-start",
+    paddingTop: windowAverage * 8,
+    paddingBottom: windowAverage * 16,
+    paddingLeft: windowAverage * 10, 
+    flexDirection: "column", 
+    backgroundColor: "#1D2025", 
+    width: windowWidth,
+    borderTopLeftRadius: windowAverage * 20,
+    borderTopRightRadius: windowAverage * 20
+  },
+  SortPopupChoose: {
+    width: windowAverage * 10, 
+    height: windowAverage * 10, 
+    borderRadius: windowAverage * 5, 
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  }
 });
 
