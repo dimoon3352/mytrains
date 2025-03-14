@@ -1,16 +1,13 @@
-import { StyleSheet, Image, Platform, View, Text, ScrollView, SafeAreaView } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
-import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { windowAverage, windowHeight, windowWidth } from '@/constants/Dimensions';
+import { useMemo } from 'react';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 
-import SettingsSVG from '@/assets/images/header/SettingsSVG';
-import { useAppSelector } from '@/store/hooks';
-import { Trains } from '@/store/trainsSlice';
-import { Exercises } from '@/store/exercisesSlice';
-import { defineExerciseTitle } from './MainPartTrains';
-import { useEffect, useMemo } from 'react';
+import { windowAverage, windowHeight, windowWidth } from '@/constants/Dimensions';
 import { useAppTheme } from './ThemeAppProvider';
+import { useAppSelector } from '@/store/hooks';
+import { defineExerciseTitle } from './MainPartTrains';
+
+import type { Trains } from '@/store/trainsSlice';
+import type { Exercises } from '@/store/exercisesSlice';
 
 
 interface MainPartHomeProps {
@@ -97,7 +94,7 @@ export default function MainPartHome({ bgColor, textColor, specialText }: MainPa
           <Text style={[styles.text, {color: textColor}]}>
             {AppTheme?.language === "rus" ? "Любимое упр" : AppTheme?.language === "eng" ? "Favourite ex" : "Lieblingsübung"}:
           </Text>
-          <View style={{flexDirection: "row", width: windowWidth / 2}}>
+          <View style={{flexDirection: "row", maxWidth: windowWidth / 2.1}}>
             <Text style={{color: specialText, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>
               {favourite}
             </Text>
@@ -108,7 +105,7 @@ export default function MainPartHome({ bgColor, textColor, specialText }: MainPa
 
       <View style={{paddingTop: windowAverage * 8, width: windowWidth, alignItems: "center"}}>
         <Text style={[styles.text, {color: textColor}]}>
-          About
+          {AppTheme?.language === "rus" ? "Описание" : AppTheme?.language === "eng" ? "About" : "Über"}
         </Text>
       </View>
     </View>

@@ -6,12 +6,13 @@ import { windowAverage } from '@/constants/Dimensions';
 
 
 interface BenchPressProps {
+  AppTheme: any,
   bgColor: string,
   textColor: string,
   bgInput: string
 }
 
-export default function BenchPress({bgColor, textColor, bgInput}: BenchPressProps) {
+export default function BenchPress({ AppTheme, bgColor, textColor, bgInput }: BenchPressProps) {
 
   const [weight, setWeight] = useState<string>("")
   const [repeats, setRepeats] = useState<string>("")
@@ -80,16 +81,16 @@ export default function BenchPress({bgColor, textColor, bgInput}: BenchPressProp
     <View style={[styles.container, {backgroundColor: bgColor}]} >
       <View style={{gap: windowAverage * 4, flexDirection: "row", alignItems: "center"}}>
         <Text style={[styles.text, {color: textColor}]}>
-          Barbell's weight:
+          {AppTheme?.language === "rus" ? "Вес штанги" : AppTheme?.language === "eng" ? "Barbell's weight" : "Gewicht der Langhantel"}:
         </Text>
         <TextInput style={[styles.input, {backgroundColor: bgInput, color: textColor}]} value={weight} onChangeText={inputOnChange} cursorColor={textColor}/>
         <Text style={[styles.text, {color: textColor}]}>
-          kg
+          {AppTheme?.language === "rus" ? "кг" : AppTheme?.language === "eng" ? "kg" : "kg"}
         </Text>   
       </View>
       <View style={{gap: windowAverage * 4, flexDirection: "row", alignItems: "center"}}>
         <Text style={[styles.text, {color: textColor}]}>
-          Number of repetitions:
+          {AppTheme?.language === "rus" ? "Количество повторений" : AppTheme?.language === "eng" ? "Number of repetitions" : "Anzahl der wiederholungen"}:
         </Text>
         <View style={styles.select__container}>
           <Picker
@@ -124,25 +125,25 @@ export default function BenchPress({bgColor, textColor, bgInput}: BenchPressProp
       <View style={{flexDirection: "row", justifyContent: "space-between"}}>
         <View style={{gap: windowAverage * 3}}>
           <Text style={[styles.text, {color: textColor}]}>
-            Epley's formula
+            {AppTheme?.language === "rus" ? "Формула Эпли" : AppTheme?.language === "eng" ? "Epley's formula" : "Epleys formel"}
           </Text>
           <Text style={[styles.text, {color: textColor}]}>
-            Brzycki's formula
+            {AppTheme?.language === "rus" ? "Формула Бржицки" : AppTheme?.language === "eng" ? "Brzycki's formula" : "Brzyckis formel"}
           </Text>
           <Text style={[styles.text, {color: textColor}]}>
-            Lander's formula
+            {AppTheme?.language === "rus" ? "Формула Лэндера" : AppTheme?.language === "eng" ? "Lander's formula" : "Landers formel"}
           </Text>
           <Text style={[styles.text, {color: textColor}]}>
-            Lombardi's formula
+            {AppTheme?.language === "rus" ? "Формула Ломбарди" : AppTheme?.language === "eng" ? "Lombardi's formula" : "Lombardis formel"}
           </Text>
           <Text style={[styles.text, {color: textColor}]}>
-            Mayhew's formula
+            {AppTheme?.language === "rus" ? "Формула Мэйхью" : AppTheme?.language === "eng" ? "Mayhew's formula" : "Mayhews formel"}
           </Text>
           <Text style={[styles.text, {color: textColor}]}>
-            O'Conner's formula
+            {AppTheme?.language === "rus" ? "Формула О'Коннор" : AppTheme?.language === "eng" ? "O'Conner's formula" : "O'Conners formel"}
           </Text>
           <Text style={[styles.text, {color: textColor}]}>
-            Wathen's formula
+            {AppTheme?.language === "rus" ? "Формула Ватана" : AppTheme?.language === "eng" ? "Wathen's formula" : "Wathens formel"}
           </Text>
         </View>
         <View style={{gap: windowAverage * 3, paddingRight: windowAverage * 12}}>
@@ -174,12 +175,12 @@ export default function BenchPress({bgColor, textColor, bgInput}: BenchPressProp
 
       <View style={{flexDirection: "row", justifyContent: "space-between"}}>
         <View style={{gap: windowAverage * 3}}>
-          <Text style={{fontSize: 16, color: textColor}}>
-            Maximum in bench-press:
+          <Text style={{fontSize: 16, color: textColor, fontFamily: "YS-text"}}>
+            {AppTheme?.language === "rus" ? "Максимум в жиме лёжа" : AppTheme?.language === "eng" ? "Maximum in bench-press" : "Maximum beim Bankdrücken"}:
           </Text>
         </View>
         <View style={{gap: windowAverage * 3, paddingRight: windowAverage * 12}}>
-          <Text style={{fontSize: 16, color: textColor}}>
+          <Text style={{fontSize: 16, color: textColor, fontFamily: "YS-text"}}>
             {calculateMaximum()}
           </Text>
         </View>
@@ -202,7 +203,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: windowAverage * 2
   },
   text: {
-    fontSize: windowAverage * 7
+    fontSize: windowAverage * 7,
+    fontFamily: "YS-text"
   },
   input: {
     height: windowAverage * 13,

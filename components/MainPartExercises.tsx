@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput, BackHandler } from 'react-native';
 import { Link } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Animated, { Easing, runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 
@@ -15,9 +16,6 @@ import type { Trains } from '@/store/trainsSlice';
 import SortSVG from '@/assets/images/common/SortSVG';
 import AddSVG from '@/assets/images/common/AddSVG';
 import SearchSVG from '@/assets/images/common/SearchSVG';
-import { BackHandler } from 'react-native';
-import { useAppTheme } from './ThemeAppProvider';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export function defineID(arr: Exercises | Trains): number {
@@ -35,13 +33,14 @@ interface MainPartCalculatorsProps {
   checkModal: string,
   sortSigns: string,
   scrollY: number,
+  AppTheme: any,
   isSortPopupActive: boolean,
   setIsSortPopupActive: React.Dispatch<React.SetStateAction<boolean>>,
   isPopupActive: boolean,
   setIsPopupActive: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-export default function MainPartExercises({bgColor, textColor, bgItemColor, controlsBackground, checkModal, sortSigns, scrollY, isSortPopupActive, setIsSortPopupActive, ...props}: MainPartCalculatorsProps) {
+export default function MainPartExercises({bgColor, textColor, bgItemColor, controlsBackground, checkModal, sortSigns, scrollY, AppTheme, isSortPopupActive, setIsSortPopupActive, ...props}: MainPartCalculatorsProps) {
 
   const dispatch = useAppDispatch()
 
@@ -123,6 +122,7 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, cont
         }
         if (props.isPopupActive) {
           props.setIsPopupActive(false)
+          return true
         }
         return false; // Возвращаем false, чтобы продолжить действия по умолчанию
       };
@@ -138,12 +138,12 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, cont
 
   return (
     <>
-    <Popup bgColor={checkModal} bgItemColor={bgItemColor} textColor={textColor} isPopupActive={props.isPopupActive} setIsPopupActive={props.setIsPopupActive} setSortType={setSortType}/>
+    <Popup bgColor={checkModal} AppTheme={AppTheme} bgItemColor={bgItemColor} textColor={textColor} isPopupActive={props.isPopupActive} setIsPopupActive={props.setIsPopupActive} setSortType={setSortType}/>
 
     <View style={[styles.header, {backgroundColor: bgItemColor}]}>
       <View style={[styles.searchContainer, {backgroundColor: controlsBackground}]}>
         <SearchSVG size="18px" color='#838383'/>
-        <TextInput placeholder="Enter the exercise's name" placeholderTextColor="#838383" cursorColor="#008ef4" style={[styles.search, {backgroundColor: controlsBackground, color: textColor, fontFamily: "YS-text"}]} onChange={(e) => onSearch(e)}/>
+        <TextInput placeholder={AppTheme?.language === "rus" ? "Введите название" : AppTheme?.language === "eng" ? "Enter the exercise's name" : "Geben Sie den Namen"} placeholderTextColor="#838383" cursorColor="#008ef4" style={[styles.search, {backgroundColor: controlsBackground, color: textColor, fontFamily: "YS-text"}]} onChange={(e) => onSearch(e)}/>
       </View> 
       <TouchableOpacity onPress={() => setIsSortPopupActive(isSortPopupActive => !isSortPopupActive)}>
         <View style={[styles.icon, {backgroundColor: controlsBackground}]}>     
@@ -175,7 +175,7 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, cont
       ))}
       </View>
 
-      <DraggableSort sortSigns={sortSigns} bgColor={bgItemColor} bgItemColor={controlsBackground} textColor={textColor} isPopupActive={isSortPopupActive} setIsPopupActive={setIsSortPopupActive} sortType={sortType} setSortType={setSortType} scrollY={scrollY}/>
+      <DraggableSort sortSigns={sortSigns} AppTheme={AppTheme} bgColor={bgItemColor} bgItemColor={controlsBackground} textColor={textColor} isPopupActive={isSortPopupActive} setIsPopupActive={setIsSortPopupActive} sortType={sortType} setSortType={setSortType} scrollY={scrollY}/>
     </View>
     </>
   );
@@ -185,13 +185,14 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, cont
 interface PopupProps {
   bgColor: string,
   bgItemColor: string,
+  AppTheme: any,
   textColor: string,
   isPopupActive: boolean,
   setIsPopupActive: React.Dispatch<React.SetStateAction<boolean>>,
   setSortType: React.Dispatch<React.SetStateAction<string>>
 }
 
-const Popup = ({ bgColor, bgItemColor, textColor, isPopupActive, setIsPopupActive, setSortType }: PopupProps) => {
+const Popup = ({ bgColor, AppTheme, textColor, isPopupActive, setIsPopupActive, setSortType }: PopupProps) => {
 
   const dispatch = useAppDispatch()
 
@@ -236,13 +237,15 @@ const Popup = ({ bgColor, bgItemColor, textColor, isPopupActive, setIsPopupActiv
     {isPopupActive &&
     <View style={styles.PopupContainer} onTouchEnd={() => setIsPopupActive(false)}>
       <View style={[styles.PopupWrapper, {backgroundColor: bgColor}]} onTouchEnd={e => e.stopPropagation()}>
-        <Text style={{color: textColor, fontSize: windowAverage * 9}}>
-          Enter an exercise name
+        <Text style={{color: textColor, fontSize: windowAverage * 9, fontFamily: "YS-text"}}>
+          {AppTheme?.language === "rus" ? "Введите название" : AppTheme?.language === "eng" ? "Enter an exercise name" : "Geben Sie einen Namen ein"}
         </Text>
-        <TextInput value={text} onChange={(e) => onChange(e)} style={[styles.PopupInput, {backgroundColor: "#fff"}]} placeholder='barbell 100kg'/>
+        <TextInput value={text} onChange={(e) => onChange(e)} style={[styles.PopupInput, {backgroundColor: "#fff", fontFamily: "YS-text"}]} placeholder='barbell 100kg'/>
         <TouchableOpacity>
           <View style={[styles.PopupButton, {backgroundColor: "#16a34a"}]} onTouchEnd={createExercise}>
-            <Text style={{color: "#fff"}}>Add new exercise</Text>
+            <Text style={{color: "#fff", fontFamily: "YS-text"}}>
+              {AppTheme?.language === "rus" ? "Создать упражнение" : AppTheme?.language === "eng" ? "Add new exercise" : "Neue Übung hinzufügen"}
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -260,7 +263,7 @@ interface SortPopupProps extends PopupProps {
   scrollY: number;
 }
 
-const DraggableSort = ({ bgColor, bgItemColor, sortSigns, textColor, isPopupActive, setIsPopupActive, sortType, setSortType, scrollY }: SortPopupProps) => {
+const DraggableSort = ({ bgColor, AppTheme, bgItemColor, sortSigns, textColor, isPopupActive, setIsPopupActive, sortType, setSortType, scrollY }: SortPopupProps) => {
   const translateY = useSharedValue(windowHeight); // Изначальное положение
   const isDismissing = useSharedValue(false);
 
@@ -340,16 +343,16 @@ const DraggableSort = ({ bgColor, bgItemColor, sortSigns, textColor, isPopupActi
       <Animated.View style={[styles.SortPopupContainer, animatedStyle, {top: (-windowAverage * 57 + scrollY)}]}>
         <View style={[styles.SortPopupWrapper, {backgroundColor: bgColor}]}>
           <View style={{backgroundColor: "#2a2d32", width: windowAverage * 18, height: windowAverage * 2, alignSelf: "center", marginRight: windowAverage * 10, borderRadius: windowAverage * 4, marginBottom: windowAverage * 3}}></View>
-          <Text style={{color: textColor, fontSize: windowAverage * 12}}>
-            Choose the sort
+          <Text style={{color: textColor, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>
+            {AppTheme?.language === "rus" ? "Выберите сортировку" : AppTheme?.language === "eng" ? "Choose the sort" : "Wählen Sie die Sortierung"}
           </Text>
           <View style={{backgroundColor: bgItemColor, borderRadius: windowAverage * 4, width: (windowWidth - windowAverage * 20), marginTop: windowAverage * 7}}>
             <View style={{paddingHorizontal: windowAverage * 6, paddingVertical: windowAverage * 6, flexDirection: "row", alignItems: "center", gap: windowAverage * 6}} onTouchEnd={setDateType}>
               <View style={[styles.SortPopupChoose, sortType === "date" ? {backgroundColor: "#16A34A", borderColor: "#16A34A"} : {backgroundColor: sortSigns, borderColor: sortSigns}]}>
                 {sortType === "date" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
               </View>
-              <Text style={{color: textColor, fontSize: windowAverage * 7}}>
-                Sort by creation date
+              <Text style={{color: textColor, fontSize: windowAverage * 7, fontFamily: "YS-text"}}>
+                {AppTheme?.language === "rus" ? "Сортировать по дате создания" : AppTheme?.language === "eng" ? "Sort by creation date" : "Sortieren nach erstellungsdatum"}
               </Text>
             </View>
 
@@ -359,8 +362,8 @@ const DraggableSort = ({ bgColor, bgItemColor, sortSigns, textColor, isPopupActi
               <View style={[styles.SortPopupChoose, sortType === "date_invert" ? {backgroundColor: "#16A34A", borderColor: "#16A34A"} : {backgroundColor: sortSigns, borderColor: sortSigns}]}>
                 {sortType === "date_invert" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
               </View>
-              <Text style={{color: textColor, fontSize: windowAverage * 7}}>
-                Sort by creation date invert
+              <Text style={{color: textColor, fontSize: windowAverage * 7, fontFamily: "YS-text"}}>
+                {AppTheme?.language === "rus" ? "Сортировать по дате создания(обратно)" : AppTheme?.language === "eng" ? "Sort by creation date invert" : "Sortieren nach erstellungsdatum invert"}
               </Text>
             </View>
   
@@ -370,8 +373,8 @@ const DraggableSort = ({ bgColor, bgItemColor, sortSigns, textColor, isPopupActi
               <View style={[styles.SortPopupChoose, sortType === "name" ? {backgroundColor: "#16A34A", borderColor: "#16A34A"} : {backgroundColor: sortSigns, borderColor: sortSigns}]}>
                 {sortType === "name" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
               </View>
-              <Text style={{color: textColor, fontSize: windowAverage * 7}}>
-                Sort by exercise's name
+              <Text style={{color: textColor, fontSize: windowAverage * 7, fontFamily: "YS-text"}}>
+                {AppTheme?.language === "rus" ? "Сортировать по названию" : AppTheme?.language === "eng" ? "Sort by exercises's name" : "Nach Übungsnamen sortieren"}
               </Text>
             </View>
 
@@ -381,8 +384,8 @@ const DraggableSort = ({ bgColor, bgItemColor, sortSigns, textColor, isPopupActi
               <View style={[styles.SortPopupChoose, sortType === "name_invert" ? {backgroundColor: "#16A34A", borderColor: "#16A34A"} : {backgroundColor: sortSigns, borderColor: sortSigns}]}>
                 {sortType === "name_invert" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
               </View>
-              <Text style={{color: textColor, fontSize: windowAverage * 7}}>
-                Sort by exercise's name invert
+              <Text style={{color: textColor, fontSize: windowAverage * 7, fontFamily: "YS-text"}}>
+                {AppTheme?.language === "rus" ? "Сортировать по названию(обратно)" : AppTheme?.language === "eng" ? "Sort by exercises's name invert" : "Nach Übungsnamen sortieren invert"}
               </Text>
             </View>
           </View>
@@ -508,6 +511,3 @@ const styles = StyleSheet.create({
     alignItems: "center"
   }
 });
-
-
-

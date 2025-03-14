@@ -8,7 +8,6 @@ import { useAppTheme } from '@/components/ThemeAppProvider';
 import BenchPress from '@/components/BenchPress';
 import { Colors } from '@/constants/Colors';
 
-
 import HeaderBack from '@/components/HeaderBack';
 
 
@@ -39,10 +38,19 @@ export default function BenchPressPage() {
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>
           <View style={{height: windowHeight, alignItems: "center", gap: windowAverage * 70}}>
-            <HeaderBack bgColor={AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground} textColor={AppTheme?.theme === "light" ? Colors.light.text : Colors.dark.text} iconColor={AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} routerPath="(tabs)/ActionsPage">
-              Bench-press
+            <HeaderBack 
+              bgColor={AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground} 
+              textColor={AppTheme?.theme === "light" ? Colors.light.text : Colors.dark.text} 
+              iconColor={AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} 
+              routerPath="(tabs)/ActionsPage"
+            >
+              {AppTheme?.language === "rus" ? "Жим лёжа" : AppTheme?.language === "eng" ? "Bench-press" : "Bankdrücken"}
             </HeaderBack>
-            <BenchPress bgColor={AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground} textColor={AppTheme?.theme === "light" ? Colors.light.text : Colors.dark.text} bgInput={AppTheme?.theme === "light" ? Colors.light.controlsBackground : Colors.dark.controlsBackground}/>
+            <BenchPress 
+              AppTheme={AppTheme} 
+              bgColor={AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground} 
+              textColor={AppTheme?.theme === "light" ? Colors.light.text : Colors.dark.text} 
+              bgInput={AppTheme?.theme === "light" ? Colors.light.controlsBackground : Colors.dark.controlsBackground}/>
           </View>
         </PanGestureHandler>
       </GestureHandlerRootView>

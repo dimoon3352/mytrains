@@ -1,15 +1,14 @@
 import { Tabs } from 'expo-router';
-//import React from 'react';
 
 import { HapticTab } from '@/components/UI/HapticTab';
 import { windowAverage, windowWidth } from '@/constants/Dimensions';
+import { useAppTheme } from '@/components/ThemeAppProvider';
 import { Colors } from '@/constants/Colors';
 
 import CalcSVG from '../../assets/images/navigation/CalcSVG';
 import HomeSVG from '../../assets/images/navigation/HomeSVG';
 import ExercisesSVG from '../../assets/images/navigation/ExercisesSVG';
 import TrainsSVG from '../../assets/images/navigation/TrainsSVG';
-import { useAppTheme } from '@/components/ThemeAppProvider';
 
 export default function TabLayout() {
 

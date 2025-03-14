@@ -1,11 +1,10 @@
-import { StyleSheet, Image, Platform, View, Text, Pressable, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
-import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import { windowAverage, windowWidth } from '@/constants/Dimensions';
-import { Link } from 'expo-router';
+
+import type { ReactNode } from 'react';
 
 import SettingsSVG from '@/assets/images/header/SettingsSVG';
-import { ReactNode } from 'react';
 
 
 interface HeaderProps {

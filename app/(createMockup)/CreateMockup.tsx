@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity} from 'react-native';
 import { useRouter, SplashScreen } from 'expo-router';
 
-import { windowAverage, windowWidth } from '@/constants/Dimensions';
+import { windowAverage, windowHeight, windowWidth } from '@/constants/Dimensions';
 import { useAppTheme } from '@/components/ThemeAppProvider';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { defineID } from '@/components/MainPartExercises';
@@ -12,7 +12,6 @@ import { Colors } from '@/constants/Colors';
 import type { Exercise, Exercises } from '@/store/exercisesSlice';
 
 import HeaderBack from '@/components/HeaderBack';
-
 
 
 SplashScreen.preventAutoHideAsync();
@@ -75,7 +74,7 @@ export default function CreateMockup() {
   return (
     <>
     <HeaderBack bgColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} textColor={AppTheme?.theme === "light" ? light.text : dark.text} iconColor={AppTheme?.theme === "light" ? light.navIcon : dark.navIcon} routerPath="(tabs)/TrainsPage">
-      Choose exercises
+      {AppTheme?.language === "rus" ? "Выберите упражнения" : AppTheme?.language === "eng" ? "Choose exercises" : "Übungen auswählen"}
     </HeaderBack> 
     <View style={[styles.container, {backgroundColor: AppTheme?.theme === "light" ? light.background : dark.background}]}>
       <ScrollView>
@@ -95,7 +94,7 @@ export default function CreateMockup() {
         <TouchableOpacity onPress={createMockup}>
         <View style={{backgroundColor: "#16A34A", paddingVertical: windowAverage * 8, paddingHorizontal: windowAverage * 26, alignItems: "center", justifyContent: "center", borderRadius: windowAverage * 6, position: "absolute", bottom: windowAverage * 25, alignSelf: "center", boxShadow: "0px 3px 10px 2px rgba(34, 60, 80, 0.2) inset"}}>
           <Text style={{color: "#fff", fontSize: windowAverage * 9, fontFamily: "YS-text"}}>
-            Create mockup
+           {AppTheme?.language === "rus" ? "Создать заготовку" : AppTheme?.language === "eng" ? "Create mockup" : "Modell erstellen"}
           </Text>
         </View>
       </TouchableOpacity>
@@ -110,6 +109,7 @@ const styles = StyleSheet.create({
     width: windowWidth,
     paddingTop: windowAverage * 5,
     paddingBottom: windowAverage * 35,
+    minHeight: windowHeight
   },
   wrapper: {
     flexDirection: "row",

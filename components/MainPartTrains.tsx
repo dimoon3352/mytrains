@@ -1,9 +1,13 @@
+import { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, NativeSyntheticEvent, TextInputChangeEventData, BackHandler } from 'react-native';
 import { Link, router } from 'expo-router';
-import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Animated, { Easing, runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { PanGestureHandler } from 'react-native-gesture-handler';
+
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { windowAverage, windowHeight, windowWidth } from '@/constants/Dimensions';
-
+import { setTrains } from '@/store/trainsSlice';
 
 import SortSVG from '@/assets/images/common/SortSVG';
 import AddSVG from '@/assets/images/common/AddSVG';
@@ -11,8 +15,6 @@ import SearchSVG from '@/assets/images/common/SearchSVG';
 import Squares2x2SVG from '@/assets/images/common/Squares2x2SVG';
 
 import type { Exercises } from '@/store/exercisesSlice';
-import Animated, { Easing, runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { PanGestureHandler } from 'react-native-gesture-handler';
 
 
 export function defineExerciseTitle(trainExerciseID: number, exercisesArray: Exercises): string {
@@ -32,12 +34,13 @@ interface MainPartCalculatorsProps {
   green: string,
   draggableItemBg: string,
   sortSigns: string,
+  AppTheme: any
   isSortPopupActive: boolean,
   setIsSortPopupActive: React.Dispatch<React.SetStateAction<boolean>>
   scrollY: number
 }
 
-export default function MainPartTrains({bgColor, textColor, bgItemColor, controlsBackground, green, draggableItemBg, sortSigns, isSortPopupActive, setIsSortPopupActive, scrollY}: MainPartCalculatorsProps) {
+export default function MainPartTrains({bgColor, textColor, bgItemColor, controlsBackground, green, draggableItemBg, AppTheme, sortSigns, isSortPopupActive, setIsSortPopupActive, scrollY}: MainPartCalculatorsProps) {
 
   const [sortType, setSortType] = useState<"date" | "date_invert">("date")
   const [isSquaresSelected, setIsSquaresSelected] = useState<boolean>(false)
@@ -50,13 +53,20 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, control
 
   const [sortedArr, setSortedArr] = useState(trains)
 
-  // useEffect(() => {
-  //     let trainsJSON = localStorage.getItem("trains")
-  //     if (trainsJSON !== null) {
-  //       const parsed: Trains = JSON.parse(trainsJSON)
-  //       dispatch(setTrains(parsed))
-  //     }
-  //   }, [dispatch])
+  useEffect(() => {
+    const getAsync = async () => {
+      try {
+        const stored = await AsyncStorage.getItem("trains");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          dispatch(setTrains(parsed))
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAsync()
+  }, [dispatch])
 
   useEffect(() => {
     setSortedArr(trains)
@@ -88,10 +98,6 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, control
     setIsSortPopupActive(isSortPopupActive => !isSortPopupActive)
   }
 
-  // function handleWorkoutPopup() {
-  //   setIsWorkoutPopupActive(isWorkoutPopupActive => !isWorkoutPopupActive)
-  // }
-
   function handleSquaresSelected() {
     setIsSquaresSelected(isSquaresSelected => !isSquaresSelected)
   }
@@ -115,17 +121,13 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, control
     return () => backHandler.remove();
   }, [isSortPopupActive]);
 
-  //========
-
-  
-
   return (
     <>
     <View style={[styles.header, {backgroundColor: bgItemColor}]}>
       <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", gap: windowAverage * 5, paddingLeft: windowAverage * 8}}>
         <View style={[styles.searchContainer, {backgroundColor: controlsBackground}]}>
           <SearchSVG size="18px" color='#838383'/>
-          <TextInput placeholder="Enter the training date" placeholderTextColor="#838383" cursorColor="#008ef4" style={[styles.search, {backgroundColor: controlsBackground, color: textColor}]} onChange={(e) => onSearch(e)}/>
+          <TextInput placeholder={AppTheme?.language === "rus" ? "Введите дату тренировки" : AppTheme?.language === "eng" ? "Enter the training date" : "Geben Sie das trainingsdatum ein"} placeholderTextColor="#838383" cursorColor="#008ef4" style={[styles.search, {backgroundColor: controlsBackground, color: textColor}]} onChange={(e) => onSearch(e)}/>
         </View> 
         <TouchableOpacity onPress={handleSortPopup}>
           <View style={[styles.icon, {backgroundColor: controlsBackground}]}>
@@ -143,7 +145,7 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, control
           <View style={[styles.icon, {backgroundColor: controlsBackground, width: "auto", paddingHorizontal: windowAverage * 5, flexDirection: "row", gap: windowAverage * 3}]}>
             <AddSVG size='22px' color={textColor}/>
             <Text style={{color: textColor, borderLeftColor: "#838383", borderLeftWidth: 1, paddingLeft: windowAverage * 6, fontFamily: "YS-text"}}>
-              Create new train
+              {AppTheme?.language === "rus" ? "Создать тренировку" : AppTheme?.language === "eng" ? "Create new train" : "Neuen zug erstellen"}
             </Text>
           </View>   
         </TouchableOpacity>
@@ -151,7 +153,7 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, control
           <View style={[styles.icon, {backgroundColor: controlsBackground, width: "auto", paddingHorizontal: windowAverage * 5, flexDirection: "row", gap: windowAverage * 3}]}>
             <AddSVG size='22px' color={textColor}/>
             <Text style={{color: textColor, borderLeftColor: "#838383", borderLeftWidth: 1, paddingLeft: windowAverage * 6, fontFamily: "YS-text"}}>
-              Add mockup
+              {AppTheme?.language === "rus" ? "Заготовки" : AppTheme?.language === "eng" ? "Add mockup" : "Modell erstellen"}
             </Text>
           </View> 
         </TouchableOpacity>
@@ -191,7 +193,7 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, control
       ))}
       </View>     
     
-      <DraggableSort BgItemColor={bgItemColor} textColor={textColor} green={green} sortSigns={sortSigns} isPopupActive={isSortPopupActive} draggableItemBg={draggableItemBg} setIsPopupActive={setIsSortPopupActive} sortType={sortType} setSortType={setSortType} scrollY={scrollY}/>
+      <DraggableSort AppTheme={AppTheme} BgItemColor={bgItemColor} textColor={textColor} green={green} sortSigns={sortSigns} isPopupActive={isSortPopupActive} draggableItemBg={draggableItemBg} setIsPopupActive={setIsSortPopupActive} sortType={sortType} setSortType={setSortType} scrollY={scrollY}/>
     </View> 
     </>
   );
@@ -204,6 +206,7 @@ interface SortPopupProps {
   green: string,
   draggableItemBg: string,
   sortSigns: string,
+  AppTheme: any,
   isPopupActive: boolean,
   setIsPopupActive: React.Dispatch<React.SetStateAction<boolean>>,
   sortType: "date" | "date_invert",
@@ -211,7 +214,7 @@ interface SortPopupProps {
   scrollY: number
 }
 
-const DraggableSort = ({ BgItemColor, sortSigns, textColor, green, draggableItemBg, isPopupActive, setIsPopupActive, sortType, setSortType, scrollY }: SortPopupProps) => {
+const DraggableSort = ({ BgItemColor, sortSigns, textColor, green, draggableItemBg, isPopupActive, setIsPopupActive, sortType, setSortType, scrollY, AppTheme }: SortPopupProps) => {
   const translateY = useSharedValue(0); // Изначальное положение
   const isDismissing = useSharedValue(false);
   
@@ -283,7 +286,7 @@ const DraggableSort = ({ BgItemColor, sortSigns, textColor, green, draggableItem
         <View style={[styles.SortPopupWrapper, {backgroundColor: BgItemColor}]}>
           <View style={{backgroundColor: draggableItemBg, width: windowAverage * 18, height: windowAverage * 2, alignSelf: "center", marginRight: windowAverage * 10, borderRadius: windowAverage * 4, marginBottom: windowAverage * 3}}></View>
           <Text style={{color: textColor, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>
-            Choose the sort
+            {AppTheme?.language === "rus" ? "Выберите сортировку" : AppTheme?.language === "eng" ? "Choose the sort" : "Wählen Sie die Sortierung"}
           </Text>
           <View style={{backgroundColor: draggableItemBg, borderRadius: windowAverage * 4, width: (windowWidth - windowAverage * 20), marginTop: windowAverage * 7}}>
             <View style={{paddingHorizontal: windowAverage * 6, paddingVertical: windowAverage * 6, flexDirection: "row", alignItems: "center", gap: windowAverage * 6}} onTouchEnd={setDateType}>
@@ -291,7 +294,7 @@ const DraggableSort = ({ BgItemColor, sortSigns, textColor, green, draggableItem
                 {sortType === "date" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
               </View>
               <Text style={{color: textColor, fontSize: windowAverage * 7, fontFamily: "YS-text"}}>
-                Sort by creation date
+                {AppTheme?.language === "rus" ? "Сортировать по дате создания" : AppTheme?.language === "eng" ? "Sort by creation date" : "Sortieren nach erstellungsdatum"}
               </Text>
             </View>
 
@@ -302,7 +305,7 @@ const DraggableSort = ({ BgItemColor, sortSigns, textColor, green, draggableItem
                 {sortType === "date_invert" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
               </View>
               <Text style={{color: textColor, fontSize: windowAverage * 7, fontFamily: "YS-text"}}>
-                Sort by creation date invert
+                {AppTheme?.language === "rus" ? "Сортировать по дате создания(обратно)" : AppTheme?.language === "eng" ? "Sort by creation date invert" : "Sortieren nach erstellungsdatum invert"}
               </Text>
             </View>
           </View>
