@@ -27,7 +27,6 @@ export default function MainPartHome({ bgColor, textColor, specialText }: MainPa
   const exercises = useAppSelector(state => state.exercises)
 
   function getFavouriteExercise(trains: Trains, exercises: Exercises): string {
-    console.log("расчет")
     let favouriteID: {[key: number]: number} = {}
     if (trains.length > 0 && exercises.length > 0) {
       for (let i = 0; i < trains.length; i++) {
@@ -99,7 +98,7 @@ export default function MainPartHome({ bgColor, textColor, specialText }: MainPa
             {AppTheme?.language === "rus" ? "Любимое упр" : AppTheme?.language === "eng" ? "Favourite ex" : "Lieblingsübung"}:
           </Text>
           <View style={{flexDirection: "row", width: windowWidth / 2}}>
-            <Text style={{color: specialText, fontSize: windowAverage * 11}}>
+            <Text style={{color: specialText, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>
               {favourite}
             </Text>
           </View>
@@ -107,9 +106,9 @@ export default function MainPartHome({ bgColor, textColor, specialText }: MainPa
         <View style={{backgroundColor: textColor, height: 2, width: (windowWidth - windowAverage * 16), alignSelf: "center", marginTop: windowAverage * 2}}></View>
       </View>
 
-      <View style={{width: windowWidth - windowAverage * 4, alignSelf: "center", justifyContent: "center", alignItems: "center", paddingTop: windowAverage * 8}}>
+      <View style={{paddingTop: windowAverage * 8, width: windowWidth, alignItems: "center"}}>
         <Text style={[styles.text, {color: textColor}]}>
-          FAQ
+          About
         </Text>
       </View>
     </View>
@@ -120,6 +119,7 @@ const styles = StyleSheet.create({
   container: {
     width: windowWidth,
     height: (windowHeight - windowAverage * 60),
+    flexDirection: "column"
   },
   text: {
     fontSize: windowAverage * 14,

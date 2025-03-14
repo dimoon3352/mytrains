@@ -12,6 +12,7 @@ import { ThemeAppProvider } from '@/components/ThemeAppProvider';
 import HeaderBack from '@/components/HeaderBack';
 import MainPartActions from '@/components/MainPartActions';
 import { useFontLoad } from '@/hooks/useFontLoad';
+import { Colors } from '@/constants/Colors';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -20,6 +21,7 @@ export default function ActionsPage() {
     const router = useRouter();
 
     const AppTheme = useAppTheme()
+    const { light, dark } = Colors
 
     const loaded = useFontLoad()
   
@@ -40,10 +42,10 @@ export default function ActionsPage() {
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>
           <View>
-            <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487' routerPath="(tabs)/ExercisesPage">
+            <HeaderBack bgColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} textColor={AppTheme?.theme === "light" ? light.text : dark.text} iconColor={AppTheme?.theme === "light" ? light.navIcon : dark.navIcon} routerPath="(tabs)/ExercisesPage">
               Actions
             </HeaderBack>
-            <MainPartActions bgColor='#070707' textColor='#16A34A' bgItemColor='#1d2025' />  
+            <MainPartActions bgColor={AppTheme?.theme === "light" ? light.background : dark.background} textColor={AppTheme?.theme === "light" ? light.text : "#16A34A"} bgItemColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} />  
           </View>
         </PanGestureHandler>
       </GestureHandlerRootView>

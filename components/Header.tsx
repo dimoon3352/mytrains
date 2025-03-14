@@ -32,7 +32,7 @@ export default function Header({bgColor, textColor, iconColor, children}: Header
         </Text>
       </View>
       <TouchableOpacity  onPress={onPress}>
-        <View style={styles.item}>
+        <View style={[styles.item, {justifyContent: "center", alignItems: "center", right: windowAverage * 8}]}>
           <SettingsSVG color={iconColor} size={`${windowAverage * 15}px`} />
         </View> 
       </TouchableOpacity> 
@@ -44,21 +44,19 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     height: windowAverage * 32,
     width: windowWidth,
     borderBottomLeftRadius: windowAverage * 4,
     borderBottomRightRadius: windowAverage * 4,
-    boxShadow: "0px 4px 10px 4px rgba(34, 60, 80, 0.2)"
   },
   item: {
-    width: windowWidth / 4,
+    width: windowWidth / 10,
     height: windowAverage * 28,
     justifyContent: "center",
-    alignItems: "flex-end",
-    paddingRight: windowAverage * 8
+    alignItems: "flex-end"
   },
   textContainer: {
-    width: windowWidth / 2,
     height: windowAverage * 28,
     justifyContent: "center",
     alignItems: "center"

@@ -1,76 +1,50 @@
-import { StyleSheet, Image, Platform, View, Text, ScrollView} from 'react-native';
-import { useRouter } from 'expo-router';
+import { View, ScrollView} from 'react-native';
+import { useRouter, useLocalSearchParams, SplashScreen } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import MainPartHome from '@/components/MainPartHome';
-import { useEffect } from 'react';
-import BenchPress from '@/components/BenchPress';
-import MainPartCalculators from '@/components/MainPartActions';
-import { useFonts } from 'expo-font';
-import { SplashScreen } from 'expo-router';
+
+import { useAppSelector } from '@/store/hooks';
 import { useAppTheme } from '@/components/ThemeAppProvider';
-import { ThemeAppProvider } from '@/components/ThemeAppProvider';
-import { useLocalSearchParams } from 'expo-router';
+import { Colors } from '@/constants/Colors';
+
 import HeaderBack from '@/components/HeaderBack';
+import TrainsIndex from '@/components/TrainsIndex';
+
 
 SplashScreen.preventAutoHideAsync();
 
 export default function ExercisesIndex() {
 
+    const trains = useAppSelector(state => state.trains)
+
     const { id } = useLocalSearchParams();
+    const pid = id.slice(0, id.length - 1)
 
     const router = useRouter();
 
     const AppTheme = useAppTheme()
-
-    const [loaded] = useFonts({
-            SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
-          });
-        
-          useEffect(() => {
-            if (loaded) {
-              SplashScreen.hideAsync();
-            }
-          }, [loaded]);
-        
-          if (!loaded) {
-            return null;
-          }
   
     const onGestureEvent = (event: any) => {
-      const { translationX, translationY } = event.nativeEvent;
-  
-      //console.error(Math.abs(translationX), Math.abs(translationY))
+      const { translationX, translationY } = event.nativeEvent
 
       if (Math.abs(translationX) > Math.abs(translationY)) {
         if (translationX > 40) {
           router.push('/(tabs)/TrainsPage');
         }
       }
-    }; //<Text style={{color: "#fff", fontSize: windowAverage * 10}}>Bench-press calculator</Text>
+    }; 
 
   return (
-      <ScrollView style={{backgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#070707" }}>
+      <ScrollView>
         <GestureHandlerRootView>
           <PanGestureHandler onGestureEvent={onGestureEvent}>                     
             <View>          
-              <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487' routerPath='(tabs)/TrainsPage'>Train {id}</HeaderBack>
-              <MainPartHome textColor='#fff' />          
+              <HeaderBack bgColor={AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground} textColor={AppTheme?.theme === "light" ? Colors.light.text : Colors.dark.text} iconColor={AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} routerPath='(tabs)/TrainsPage'>
+                Train ID: {pid}
+              </HeaderBack>
+              <TrainsIndex bgColor={AppTheme?.theme === "light" ? Colors.light.background : Colors.dark.background} textColor={AppTheme?.theme === "light" ? Colors.light.text : Colors.dark.text} input={AppTheme?.theme === "light" ? Colors.light.trainsInput : Colors.dark.trainsInput} checkModal={AppTheme?.theme === "light" ? Colors.light.checkModal : Colors.dark.checkModal} ID={pid} />      
             </View>             
           </PanGestureHandler>
         </GestureHandlerRootView>
       </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-});

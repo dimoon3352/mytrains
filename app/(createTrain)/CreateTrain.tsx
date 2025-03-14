@@ -11,6 +11,7 @@ import { defineID } from '@/components/MainPartExercises';
 import { addTrain } from '@/store/trainsSlice';
 import { defineExerciseTitle } from '@/components/MainPartTrains';
 import { delReadyMadeTrain } from '@/store/readyMadeTrainsSlice';
+import { Colors } from '@/constants/Colors';
 
 import type { Exercise, Exercises } from '@/store/exercisesSlice';
 import type { Train } from '@/store/trainsSlice'
@@ -26,6 +27,7 @@ export default function CreateTrain() {
     const router = useRouter();
 
     const AppTheme = useAppTheme()
+    const { light, dark } = Colors
 
     const dispatch = useAppDispatch()
 
@@ -118,14 +120,14 @@ export default function CreateTrain() {
 
   return (
     <>  
-    <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487' routerPath="(tabs)/TrainsPage">
+    <HeaderBack bgColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} textColor={AppTheme?.theme === "light" ? light.text : dark.text} iconColor={AppTheme?.theme === "light" ? light.navIcon : dark.navIcon} routerPath="(tabs)/TrainsPage">
       Choose exercises
     </HeaderBack>
     <GestureHandlerRootView> 
       <View> 
         <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
-          <View style={{backgroundColor: "#1D2025", paddingVertical: windowAverage * 6, marginTop: windowAverage * 3, flexDirection: "row", alignItems: "center", gap: windowAverage * 4}}>
-            <Text style={{color: "#fff", paddingLeft: windowAverage * 6}}>
+          <View style={{backgroundColor: AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground, paddingVertical: windowAverage * 6, marginTop: windowAverage * 3, flexDirection: "row", alignItems: "center", gap: windowAverage * 4}}>
+            <Text style={{color: AppTheme?.theme === "light" ? light.text : dark.text, paddingLeft: windowAverage * 6, fontFamily: "YS-text"}}>
               Add from mockups
             </Text>
             <View style={{backgroundColor: "#16A34A", padding: windowAverage * 1, borderRadius: windowAverage * 2}}>
@@ -133,13 +135,13 @@ export default function CreateTrain() {
             </View>
           </View>
         </TouchableOpacity>
-        <View style={[styles.container, {backgroundColor: "#070707"}]}>
+        <View style={[styles.container, {backgroundColor: AppTheme?.theme === "light" ? light.background : dark.background}]}>
           <ScrollView>
             <View style={styles.wrapper}> 
               {sortedArr.map((item: Exercise, index: number) => (
                 <View key={item.ID} onTouchEnd={() => handleCheckbox(item.ID)}>
-                  <View style={[styles.item, {backgroundColor: trainExercises.indexOf(item.ID) >= 0 ? "#16A34A" : "#1D2025", paddingVertical: windowAverage * 12, justifyContent: "center"}]}>
-                    <Text style={{color: "#fff", paddingHorizontal: windowAverage * 6, fontSize: windowAverage * 8}}>
+                  <View style={[styles.item, {backgroundColor: trainExercises.indexOf(item.ID) >= 0 ? "#16A34A" : AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground, paddingVertical: windowAverage * 12, justifyContent: "center"}]}>
+                    <Text style={{color: trainExercises.indexOf(item.ID) >= 0 ? "#fff" : AppTheme?.theme === "light" ? light.text : dark.text, paddingHorizontal: windowAverage * 6, fontSize: windowAverage * 8, fontFamily: "YS-text"}}>
                       {item.ExerciseName}
                     </Text>
                   </View>        
@@ -150,7 +152,7 @@ export default function CreateTrain() {
           {trainExercises.length > 0 &&
             <TouchableOpacity onPress={createTrain}>
             <View style={{backgroundColor: "#16A34A", paddingVertical: windowAverage * 8, paddingHorizontal: windowAverage * 26, alignItems: "center", justifyContent: "center", borderRadius: windowAverage * 6, position: "absolute", bottom: windowAverage * 38, alignSelf: "center"}}>
-              <Text style={{color: "#fff", fontSize: windowAverage * 9}}>
+              <Text style={{color: "#fff", fontSize: windowAverage * 9, fontFamily: "YS-text"}}>
                 Create train
               </Text>
             </View>
@@ -179,6 +181,9 @@ const Popup = ({ isPopupActive, setIsPopupActive, setIsConfirmPopupActive, setIs
 
   const exercises = useAppSelector((state) => state.exercises)
   const mockups = useAppSelector((state) => state.readyMadeTrains)
+
+  const AppTheme = useAppTheme()
+  const { light, dark } = Colors
 
   // useEffect(() => {
   //   let readyMadeTrainsJSON = localStorage.getItem("readyMadeTrains")
@@ -262,10 +267,10 @@ const Popup = ({ isPopupActive, setIsPopupActive, setIsConfirmPopupActive, setIs
   return (
      <PanGestureHandler onGestureEvent={(gestureHandler)} enabled={isGestureEnabled} >
       <Animated.View style={[styles.SortPopupContainer, animatedStyle, {display: isPopupActive ? "flex" : "none", top: -windowAverage}]}>
-        <View style={[styles.SortPopupWrapper, {gap: windowAverage * 5}]}>
+        <View style={[styles.SortPopupWrapper, {gap: windowAverage * 5, backgroundColor: AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground}]}>
           <View style={{backgroundColor: "#2a2d32", width: windowAverage * 18, height: windowAverage * 2, alignSelf: "center", marginRight: windowAverage * 10, borderRadius: windowAverage * 4}}></View>
           <View style={{paddingLeft: windowAverage * 10, flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: windowWidth - windowAverage * 10}}>
-            <Text style={{color: "#fff", fontSize: windowAverage * 12}}>
+            <Text style={{color: AppTheme?.theme === "light" ? light.text : dark.text, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>
               Choose the mockup
             </Text>
             <TouchableOpacity onPress={onPress}>
@@ -278,9 +283,9 @@ const Popup = ({ isPopupActive, setIsPopupActive, setIsConfirmPopupActive, setIs
             <View style={[styles.wrapperSquares]}>
               {mockups.map((item: any, index: any) => (
                 <TouchableOpacity key={index} activeOpacity={0.85} onPress={() => handleConfirmPopup(item)}>     
-                  <View style={[styles.itemSquares, {backgroundColor: "#3E3F40"}]}>
+                  <View style={[styles.itemSquares, {backgroundColor: AppTheme?.theme === "light" ? light.bgMockup : dark.bgMockup}]}>
                     <View style={{width: "90%", alignSelf: "center", justifyContent: "center", alignItems: "center"}}>
-                      <Text style={{color: "#fff", fontSize: windowAverage * 9}}>
+                      <Text style={{color: AppTheme?.theme === "light" ? light.text : dark.text, fontSize: windowAverage * 9, fontFamily: "YS-text"}}>
                         {item.Date}
                       </Text>
                     </View>
@@ -288,7 +293,7 @@ const Popup = ({ isPopupActive, setIsPopupActive, setIsConfirmPopupActive, setIs
                       {Object.entries<string[]>(item.Exercises).map((item, index) => (
                         <View key={index} style={{flexDirection: "row", borderTopColor: "#303134", borderTopWidth: 1, paddingTop: windowAverage * 4}}>
                           <View style={{width: "100%", justifyContent: "flex-start", alignItems: "flex-start"}}>
-                            <Text style={{color: "#fff", fontSize: windowAverage * 6}}>
+                            <Text style={{color: AppTheme?.theme === "light" ? light.text : dark.text, fontSize: windowAverage * 6, fontFamily: "YS-text"}}>
                               {defineExerciseTitle(Number(item[0]), exercises)}
                             </Text>
                           </View>
@@ -320,6 +325,9 @@ const ConfirmPopup = ({ isPopupActive, setIsPopupActive, item }: ConfirmPopupPro
   const router = useRouter()
 
   const trains = useAppSelector(state => state.trains)
+
+  const AppTheme = useAppTheme()
+  const { light, dark } = Colors
 
   function addMockupTrain(item: Train) {
     setIsPopupActive(false)
@@ -354,19 +362,23 @@ const ConfirmPopup = ({ isPopupActive, setIsPopupActive, item }: ConfirmPopupPro
     <>
     {isPopupActive &&
       <View style={styles.PopupContainer} onTouchEnd={() => setIsPopupActive(false)}>
-        <View style={[styles.PopupWrapper, {backgroundColor: "#16181C"}]} onTouchEnd={e => e.stopPropagation()}>
-          <Text style={{color: "#fff", fontSize: windowAverage * 10}}>
+        <View style={[styles.PopupWrapper, {backgroundColor: AppTheme?.theme === "light" ? light.checkModal : dark.checkModal}]} onTouchEnd={e => e.stopPropagation()}>
+          <Text style={{color: AppTheme?.theme === "light" ? light.text : dark.text, fontSize: windowAverage * 10, fontFamily: "YS-text"}}>
             Choose your action
           </Text>
           <View style={{flexDirection: "row", gap: windowAverage * 5}}>
             <TouchableOpacity activeOpacity={0.7} onPress={() => addMockupTrain(item)}>
               <View style={[styles.PopupButton, {backgroundColor: "#16a34a"}]}>
-                <Text style={{color: "#fff"}}>Add train</Text>
+                <Text style={{color: "#fff", fontFamily: "YS-text"}}>
+                  Add train
+                </Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.7} onPress={() => onDelete(item.ID)}>
               <View style={[styles.PopupButton, {backgroundColor: "#C74141"}]}>
-                <Text style={{color: "#fff"}}>Delete</Text>
+                <Text style={{color: "#fff", fontFamily: "YS-text"}}>
+                  Delete
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -405,7 +417,8 @@ const styles = StyleSheet.create({
     borderRadius: windowAverage * 5,
     gap: windowAverage * 6,
     justifyContent: "flex-start", 
-    flexShrink: 0
+    flexShrink: 0,
+    boxShadow: "2px 2px 8px 0px rgba(34, 60, 80, 0.2)"
   },
   SortPopupContainer: {
     justifyContent: "flex-end", 
@@ -421,7 +434,6 @@ const styles = StyleSheet.create({
     top: windowHeight / 100 * 45,
     paddingBottom: windowAverage * 10,
     flexDirection: "column", 
-    backgroundColor: "#1D2025", 
     width: windowWidth
   },
   SortPopupChoose: {

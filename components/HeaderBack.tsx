@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: windowWidth,
     borderBottomLeftRadius: windowAverage * 4,
-    borderBottomRightRadius: windowAverage * 4
+    borderBottomRightRadius: windowAverage * 4,
+    boxShadow: "0px 4px 8px 0px rgba(34, 60, 80, 0.2)"
   },
   item: {
     width: windowWidth / 4,

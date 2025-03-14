@@ -17,6 +17,12 @@ interface ThemeColors {
       settingsItemBackground: string;
       checkboxBackground: string;
       checkboxBorder: string;
+      green: string;
+      draggableItemBg: string;
+      trainsInput: string;
+      bgMockup: string;
+      checkModal: string;
+      sortSigns: string;
   };
   dark: {
       text: string;
@@ -31,6 +37,12 @@ interface ThemeColors {
       settingsItemBackground: string;
       checkboxBackground: string;
       checkboxBorder: string;
+      green: string;
+      draggableItemBg: string;
+      trainsInput: string;
+      bgMockup: string;
+      checkModal: string;
+      sortSigns: string;
   };
 }
 
@@ -47,7 +59,13 @@ export const Colors: ThemeColors = {
     settingsTitleColor: '#838383',
     settingsItemBackground: '#ffffff',
     checkboxBackground: '#fdfdfd',
-    checkboxBorder: '#d2d2d2'
+    checkboxBorder: '#d2d2d2',
+    green: '#25D164',
+    draggableItemBg: '#f6f7fb',
+    trainsInput: '#ECEEF2',
+    bgMockup: "#F4F4F4",
+    checkModal: "#E6E6E6",
+    sortSigns: "#E2E2E2",
   },
   dark: {
     text: '#ffffff',
@@ -61,7 +79,13 @@ export const Colors: ThemeColors = {
     settingsTitleColor: '#838383',
     settingsItemBackground: '#1c1c1e',
     checkboxBackground: '#1e1e1e',
-    checkboxBorder: '#2c2c2c'
+    checkboxBorder: '#D2D2D2',
+    green: '#16A34A',
+    draggableItemBg: '#2A2D32',
+    trainsInput: '#161616',
+    bgMockup: "#3E3F40",
+    checkModal: "#16181C",
+    sortSigns: "#233f4e",
   },
 };
 

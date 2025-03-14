@@ -32,7 +32,7 @@ export default function HomeScreen() {
         <PanGestureHandler onGestureEvent={onGestureEvent}>                     
           <View>          
             <Header bgColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} textColor={AppTheme?.theme === "light" ? light.text : dark.text} iconColor={light.navIcon}>
-              {AppTheme?.language === "rus" ? "Главная" : AppTheme?.language === "eng" ? "Home" : "Startseite"}
+              {AppTheme?.language === "rus" ? "Главная" : AppTheme?.language === "eng" ? "Main" : "Startseite"}
             </Header>
             <MainPartHome bgColor={AppTheme?.theme === "light" ? light.background : dark.background} textColor={AppTheme?.theme === "light" ? light.text : dark.text} specialText={light.navIconFocused}/>          
           </View>             

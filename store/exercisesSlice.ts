@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -43,127 +44,15 @@ const initialState: Exercises = [{
     ExerciseName: "barbell 90kg",
     AdditionDate: "01.05.2021",
     ImagePath: ""
-  },
-  {
-    ID: 4,
-    ExerciseName: "barbell 60kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 5,
-    ExerciseName: "barbell 70kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 6,
-    ExerciseName: "barbell 80kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 7,
-    ExerciseName: "barbell 90kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 8,
-    ExerciseName: "barbell 60kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 9,
-    ExerciseName: "barbell 70kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 10,
-    ExerciseName: "barbell 80kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 11,
-    ExerciseName: "barbell 90kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 12,
-    ExerciseName: "barbell 60kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 13,
-    ExerciseName: "barbell 70kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 14,
-    ExerciseName: "barbell 80kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 15,
-    ExerciseName: "barbell 90kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 16,
-    ExerciseName: "barbell 60kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 17,
-    ExerciseName: "barbell 70kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 18,
-    ExerciseName: "barbell 80kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 19,
-    ExerciseName: "barbell 90kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 20,
-    ExerciseName: "barbell 60kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 21,
-    ExerciseName: "barbell 70kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 22,
-    ExerciseName: "barbell 80kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 23,
-    ExerciseName: "barbell 90kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
   }]
+
+const storeAsync = async (value: any) => {
+  try {
+    await AsyncStorage.setItem("exercises", JSON.stringify(value));
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const exercisesSlice = createSlice({
   name: 'exercises',
@@ -174,7 +63,7 @@ export const exercisesSlice = createSlice({
     },
     addExercise: (state, action: PayloadAction<Exercise>) => {
       state.push(action.payload)
-      //localStorage.setItem("exercises", JSON.stringify(state))
+      storeAsync(state)
     },
     delExercise: (state, action: PayloadAction<number>) => {
       for (let i = 0; i < state.length; i++) {
@@ -182,7 +71,7 @@ export const exercisesSlice = createSlice({
               state.splice(i, 1)
           }
       }
-      //localStorage.setItem("exercises", JSON.stringify(state))
+      storeAsync(state)
     },
     changeExerciseTitle: (state, action: PayloadAction<ChangeExerciseTitle>) => {
       for (let i = 0; i < state.length; i++) {
@@ -190,7 +79,7 @@ export const exercisesSlice = createSlice({
               state[i].ExerciseName = action.payload.ExerciseName
           }
       }
-      //localStorage.setItem("exercises", JSON.stringify(state))
+      storeAsync(state)
     },
     changeImage: (state, action: PayloadAction<ChangeImage>) => {
       for (let i = 0; i < state.length; i++) {
@@ -198,11 +87,11 @@ export const exercisesSlice = createSlice({
               state[i].ImagePath = action.payload.ImagePath
           }
       }
-      //localStorage.setItem("exercises", JSON.stringify(state))
+      storeAsync(state)
     },
     eraseExercises: (state) => {
       state = []
-      //localStorage.setItem("exercises", JSON.stringify(state))
+      storeAsync(state)
     }
   }
 })

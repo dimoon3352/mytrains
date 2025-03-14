@@ -16,6 +16,7 @@ import { useAppDispatch } from '@/store/hooks';
 import { changeImage } from '@/store/exercisesSlice';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
+import { Colors } from '@/constants/Colors';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -30,6 +31,7 @@ export default function ExercisesIndex() {
     const dispatch = useAppDispatch()
 
     const AppTheme = useAppTheme()
+    const { light, dark } = Colors
 
     const [loaded] = useFonts({
             SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
@@ -97,7 +99,7 @@ export default function ExercisesIndex() {
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>                     
           <View>          
-            <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487' routerPath='(tabs)/ExercisesPage'>
+            <HeaderBack bgColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} textColor={AppTheme?.theme === "light" ? light.text : dark.text} iconColor={AppTheme?.theme === "light" ? light.navIcon : dark.navIcon} routerPath='(tabs)/ExercisesPage'>
               Exercise {pageID}
             </HeaderBack>
             <View style={{backgroundColor: "#16A34A", padding: windowAverage * 6}} onTouchEnd={() => pickImage(pageID)}>
