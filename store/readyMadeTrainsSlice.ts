@@ -1,9 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Train, Trains } from "./trainsSlice";
 
 
 const initialState: Trains = []
+
+const storeAsync = async (value: any) => {
+  try {
+    await AsyncStorage.setItem("mockups", JSON.stringify(value));
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const readyMadeTrainsSlice = createSlice({
   name: "readyMadeTrains",
@@ -14,7 +24,7 @@ export const readyMadeTrainsSlice = createSlice({
     },
     addReadyMadeTrain: (state, action: PayloadAction<Train>) => {
       state.push(action.payload)
-      //localStorage.setItem("readyMadeTrains", JSON.stringify(state))
+      storeAsync(state)
     },
     delReadyMadeTrain: (state, action: PayloadAction<number>) => {
       for (let i = 0; i < state.length; i++) {
@@ -22,11 +32,11 @@ export const readyMadeTrainsSlice = createSlice({
               state.splice(i, 1)
           }
       }
-      //localStorage.setItem("readyMadeTrains", JSON.stringify(state))
+      storeAsync(state)
     },
     cleanReadyMadeTrains: (state) => {
       state = []
-      //localStorage.setItem("readyMadeTrains", JSON.stringify(state))
+      storeAsync(state)
     }
   }
 })

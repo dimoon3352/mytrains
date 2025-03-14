@@ -1,19 +1,14 @@
-import { StyleSheet, Image, Platform, View, Text, ScrollView, SafeAreaView, TouchableOpacity, TextInput, NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { RelativePathString, router, useRouter } from 'expo-router';
-import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { windowAverage, windowHeight, windowWidth } from '@/constants/Dimensions';
+import { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, NativeSyntheticEvent, TextInputChangeEventData, BackHandler } from 'react-native';
+import { RelativePathString, useRouter } from 'expo-router';
 
-import SettingsSVG from '@/assets/images/header/SettingsSVG';
+import { windowAverage, windowHeight, windowWidth } from '@/constants/Dimensions';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { changeTrainDate, changeTrainExercise, delTrain, delTrainExercise, Train, Trains } from '@/store/trainsSlice';
-import { Exercises } from '@/store/exercisesSlice';
 import { defineExerciseTitle } from './MainPartTrains';
-import { useEffect, useMemo, useState } from 'react';
-import { useAppTheme } from './ThemeAppProvider';
+
 import TrashSVG from '@/assets/images/common/TrashSVG';
 import AddSVG from '@/assets/images/common/AddSVG';
-import { useNavigation } from '@react-navigation/native';
 
 
 interface MainPartHomeProps {
@@ -21,13 +16,13 @@ interface MainPartHomeProps {
   textColor: string;
   input: string;
   checkModal: string;
+  AppTheme: any;
   ID: string | string[]
 }
 
-export default function TrainsIndex({ bgColor, textColor, input, checkModal, ID }: MainPartHomeProps) {
+export default function TrainsIndex({ bgColor, textColor, input, checkModal, AppTheme, ID }: MainPartHomeProps) {
 
   const router = useRouter()
-  const navigation = useNavigation()
   const dispatch = useAppDispatch()
 
   const trains = useAppSelector(state => state.trains)
@@ -134,6 +129,29 @@ export default function TrainsIndex({ bgColor, textColor, input, checkModal, ID 
     router.push(path)
   }
 
+  useEffect(() => {
+    const backAction = () => {
+      if (isDeletePopupActive) {
+        // Если попап активен, изменяем его состояние
+        setIsDeletePopupActive(false);
+        return true; // Возвращаем true, чтобы предотвратить переход назад
+      } 
+      if (isPopupActive) {
+        setIsPopupActive(false)
+        return true
+      }
+      return false; // Возвращаем false, чтобы продолжить действия по умолчанию
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    // Убираем слушатель при размонтировании компонента
+    return () => backHandler.remove();
+  }, [isDeletePopupActive, isPopupActive]);
+
   return (
     <View style={[styles.container, {backgroundColor: bgColor}]}>
       <View style={{width: windowWidth, paddingVertical: windowAverage * 7, paddingHorizontal: windowAverage * 5, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: windowAverage * 4}}>
@@ -163,14 +181,14 @@ export default function TrainsIndex({ bgColor, textColor, input, checkModal, ID 
             <AddSVG color='#6F6F6F' size='24px'/>
             <View style={{justifyContent: "flex-start", alignItems: "flex-start"}}>
               <Text style={{color: "#818181", fontSize: windowAverage * 9, fontFamily: "YS-text"}}>
-                Add new exercise
+              {AppTheme?.language === "rus" ? "Добавить упражнение" : AppTheme?.language === "eng" ? "Add new exercise" : "Übung hinzufügen"}
               </Text>
             </View>
           </View>
         </TouchableOpacity>
       </View>
-      <Popup bgColor={bgColor} textColor={textColor} isPopupActive={isPopupActive} setIsPopupActive={setIsPopupActive} exerciseID={popupExerciseID} ID={Number(ID)}/>
-      <DelTrainPopup checkModal={checkModal} textColor={textColor} isPopupActive={isDeletePopupActive} setIsPopupActive={setIsDeletePopupActive} ID={Number(ID)}/>
+      <Popup bgColor={bgColor} textColor={textColor} isPopupActive={isPopupActive} setIsPopupActive={setIsPopupActive} exerciseID={popupExerciseID} AppTheme={AppTheme} ID={Number(ID)}/>
+      <DelTrainPopup checkModal={checkModal} textColor={textColor} isPopupActive={isDeletePopupActive} setIsPopupActive={setIsDeletePopupActive} AppTheme={AppTheme} ID={Number(ID)}/>
     </View>
   );
 }
@@ -178,6 +196,7 @@ export default function TrainsIndex({ bgColor, textColor, input, checkModal, ID 
 
 interface PopupProps {
   bgColor: string,
+  AppTheme: any,
   textColor: string,
   isPopupActive: boolean,
   setIsPopupActive: React.Dispatch<React.SetStateAction<boolean>>,
@@ -185,7 +204,7 @@ interface PopupProps {
   exerciseID: number
 }
 
-const Popup = ({ bgColor, textColor, isPopupActive, setIsPopupActive, exerciseID, ID }: PopupProps) => {
+const Popup = ({ bgColor, textColor, isPopupActive, setIsPopupActive, exerciseID, AppTheme, ID }: PopupProps) => {
 
   const dispatch = useAppDispatch()
 
@@ -200,20 +219,20 @@ const Popup = ({ bgColor, textColor, isPopupActive, setIsPopupActive, exerciseID
       <View style={styles.PopupContainer} onTouchEnd={() => setIsPopupActive(false)}>
         <View style={[styles.PopupWrapper, {backgroundColor: bgColor}]} onTouchEnd={e => e.stopPropagation()}>
           <Text style={{color: textColor, fontSize: windowAverage * 10, fontFamily: "YS-text"}}>
-            Delete exercise?
+            {AppTheme?.language === "rus" ? "Удалить упражнение" : AppTheme?.language === "eng" ? "Delete exercise" : "Übung löschen"}?
           </Text>
           <View style={{flexDirection: "row", gap: windowAverage * 5}}>
             <TouchableOpacity activeOpacity={0.7} onPress={() => trashOnClick(exerciseID)}>
               <View style={[styles.PopupButton, {backgroundColor: "#C74141"}]}>
                 <Text style={{color: "#fff", fontFamily: "YS-text"}}>
-                  Delete
+                 {AppTheme?.language === "rus" ? "Удалить" : AppTheme?.language === "eng" ? "Delete" : "Löschen"}
                 </Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.7} onPress={() => setIsPopupActive(false)}>
               <View style={[styles.PopupButton, {backgroundColor: "#16a34a"}]}>
                 <Text style={{color: "#fff", fontFamily: "YS-text"}}>
-                  Cancel
+                 {AppTheme?.language === "rus" ? "Отмена" : AppTheme?.language === "eng" ? "Cancel" : "Stornieren"}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -229,12 +248,13 @@ const Popup = ({ bgColor, textColor, isPopupActive, setIsPopupActive, exerciseID
 interface DelTrainPopupProps {
   textColor: string,
   checkModal: string;
-  isPopupActive: boolean,
-  setIsPopupActive: React.Dispatch<React.SetStateAction<boolean>>,
-  ID: number
+  AppTheme: any;
+  isPopupActive: boolean;
+  setIsPopupActive: React.Dispatch<React.SetStateAction<boolean>>;
+  ID: number;
 }
 
-const DelTrainPopup = ({ textColor, isPopupActive, checkModal, setIsPopupActive, ID }: DelTrainPopupProps) => {
+const DelTrainPopup = ({ textColor, isPopupActive, checkModal, setIsPopupActive, AppTheme, ID }: DelTrainPopupProps) => {
 
   const dispatch = useAppDispatch()
 
@@ -252,20 +272,20 @@ const DelTrainPopup = ({ textColor, isPopupActive, checkModal, setIsPopupActive,
       <View style={styles.PopupContainer} onTouchEnd={() => setIsPopupActive(false)}>
         <View style={[styles.PopupWrapper, {backgroundColor: checkModal}]} onTouchEnd={e => e.stopPropagation()}>
           <Text style={{color: textColor, fontSize: windowAverage * 10, fontFamily: "YS-text"}}>
-            Delete train?
+            {AppTheme?.language === "rus" ? "Удалить тренировку" : AppTheme?.language === "eng" ? "Delete train" : "Zug löschen"}?
           </Text>
           <View style={{flexDirection: "row", gap: windowAverage * 5}}>
             <TouchableOpacity activeOpacity={0.7} onPress={handleTrainDelete}>
               <View style={[styles.PopupButton, {backgroundColor: "#C74141"}]}>
                 <Text style={{color: "#fff", fontFamily: "YS-text"}}>
-                  Delete
+                  {AppTheme?.language === "rus" ? "Удалить" : AppTheme?.language === "eng" ? "Delete" : "Löschen"}
                 </Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.7} onPress={() => setIsPopupActive(false)}>
               <View style={[styles.PopupButton, {backgroundColor: "#16a34a"}]}>
                 <Text style={{color: "#fff", fontFamily: "YS-text"}}>
-                  Cancel
+                 {AppTheme?.language === "rus" ? "Отмена" : AppTheme?.language === "eng" ? "Cancel" : "Stornieren"}
                 </Text>
               </View>
             </TouchableOpacity>

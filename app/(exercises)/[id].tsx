@@ -100,7 +100,7 @@ export default function ExercisesIndex() {
         <PanGestureHandler onGestureEvent={onGestureEvent}>                     
           <View>          
             <HeaderBack bgColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} textColor={AppTheme?.theme === "light" ? light.text : dark.text} iconColor={AppTheme?.theme === "light" ? light.navIcon : dark.navIcon} routerPath='(tabs)/ExercisesPage'>
-              Exercise {pageID}
+              Exercise ID: {pageID}
             </HeaderBack>
             <View style={{backgroundColor: "#16A34A", padding: windowAverage * 6}} onTouchEnd={() => pickImage(pageID)}>
               <Text style={{color: "#fff"}}>Change image {pageID}</Text> 

@@ -1,11 +1,13 @@
-import { StyleSheet, Image, Platform, View, Text, ScrollView, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import { useState } from 'react';
+import { View, ScrollView, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
+
 import { windowAverage, windowHeight } from '@/constants/Dimensions';
-import MainPartTrains from '@/components/MainPartTrains';
-import { useState } from 'react';
 import { useAppTheme } from '@/components/ThemeAppProvider';
 import { Colors } from '@/constants/Colors';
+
+import MainPartTrains from '@/components/MainPartTrains';
 
 
 export default function TrainsPage() {
@@ -51,6 +53,7 @@ export default function TrainsPage() {
               sortSigns={AppTheme?.theme === "light" ? light.sortSigns : dark.sortSigns} 
               isSortPopupActive={isSortPopupActive} 
               setIsSortPopupActive={setIsSortPopupActive} scrollY={scrollY}
+              AppTheme={AppTheme}
             />
           </View>
         </PanGestureHandler>
@@ -58,16 +61,3 @@ export default function TrainsPage() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-});

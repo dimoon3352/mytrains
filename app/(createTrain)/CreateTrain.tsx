@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, BackHandler } from 'react-native';
 import { useRouter, SplashScreen } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withTiming, Easing } from 'react-native-reanimated';
 
@@ -10,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { defineID } from '@/components/MainPartExercises';
 import { addTrain } from '@/store/trainsSlice';
 import { defineExerciseTitle } from '@/components/MainPartTrains';
-import { delReadyMadeTrain } from '@/store/readyMadeTrainsSlice';
+import { delReadyMadeTrain, setReadyMadeTrains } from '@/store/readyMadeTrainsSlice';
 import { Colors } from '@/constants/Colors';
 
 import type { Exercise, Exercises } from '@/store/exercisesSlice';
@@ -39,6 +40,7 @@ export default function CreateTrain() {
     const [isPopupActive, setIsPopupActive] = useState<boolean>(false)
     const [isConfirmPopupActive, setIsConfirmPopupActive] = useState<boolean>(false)
     const [mockup, setMockup] = useState<Train>(trains[0])
+    const [isGestureEnabled, setIsGestureEnabled] = useState(true);
 
     useEffect(() => {
       setSortedArr(exercises)
@@ -89,46 +91,41 @@ export default function CreateTrain() {
       }
     }
 
-  // function readyMadeTrainOnClick(item: Train) {
-    
-
-  //   const date = new Date()
-
-  //   const day = String(date.getDate()).padStart(2, '0'); 
-  //   const month = String(date.getMonth() + 1).padStart(2, '0'); 
-  //   const year = date.getFullYear();
-
-  //   const formattedDate = `${day}.${month}.${year}`;
-
-  //   let Exercises: {[key: number]: string[]} = {}
-  //   for (const i of Object.keys(item.Exercises)) {
-  //     Exercises[Number(i)] = []
-  //   }
-
-  //   dispatch(addTrain({
-  //     ID: defineID(trains),
-  //     Date: formattedDate,
-  //     Exercises         
-  //   }))
-
-  //   router.push("/(tabs)/TrainsPage")
-  // }
-
     function onPress() {
       setIsPopupActive(isPopupActive => !isPopupActive)
     }
 
+    useEffect(() => {
+      const backAction = () => {
+        if (isPopupActive) {
+          setIsConfirmPopupActive(false)
+          setIsPopupActive(false);
+          setIsGestureEnabled(true)
+          return true; // Возвращаем true, чтобы предотвратить переход назад
+        }
+        return false; // Возвращаем false, чтобы продолжить действия по умолчанию
+      };
+  
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        backAction
+      );
+  
+      // Убираем слушатель при размонтировании компонента
+      return () => backHandler.remove();
+    }, [isPopupActive]);
+
   return (
     <>  
     <HeaderBack bgColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} textColor={AppTheme?.theme === "light" ? light.text : dark.text} iconColor={AppTheme?.theme === "light" ? light.navIcon : dark.navIcon} routerPath="(tabs)/TrainsPage">
-      Choose exercises
+      {AppTheme?.language === "rus" ? "Выберите упражнения" : AppTheme?.language === "eng" ? "Choose exercises" : "Übungen auswählen"}
     </HeaderBack>
     <GestureHandlerRootView> 
       <View> 
         <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
           <View style={{backgroundColor: AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground, paddingVertical: windowAverage * 6, marginTop: windowAverage * 3, flexDirection: "row", alignItems: "center", gap: windowAverage * 4}}>
             <Text style={{color: AppTheme?.theme === "light" ? light.text : dark.text, paddingLeft: windowAverage * 6, fontFamily: "YS-text"}}>
-              Add from mockups
+              {AppTheme?.language === "rus" ? "Добавить из заготовок" : AppTheme?.language === "eng" ? "Add from mockups" : "Aus modells hinzufügen"}
             </Text>
             <View style={{backgroundColor: "#16A34A", padding: windowAverage * 1, borderRadius: windowAverage * 2}}>
               <AddSVG color="#fff" size="18px"/>
@@ -159,7 +156,7 @@ export default function CreateTrain() {
           </TouchableOpacity>
           }
         </View>
-        <Popup isPopupActive={isPopupActive} setIsPopupActive={setIsPopupActive} setIsConfirmPopupActive={setIsConfirmPopupActive} setIsMockup={setMockup}/>
+        <Popup isGestureEnabled={isGestureEnabled} setIsGestureEnabled={setIsGestureEnabled }isPopupActive={isPopupActive} setIsPopupActive={setIsPopupActive} setIsConfirmPopupActive={setIsConfirmPopupActive} setIsMockup={setMockup}/>
         <ConfirmPopup isPopupActive={isConfirmPopupActive} setIsPopupActive={setIsConfirmPopupActive} item={mockup}/>
       </View>
     </GestureHandlerRootView>
@@ -173,9 +170,11 @@ interface SortPopupProps {
   setIsPopupActive: React.Dispatch<React.SetStateAction<boolean>>,
   setIsConfirmPopupActive: React.Dispatch<React.SetStateAction<boolean>>,
   setIsMockup: React.Dispatch<React.SetStateAction<Train>>,
+  isGestureEnabled: boolean,
+  setIsGestureEnabled: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Popup = ({ isPopupActive, setIsPopupActive, setIsConfirmPopupActive, setIsMockup }: SortPopupProps) => {
+const Popup = ({ isGestureEnabled, setIsGestureEnabled, isPopupActive, setIsPopupActive, setIsConfirmPopupActive, setIsMockup }: SortPopupProps) => {
 
   const dispatch = useAppDispatch()
 
@@ -185,17 +184,23 @@ const Popup = ({ isPopupActive, setIsPopupActive, setIsConfirmPopupActive, setIs
   const AppTheme = useAppTheme()
   const { light, dark } = Colors
 
-  // useEffect(() => {
-  //   let readyMadeTrainsJSON = localStorage.getItem("readyMadeTrains")
-  //   if (readyMadeTrainsJSON !== null) {
-  //     const parsed: Trains = JSON.parse(readyMadeTrainsJSON)
-  //     dispatch(setReadyMadeTrains(parsed))
-  //   }
-  // }, [dispatch])
+  useEffect(() => {
+    const getAsync = async () => {
+      try {
+        const stored = await AsyncStorage.getItem("mockups");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          dispatch(setReadyMadeTrains(parsed))
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAsync()
+  }, [dispatch])
 
-  const translateY = useSharedValue<number>(0); // Изначальное положение
+  const translateY = useSharedValue<number>(windowHeight); // Изначальное положение
   const isDismissing = useSharedValue<boolean>(false);
-  const [isGestureEnabled, setIsGestureEnabled] = useState(true);
 
   useEffect(() => {
     if (isPopupActive) {
@@ -266,12 +271,12 @@ const Popup = ({ isPopupActive, setIsPopupActive, setIsConfirmPopupActive, setIs
 
   return (
      <PanGestureHandler onGestureEvent={(gestureHandler)} enabled={isGestureEnabled} >
-      <Animated.View style={[styles.SortPopupContainer, animatedStyle, {display: isPopupActive ? "flex" : "none", top: -windowAverage}]}>
+      <Animated.View style={[styles.SortPopupContainer, animatedStyle, {top: -windowAverage}]}>
         <View style={[styles.SortPopupWrapper, {gap: windowAverage * 5, backgroundColor: AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground}]}>
           <View style={{backgroundColor: "#2a2d32", width: windowAverage * 18, height: windowAverage * 2, alignSelf: "center", marginRight: windowAverage * 10, borderRadius: windowAverage * 4}}></View>
           <View style={{paddingLeft: windowAverage * 10, flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: windowWidth - windowAverage * 10}}>
             <Text style={{color: AppTheme?.theme === "light" ? light.text : dark.text, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>
-              Choose the mockup
+             {AppTheme?.language === "rus" ? "Выберите заготовку" : AppTheme?.language === "eng" ? "Choose the mockup" : "Wählen Sie das modell"}
             </Text>
             <TouchableOpacity onPress={onPress}>
               <View style={{transform: "rotate(45deg)"}}>
@@ -364,20 +369,20 @@ const ConfirmPopup = ({ isPopupActive, setIsPopupActive, item }: ConfirmPopupPro
       <View style={styles.PopupContainer} onTouchEnd={() => setIsPopupActive(false)}>
         <View style={[styles.PopupWrapper, {backgroundColor: AppTheme?.theme === "light" ? light.checkModal : dark.checkModal}]} onTouchEnd={e => e.stopPropagation()}>
           <Text style={{color: AppTheme?.theme === "light" ? light.text : dark.text, fontSize: windowAverage * 10, fontFamily: "YS-text"}}>
-            Choose your action
+            {AppTheme?.language === "rus" ? "Выберите действие" : AppTheme?.language === "eng" ? "Choose your action" : "Aktion auswählen"}
           </Text>
           <View style={{flexDirection: "row", gap: windowAverage * 5}}>
             <TouchableOpacity activeOpacity={0.7} onPress={() => addMockupTrain(item)}>
               <View style={[styles.PopupButton, {backgroundColor: "#16a34a"}]}>
                 <Text style={{color: "#fff", fontFamily: "YS-text"}}>
-                  Add train
+                 {AppTheme?.language === "rus" ? "Добавить тренировку" : AppTheme?.language === "eng" ? "Add train" : "Zug hinzufügen"}
                 </Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.7} onPress={() => onDelete(item.ID)}>
               <View style={[styles.PopupButton, {backgroundColor: "#C74141"}]}>
                 <Text style={{color: "#fff", fontFamily: "YS-text"}}>
-                  Delete
+                  {AppTheme?.language === "rus" ? "Удалить" : AppTheme?.language === "eng" ? "Delete" : "Löschen"}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -395,6 +400,7 @@ const styles = StyleSheet.create({
     width: windowWidth,
     paddingTop: windowAverage * 3,
     paddingBottom: windowAverage * 35,
+    minHeight: windowHeight
   },
   wrapper: {
     flexDirection: "row",

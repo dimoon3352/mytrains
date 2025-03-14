@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { exercisesSlice } from './exercisesSlice'
 import { trainsSlice } from './trainsSlice'
 import { readyMadeTrainsSlice } from './readyMadeTrainsSlice'
+import { settingsSlice } from './settingsSlice'
 
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     exercises: exercisesSlice.reducer,
     trains: trainsSlice.reducer,
     readyMadeTrains: readyMadeTrainsSlice.reducer,
+    settings: settingsSlice.reducer
   },
 })
 

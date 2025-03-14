@@ -33,10 +33,22 @@ export default function Settings() {
         <GestureHandlerRootView>
           <PanGestureHandler onGestureEvent={onGestureEvent}>
             <View>
-              <HeaderBack bgColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} textColor={AppTheme?.theme === "light" ? light.text : dark.text} iconColor={AppTheme?.theme === "light" ? light.navIcon : dark.navIcon} routerPath="(tabs)">
+              <HeaderBack 
+                bgColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} 
+                textColor={AppTheme?.theme === "light" ? light.text : dark.text} 
+                iconColor={AppTheme?.theme === "light" ? light.navIcon : dark.navIcon} 
+                routerPath="(tabs)"
+              >
                 {AppTheme?.language === "rus" ? "Настройки" : AppTheme?.language === "eng" ? "Settings" : "Einstellungen"}
               </HeaderBack>
-              <MainPartSettings bgColor={AppTheme?.theme === "light" ? light.background : dark.background} textColor={AppTheme?.theme === "light" ? light.text : dark.text} titleColor={AppTheme?.theme === "light" ? light.settingsTitleColor : dark.settingsTitleColor} bgItemColor={AppTheme?.theme === "light" ? light.settingsItemBackground : dark.settingsItemBackground} checkbox={AppTheme?.theme === "light" ? light.checkboxBackground : dark.checkboxBackground} checkboxBorder={AppTheme?.theme === "light" ? light.checkboxBorder : dark.checkboxBorder}/>  
+              <MainPartSettings 
+                bgColor={AppTheme?.theme === "light" ? light.background : dark.background} 
+                textColor={AppTheme?.theme === "light" ? light.text : dark.text} 
+                titleColor={AppTheme?.theme === "light" ? light.settingsTitleColor : dark.settingsTitleColor} 
+                bgItemColor={AppTheme?.theme === "light" ? light.settingsItemBackground : dark.settingsItemBackground} 
+                checkbox={AppTheme?.theme === "light" ? light.checkboxBackground : dark.checkboxBackground} 
+                checkboxBorder={AppTheme?.theme === "light" ? light.checkboxBorder : dark.checkboxBorder}
+              />  
             </View>
           </PanGestureHandler>
         </GestureHandlerRootView>

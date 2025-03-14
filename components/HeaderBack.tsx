@@ -50,16 +50,16 @@ const styles = StyleSheet.create({
     boxShadow: "0px 4px 8px 0px rgba(34, 60, 80, 0.2)"
   },
   item: {
-    width: windowWidth / 4,
+    width: windowWidth / 7,
     height: windowAverage * 28,
     justifyContent: "center",
     alignItems: "flex-start",
     paddingLeft: windowAverage * 8
   },
   textContainer: {
-    width: windowWidth / 2,
+    width: windowWidth / 7 * 5,
     height: windowAverage * 28,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
 });

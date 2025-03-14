@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import type { PayloadAction } from "@reduxjs/toolkit";
+
 
 interface changeTrainDate {
   trainId: number,
@@ -59,6 +62,14 @@ const initialState: Trains = [{
   }
 }]
 
+const storeAsync = async (value: any) => {
+  try {
+    await AsyncStorage.setItem("trains", JSON.stringify(value));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const trainsSlice = createSlice({
   name: "trains",
   initialState,
@@ -68,7 +79,7 @@ export const trainsSlice = createSlice({
     },
     addTrain: (state, action: PayloadAction<Train>) => {
       state.push(action.payload)
-      //localStorage.setItem("trains", JSON.stringify(state))
+      storeAsync(state)
     },
     delTrain: (state, action: PayloadAction<number>) => {
       for (let i = 0; i < state.length; i++) {
@@ -76,7 +87,7 @@ export const trainsSlice = createSlice({
               state.splice(i, 1)
           }
       }
-      //localStorage.setItem("trains", JSON.stringify(state))
+      storeAsync(state)
     },
     changeTrainExercise: (state, action: PayloadAction<changeTrainExercise>) => {
       for (let i = 0; i < state.length; i++) {
@@ -89,7 +100,7 @@ export const trainsSlice = createSlice({
           }
         }
       }  
-      //localStorage.setItem("trains", JSON.stringify(state))
+      storeAsync(state)
     },
     changeTrainDate: (state, action: PayloadAction<changeTrainDate>) => {
       for (let i = 0; i < state.length; i++) {
@@ -97,7 +108,7 @@ export const trainsSlice = createSlice({
           state[i].Date = action.payload.date
         }
       }
-      //localStorage.setItem("trains", JSON.stringify(state))
+      storeAsync(state)
     },
     addTrainExercise: (state, action: PayloadAction<delTrainExercise>) => {
       for (let i = 0; i < state.length; i++) {
@@ -105,7 +116,7 @@ export const trainsSlice = createSlice({
           state[i].Exercises[action.payload.id] = []
         }
       }
-      //localStorage.setItem("trains", JSON.stringify(state))
+      storeAsync(state)
     },
     delTrainExercise: (state, action: PayloadAction<delTrainExercise>) => {
       for (let i = 0; i < state.length; i++) {
@@ -117,11 +128,11 @@ export const trainsSlice = createSlice({
           }
         }
       }
-      //localStorage.setItem("trains", JSON.stringify(state))
+      storeAsync(state)
     },
     cleanTrains: (state) => {
       state = []
-      //localStorage.setItem("trains", JSON.stringify(state))
+      storeAsync(state)
     }
   }
 })

@@ -1,12 +1,14 @@
-import { StyleSheet, Image, Platform, View, Text, ScrollView, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import { useState } from 'react';
+import { View, ScrollView, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
+
 import { windowAverage, windowHeight } from '@/constants/Dimensions';
-import { useNavigation } from 'expo-router';
-import { useEffect, useState } from 'react';
-import MainPartExercises from '@/components/MainPartExercises';
 import { useAppTheme } from '@/components/ThemeAppProvider';
 import { Colors } from '@/constants/Colors';
+
+import MainPartExercises from '@/components/MainPartExercises';
+
 
 export default function ExercisesPage() {
 
@@ -45,7 +47,7 @@ export default function ExercisesPage() {
     <ScrollView scrollEnabled={!isSortPopupActive} onScroll={handleScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>
-          <View>
+          <View style={{minHeight: windowHeight}}>
             <MainPartExercises 
               bgColor={AppTheme?.theme === "light" ? light.background : dark.background} 
               textColor={AppTheme?.theme === "light" ? light.text : dark.text} 
@@ -57,6 +59,7 @@ export default function ExercisesPage() {
               setIsPopupActive={setIsPopupActive}
               isSortPopupActive={isSortPopupActive}
               setIsSortPopupActive={setIsSortPopupActive}
+              AppTheme={AppTheme}
               scrollY={scrollY}
             />
           </View>
@@ -65,16 +68,3 @@ export default function ExercisesPage() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-});

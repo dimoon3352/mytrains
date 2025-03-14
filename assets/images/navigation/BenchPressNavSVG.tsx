@@ -1,4 +1,4 @@
-import { Svg, Path, G, ClipPath, Defs, Rect } from 'react-native-svg';
+import { Svg, Path, G } from 'react-native-svg';
 
 interface ReactNativeSVGProps {
   color: string,
