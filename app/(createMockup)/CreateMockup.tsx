@@ -7,10 +7,12 @@ import { useAppTheme } from '@/components/ThemeAppProvider';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { defineID } from '@/components/MainPartExercises';
 import { addReadyMadeTrain } from '@/store/readyMadeTrainsSlice';
+import { Colors } from '@/constants/Colors';
 
 import type { Exercise, Exercises } from '@/store/exercisesSlice';
 
 import HeaderBack from '@/components/HeaderBack';
+
 
 
 SplashScreen.preventAutoHideAsync();
@@ -21,6 +23,7 @@ export default function CreateMockup() {
     const dispatch = useAppDispatch()
 
     const AppTheme = useAppTheme()
+    const { light, dark } = Colors
 
     const exercises = useAppSelector((state) => state.exercises)
     const readyMadeTrains = useAppSelector((state) => state.readyMadeTrains)
@@ -71,16 +74,16 @@ export default function CreateMockup() {
 
   return (
     <>
-    <HeaderBack bgColor='#1D2025' textColor='#fff' iconColor='#808487' routerPath="(tabs)/TrainsPage">
+    <HeaderBack bgColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} textColor={AppTheme?.theme === "light" ? light.text : dark.text} iconColor={AppTheme?.theme === "light" ? light.navIcon : dark.navIcon} routerPath="(tabs)/TrainsPage">
       Choose exercises
     </HeaderBack> 
-    <View style={[styles.container, {backgroundColor: "#070707"}]}>
+    <View style={[styles.container, {backgroundColor: AppTheme?.theme === "light" ? light.background : dark.background}]}>
       <ScrollView>
         <View style={styles.wrapper}>
           {sortedArr.map((item: Exercise, index: number) => (
             <View key={item.ID} onTouchEnd={() => handleCheckbox(item.ID)}>
-              <View style={[styles.item, {backgroundColor: trainExercises.indexOf(item.ID) >= 0 ? "#16A34A" : "#1D2025", paddingVertical: windowAverage * 12, justifyContent: "center"}]}>
-                <Text style={{color: "#fff", paddingHorizontal: windowAverage * 6, fontSize: windowAverage * 8}}>
+              <View style={[styles.item, {backgroundColor: trainExercises.indexOf(item.ID) >= 0 ? "#16A34A" : AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground, paddingVertical: windowAverage * 12, justifyContent: "center"}]}>
+                <Text style={{color: trainExercises.indexOf(item.ID) >= 0 ? "#fff" : AppTheme?.theme === "light" ? light.text : dark.text, paddingHorizontal: windowAverage * 6, fontSize: windowAverage * 8, fontFamily: "YS-text"}}>
                   {item.ExerciseName}
                 </Text>
               </View>        
@@ -91,7 +94,7 @@ export default function CreateMockup() {
       {trainExercises.length > 0 &&
         <TouchableOpacity onPress={createMockup}>
         <View style={{backgroundColor: "#16A34A", paddingVertical: windowAverage * 8, paddingHorizontal: windowAverage * 26, alignItems: "center", justifyContent: "center", borderRadius: windowAverage * 6, position: "absolute", bottom: windowAverage * 25, alignSelf: "center", boxShadow: "0px 3px 10px 2px rgba(34, 60, 80, 0.2) inset"}}>
-          <Text style={{color: "#fff", fontSize: windowAverage * 9}}>
+          <Text style={{color: "#fff", fontSize: windowAverage * 9, fontFamily: "YS-text"}}>
             Create mockup
           </Text>
         </View>

@@ -6,7 +6,7 @@ import { PanGestureHandler } from 'react-native-gesture-handler';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { windowAverage, windowWidth, windowHeight } from '@/constants/Dimensions';
-import { addExercise } from '@/store/exercisesSlice';
+import { addExercise, setExercises } from '@/store/exercisesSlice';
 
 import type { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
 import type { Exercise, Exercises } from '@/store/exercisesSlice';
@@ -15,6 +15,9 @@ import type { Trains } from '@/store/trainsSlice';
 import SortSVG from '@/assets/images/common/SortSVG';
 import AddSVG from '@/assets/images/common/AddSVG';
 import SearchSVG from '@/assets/images/common/SearchSVG';
+import { BackHandler } from 'react-native';
+import { useAppTheme } from './ThemeAppProvider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export function defineID(arr: Exercises | Trains): number {
@@ -28,26 +31,38 @@ interface MainPartCalculatorsProps {
   bgColor: string,
   textColor: string,
   bgItemColor: string,
-  headerColor: string,
+  controlsBackground: string,
+  checkModal: string,
+  sortSigns: string,
+  scrollY: number,
+  isSortPopupActive: boolean,
+  setIsSortPopupActive: React.Dispatch<React.SetStateAction<boolean>>,
   isPopupActive: boolean,
   setIsPopupActive: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-export default function MainPartExercises({bgColor, textColor, bgItemColor, headerColor, ...props}: MainPartCalculatorsProps) {
+export default function MainPartExercises({bgColor, textColor, bgItemColor, controlsBackground, checkModal, sortSigns, scrollY, isSortPopupActive, setIsSortPopupActive, ...props}: MainPartCalculatorsProps) {
 
   const dispatch = useAppDispatch()
 
   const exercises = useAppSelector((state) => state.exercises)
 
-  // useEffect(() => {
-  //   let exercisesJSON = localStorage.getItem("exercises")
-  //   if (exercisesJSON !== null) {
-  //     const parsed: Exercises = JSON.parse(exercisesJSON)
-  //     dispatch(setExercises(parsed))
-  //   }
-  // }, [dispatch])
+  useEffect(() => {
+    const getAsync = async () => {
+      try {
+        const stored = await AsyncStorage.getItem("exercises");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          dispatch(setExercises(parsed))
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  const [isSortPopupActive, setIsSortPopupActive] = useState<boolean>(false)
+    getAsync()
+  }, [dispatch])
+  
   const [sortType, setSortType] = useState<string>("date")
   const [sortedArr, setSortedArr] = useState<Exercises>(exercises)
   
@@ -99,22 +114,44 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, head
     }
   }
 
+  useEffect(() => {
+      const backAction = () => {
+        if (isSortPopupActive) {
+          // Если попап активен, изменяем его состояние
+          setIsSortPopupActive(false);
+          return true; // Возвращаем true, чтобы предотвратить переход назад
+        }
+        if (props.isPopupActive) {
+          props.setIsPopupActive(false)
+        }
+        return false; // Возвращаем false, чтобы продолжить действия по умолчанию
+      };
+  
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        backAction
+      );
+  
+      // Убираем слушатель при размонтировании компонента
+      return () => backHandler.remove();
+    }, [isSortPopupActive, props.isPopupActive]);
+
   return (
     <>
-    <Popup isPopupActive={props.isPopupActive} setIsPopupActive={props.setIsPopupActive} setSortType={setSortType}/>
+    <Popup bgColor={checkModal} bgItemColor={bgItemColor} textColor={textColor} isPopupActive={props.isPopupActive} setIsPopupActive={props.setIsPopupActive} setSortType={setSortType}/>
 
-    <View style={[styles.header, {backgroundColor: headerColor}]}>
-      <View style={[styles.searchContainer, {backgroundColor: "#303134"}]}>
+    <View style={[styles.header, {backgroundColor: bgItemColor}]}>
+      <View style={[styles.searchContainer, {backgroundColor: controlsBackground}]}>
         <SearchSVG size="18px" color='#838383'/>
-        <TextInput placeholder="Enter the exercise's name" placeholderTextColor="#838383" cursorColor="#008ef4" style={[styles.search, {backgroundColor: "#303134", color: textColor}]} onChange={(e) => onSearch(e)}/>
+        <TextInput placeholder="Enter the exercise's name" placeholderTextColor="#838383" cursorColor="#008ef4" style={[styles.search, {backgroundColor: controlsBackground, color: textColor, fontFamily: "YS-text"}]} onChange={(e) => onSearch(e)}/>
       </View> 
       <TouchableOpacity onPress={() => setIsSortPopupActive(isSortPopupActive => !isSortPopupActive)}>
-        <View style={[styles.icon, {backgroundColor: "#303134"}]}>     
+        <View style={[styles.icon, {backgroundColor: controlsBackground}]}>     
           <SortSVG size='18px' color={textColor}/>
         </View> 
       </TouchableOpacity>
       <TouchableOpacity onPress={handlePopup}>
-        <View style={[styles.icon, {backgroundColor: "#303134", width: windowAverage * 26}]}>
+        <View style={[styles.icon, {backgroundColor: controlsBackground, width: windowAverage * 26}]}>
           <AddSVG size='22px' color={textColor}/>
         </View>  
       </TouchableOpacity>
@@ -138,7 +175,7 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, head
       ))}
       </View>
 
-      <DraggableSort isPopupActive={isSortPopupActive} setIsPopupActive={setIsSortPopupActive} sortType={sortType} setSortType={setSortType}/>
+      <DraggableSort sortSigns={sortSigns} bgColor={bgItemColor} bgItemColor={controlsBackground} textColor={textColor} isPopupActive={isSortPopupActive} setIsPopupActive={setIsSortPopupActive} sortType={sortType} setSortType={setSortType} scrollY={scrollY}/>
     </View>
     </>
   );
@@ -146,12 +183,15 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, head
 
 
 interface PopupProps {
+  bgColor: string,
+  bgItemColor: string,
+  textColor: string,
   isPopupActive: boolean,
   setIsPopupActive: React.Dispatch<React.SetStateAction<boolean>>,
   setSortType: React.Dispatch<React.SetStateAction<string>>
 }
 
-const Popup = ({ isPopupActive, setIsPopupActive, setSortType }: PopupProps) => {
+const Popup = ({ bgColor, bgItemColor, textColor, isPopupActive, setIsPopupActive, setSortType }: PopupProps) => {
 
   const dispatch = useAppDispatch()
 
@@ -195,11 +235,11 @@ const Popup = ({ isPopupActive, setIsPopupActive, setSortType }: PopupProps) => 
     <>
     {isPopupActive &&
     <View style={styles.PopupContainer} onTouchEnd={() => setIsPopupActive(false)}>
-      <View style={[styles.PopupWrapper, {backgroundColor: "#16181C"}]} onTouchEnd={e => e.stopPropagation()}>
-        <Text style={{color: "#fff", fontSize: windowAverage * 9}}>
+      <View style={[styles.PopupWrapper, {backgroundColor: bgColor}]} onTouchEnd={e => e.stopPropagation()}>
+        <Text style={{color: textColor, fontSize: windowAverage * 9}}>
           Enter an exercise name
         </Text>
-        <TextInput value={text} onChange={(e) => onChange(e)} style={styles.PopupInput} placeholder='barbell 100kg'/>
+        <TextInput value={text} onChange={(e) => onChange(e)} style={[styles.PopupInput, {backgroundColor: "#fff"}]} placeholder='barbell 100kg'/>
         <TouchableOpacity>
           <View style={[styles.PopupButton, {backgroundColor: "#16a34a"}]} onTouchEnd={createExercise}>
             <Text style={{color: "#fff"}}>Add new exercise</Text>
@@ -214,10 +254,13 @@ const Popup = ({ isPopupActive, setIsPopupActive, setSortType }: PopupProps) => 
 
 
 interface SortPopupProps extends PopupProps {
-  sortType: string
+  bgColor: string;
+  sortType: string;
+  sortSigns: string,
+  scrollY: number;
 }
 
-const DraggableSort = ({ isPopupActive, setIsPopupActive, sortType, setSortType }: SortPopupProps) => {
+const DraggableSort = ({ bgColor, bgItemColor, sortSigns, textColor, isPopupActive, setIsPopupActive, sortType, setSortType, scrollY }: SortPopupProps) => {
   const translateY = useSharedValue(windowHeight); // Изначальное положение
   const isDismissing = useSharedValue(false);
 
@@ -294,18 +337,18 @@ const DraggableSort = ({ isPopupActive, setIsPopupActive, sortType, setSortType 
 
   return (
     <PanGestureHandler onGestureEvent={gestureHandler} enabled={isPopupActive}>
-      <Animated.View style={[styles.SortPopupContainer, animatedStyle]}>
-        <View style={styles.SortPopupWrapper}>
+      <Animated.View style={[styles.SortPopupContainer, animatedStyle, {top: (-windowAverage * 57 + scrollY)}]}>
+        <View style={[styles.SortPopupWrapper, {backgroundColor: bgColor}]}>
           <View style={{backgroundColor: "#2a2d32", width: windowAverage * 18, height: windowAverage * 2, alignSelf: "center", marginRight: windowAverage * 10, borderRadius: windowAverage * 4, marginBottom: windowAverage * 3}}></View>
-          <Text style={{color: "#fff", fontSize: windowAverage * 12}}>
+          <Text style={{color: textColor, fontSize: windowAverage * 12}}>
             Choose the sort
           </Text>
-          <View style={{backgroundColor: "#2a2d32", borderRadius: windowAverage * 4, width: (windowWidth - windowAverage * 20), marginTop: windowAverage * 7}}>
+          <View style={{backgroundColor: bgItemColor, borderRadius: windowAverage * 4, width: (windowWidth - windowAverage * 20), marginTop: windowAverage * 7}}>
             <View style={{paddingHorizontal: windowAverage * 6, paddingVertical: windowAverage * 6, flexDirection: "row", alignItems: "center", gap: windowAverage * 6}} onTouchEnd={setDateType}>
-              <View style={[styles.SortPopupChoose, sortType === "date" ? {backgroundColor: "#16A34A", borderColor: "#16A34A"} : {backgroundColor: "#233f4e", borderColor: "#374a5b"}]}>
+              <View style={[styles.SortPopupChoose, sortType === "date" ? {backgroundColor: "#16A34A", borderColor: "#16A34A"} : {backgroundColor: sortSigns, borderColor: sortSigns}]}>
                 {sortType === "date" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
               </View>
-              <Text style={{color: "#fff", fontSize: windowAverage * 7}}>
+              <Text style={{color: textColor, fontSize: windowAverage * 7}}>
                 Sort by creation date
               </Text>
             </View>
@@ -313,10 +356,10 @@ const DraggableSort = ({ isPopupActive, setIsPopupActive, sortType, setSortType 
             <View style={{backgroundColor: "#44474c", height: 1, width: (windowWidth - windowAverage * 26), alignSelf: "flex-end"}}></View>
   
             <View style={{paddingHorizontal: windowAverage * 6, paddingVertical: windowAverage * 6, flexDirection: "row", alignItems: "center", gap: windowAverage * 6}} onTouchEnd={setDateInvertType}>
-              <View style={[styles.SortPopupChoose, sortType === "date_invert" ? {backgroundColor: "#16A34A", borderColor: "#374a5b"} : {backgroundColor: "#233f4e", borderColor: "#374a5b"}]}>
+              <View style={[styles.SortPopupChoose, sortType === "date_invert" ? {backgroundColor: "#16A34A", borderColor: "#16A34A"} : {backgroundColor: sortSigns, borderColor: sortSigns}]}>
                 {sortType === "date_invert" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
               </View>
-              <Text style={{color: "#fff", fontSize: windowAverage * 7}}>
+              <Text style={{color: textColor, fontSize: windowAverage * 7}}>
                 Sort by creation date invert
               </Text>
             </View>
@@ -324,10 +367,10 @@ const DraggableSort = ({ isPopupActive, setIsPopupActive, sortType, setSortType 
             <View style={{backgroundColor: "#44474c", height: 1, width: (windowWidth - windowAverage * 26), alignSelf: "flex-end"}}></View>
   
             <View style={{paddingHorizontal: windowAverage * 6, paddingVertical: windowAverage * 6, flexDirection: "row", alignItems: "center", gap: windowAverage * 6}} onTouchEnd={setNameType}>
-              <View style={[styles.SortPopupChoose, sortType === "name" ? {backgroundColor: "#16A34A", borderColor: "#374a5b"} : {backgroundColor: "#233f4e", borderColor: "#374a5b"}]}>
+              <View style={[styles.SortPopupChoose, sortType === "name" ? {backgroundColor: "#16A34A", borderColor: "#16A34A"} : {backgroundColor: sortSigns, borderColor: sortSigns}]}>
                 {sortType === "name" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
               </View>
-              <Text style={{color: "#fff", fontSize: windowAverage * 7}}>
+              <Text style={{color: textColor, fontSize: windowAverage * 7}}>
                 Sort by exercise's name
               </Text>
             </View>
@@ -335,10 +378,10 @@ const DraggableSort = ({ isPopupActive, setIsPopupActive, sortType, setSortType 
             <View style={{backgroundColor: "#44474c", height: 1, width: (windowWidth - windowAverage * 26), alignSelf: "flex-end"}}></View>
   
             <View style={{paddingHorizontal: windowAverage * 6, paddingVertical: windowAverage * 6, flexDirection: "row", alignItems: "center", gap: windowAverage * 6}} onTouchEnd={setNameInvertType}>
-              <View style={[styles.SortPopupChoose, sortType === "name_invert" ? {backgroundColor: "#16A34A", borderColor: "#374a5b"} : {backgroundColor: "#233f4e", borderColor: "#374a5b"}]}>
+              <View style={[styles.SortPopupChoose, sortType === "name_invert" ? {backgroundColor: "#16A34A", borderColor: "#16A34A"} : {backgroundColor: sortSigns, borderColor: sortSigns}]}>
                 {sortType === "name_invert" && <View style={{width: windowAverage * 5, height: windowAverage * 5, borderRadius: windowAverage * 3, backgroundColor: "#fff"}}></View>}
               </View>
-              <Text style={{color: "#fff", fontSize: windowAverage * 7}}>
+              <Text style={{color: textColor, fontSize: windowAverage * 7}}>
                 Sort by exercise's name invert
               </Text>
             </View>
@@ -368,10 +411,12 @@ const styles = StyleSheet.create({
     borderRadius: windowAverage * 5,  
     flexShrink: 0,
     height: "100%",
-    gap: windowAverage * 4
+    gap: windowAverage * 4,
+    boxShadow: "2px 2px 8px 0px rgba(34, 60, 80, 0.2)"
   },
   text: {
     fontSize: windowAverage * 8,
+    fontFamily: "YS-text"
   },
   header: {
     flexDirection: "row", 
@@ -426,7 +471,6 @@ const styles = StyleSheet.create({
     borderRadius: windowAverage * 20
   },
   PopupInput: {
-    backgroundColor: "#fff",
     width: windowAverage * 120,
     height: windowAverage * 21,
     borderRadius: windowAverage * 5,
@@ -439,7 +483,6 @@ const styles = StyleSheet.create({
   },
   SortPopupContainer: {
     justifyContent: "flex-end",
-    paddingBottom: windowAverage * 56, 
     alignItems: "center", 
     position: "absolute", 
     height: windowHeight,
@@ -452,7 +495,6 @@ const styles = StyleSheet.create({
     paddingBottom: windowAverage * 16,
     paddingLeft: windowAverage * 10, 
     flexDirection: "column", 
-    backgroundColor: "#1D2025", 
     width: windowWidth,
     borderTopLeftRadius: windowAverage * 20,
     borderTopRightRadius: windowAverage * 20

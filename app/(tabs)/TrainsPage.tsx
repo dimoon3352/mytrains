@@ -10,17 +10,17 @@ import { Colors } from '@/constants/Colors';
 
 export default function TrainsPage() {
 
-  const [isSortPopupActive, setIsSortPopupActive] = useState<boolean>(false)
-  const [scrollY, setScrollY] = useState<number>(0);
+    const [isSortPopupActive, setIsSortPopupActive] = useState<boolean>(false)
+    const [scrollY, setScrollY] = useState<number>(0);
 
     const AppTheme = useAppTheme()
     const {light, dark} = Colors
 
     const router = useRouter();
-  
+
     const onGestureEvent = (event: any) => {
       const { translationX } = event.nativeEvent;
-  
+
       if (translationX > 40) {
         router.push('/(tabs)');
       } else if (translationX < -40) {
@@ -41,7 +41,17 @@ export default function TrainsPage() {
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>
           <View>
-            <MainPartTrains bgColor={AppTheme?.theme === "light" ? light.background : dark.background} textColor='#fff' bgItemColor='#1d2025' headerColor='#1D2025' isSortPopupActive={isSortPopupActive} setIsSortPopupActive={setIsSortPopupActive} scrollY={scrollY}/>
+            <MainPartTrains 
+              bgColor={AppTheme?.theme === "light" ? light.background : dark.background} 
+              textColor={AppTheme?.theme === "light" ? light.text : dark.text} 
+              bgItemColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} 
+              controlsBackground={AppTheme?.theme === "light" ? light.controlsBackground : dark.controlsBackground} 
+              green={AppTheme?.theme === "light" ? light.green : dark.green} 
+              draggableItemBg={AppTheme?.theme === "light" ? light.draggableItemBg : dark.draggableItemBg} 
+              sortSigns={AppTheme?.theme === "light" ? light.sortSigns : dark.sortSigns} 
+              isSortPopupActive={isSortPopupActive} 
+              setIsSortPopupActive={setIsSortPopupActive} scrollY={scrollY}
+            />
           </View>
         </PanGestureHandler>
       </GestureHandlerRootView>

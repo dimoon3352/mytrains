@@ -223,9 +223,11 @@ const styles = StyleSheet.create({
   },
   select: {
     width: windowAverage * 50,  
-    fontSize: windowAverage * 6
+    fontSize: windowAverage * 6,
+    paddingLeft: windowAverage * 3
   },
   select__item: {
-    fontSize: windowAverage * 7
+    fontSize: windowAverage * 7,
+    paddingLeft: windowAverage * 3
   },
 });

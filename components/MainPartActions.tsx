@@ -19,7 +19,7 @@ export default function MainPartActions({bgColor, textColor, bgItemColor}: MainP
   return (
     <View style={[styles.container, {backgroundColor: bgColor}]}>
       <View>
-        <Text style={{color: textColor, fontSize: windowAverage * 12, paddingLeft: windowAverage * 5}}>
+        <Text style={{color: textColor, fontSize: windowAverage * 12, paddingLeft: windowAverage * 5, fontFamily: "YS-text"}}>
           Info:
         </Text>
         <View style={{backgroundColor: textColor, height: 2, width: (windowWidth - windowAverage * 10), alignSelf: "center"}}></View>
@@ -27,9 +27,9 @@ export default function MainPartActions({bgColor, textColor, bgItemColor}: MainP
 
       <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>   
         <Link href="/(info)/PullUpsPage">
-          <View style={[styles.item, {backgroundColor: bgItemColor, position: "relative"}]}>
+          <View style={[styles.item, {backgroundColor: bgItemColor, position: "relative", boxShadow: "2px 2px 8px 0px rgba(34, 60, 80, 0.2)"}]}>
             <View style={{flexDirection: "column", position: "absolute", right: windowAverage * 8}}>
-              <Text style={{color: textColor, fontSize: windowAverage * 9}}>Pull-ups</Text>
+              <Text style={{color: textColor, fontSize: windowAverage * 9, fontFamily: "YS-text"}}>Pull-ups</Text>
             </View>
             <View style={{}}>
               <PullUpSVG width="99px" height="155px" color={textColor}/>
@@ -37,9 +37,9 @@ export default function MainPartActions({bgColor, textColor, bgItemColor}: MainP
           </View>
         </Link>
         <Link href="/(info)/PushUpsPage">
-          <View style={[styles.item, {backgroundColor: bgItemColor, position: "relative"}]}>
+          <View style={[styles.item, {backgroundColor: bgItemColor, position: "relative", boxShadow: "2px 2px 8px 0px rgba(34, 60, 80, 0.2)"}]}>
             <View style={{flexDirection: "column", position: "absolute", right: windowAverage * 8}}>
-              <Text style={{color: textColor, fontSize: windowAverage * 9}}>Push-ups</Text>
+              <Text style={{color: textColor, fontSize: windowAverage * 9, fontFamily: "YS-text"}}>Push-ups</Text>
             </View>
             <View style={{}}>
               <PushUpSVG width="168px" height="86px" color={textColor}/>
@@ -50,42 +50,42 @@ export default function MainPartActions({bgColor, textColor, bgItemColor}: MainP
       
       <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>   
         <Link href="/(info)/SquatPage">
-          <View style={[styles.item, {backgroundColor: bgItemColor, position: "relative"}]}>
+          <View style={[styles.item, {backgroundColor: bgItemColor, position: "relative", boxShadow: "2px 2px 8px 0px rgba(34, 60, 80, 0.2)"}]}>
             <View style={{flexDirection: "column", position: "absolute", right: windowAverage * 8}}>
-              <Text style={{color: textColor, fontSize: windowAverage * 9}}>Squat</Text>
+              <Text style={{color: textColor, fontSize: windowAverage * 9, fontFamily: "YS-text"}}>Squat</Text>
             </View>
             <View style={{}}>
               <SquatSVG width="135px" height="161px" color={textColor}/>
             </View>        
           </View>
         </Link>
-        <View style={[styles.item, {backgroundColor: bgItemColor}]}>
+        <View style={[styles.item, {backgroundColor: bgItemColor, boxShadow: "2px 2px 8px 0px rgba(34, 60, 80, 0.2)"}]}>
           <View style={{flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-            <Text style={{color: textColor, fontSize: windowAverage * 12}}>Coming</Text>
-            <Text style={{color: textColor, fontSize: windowAverage * 12}}>soon</Text>
+            <Text style={{color: textColor, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>Coming</Text>
+            <Text style={{color: textColor, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>soon</Text>
           </View>
         </View>
       </View>
 
       <View>
-        <Text style={{color: textColor, fontSize: windowAverage * 12, paddingLeft: windowAverage * 5}}>
+        <Text style={{color: textColor, fontSize: windowAverage * 12, paddingLeft: windowAverage * 5, fontFamily: "YS-text"}}>
           Calculators:
         </Text>
         <View style={{backgroundColor: textColor, height: 2, width: (windowWidth - windowAverage * 10), alignSelf: "center"}}></View>
       </View>
 
       <View style={{flexDirection: "row", justifyContent: "space-evenly"}}> 
-        <View style={[styles.item, {backgroundColor: bgItemColor}]}>
+        <View style={[styles.item, {backgroundColor: bgItemColor, boxShadow: "2px 2px 8px 0px rgba(34, 60, 80, 0.2)"}]}>
           <View style={{flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-            <Text style={{color: textColor, fontSize: windowAverage * 12}}>Coming</Text>
-            <Text style={{color: textColor, fontSize: windowAverage * 12}}>soon</Text>
+            <Text style={{color: textColor, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>Coming</Text>
+            <Text style={{color: textColor, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>soon</Text>
           </View>
         </View>
         <Link href="/(info)/BenchPressPage">
-          <View style={[styles.item, {backgroundColor: bgItemColor, position: "relative"}]}>
+          <View style={[styles.item, {backgroundColor: bgItemColor, position: "relative", boxShadow: "2px 2px 8px 0px rgba(34, 60, 80, 0.2)"}]}>
             <View style={{flexDirection: "column", position: "absolute", right: windowAverage * 8}}>
-              <Text style={{color: textColor, fontSize: windowAverage * 9}}>Bench</Text>
-              <Text style={{color: textColor, fontSize: windowAverage * 9}}>press</Text>
+              <Text style={{color: textColor, fontSize: windowAverage * 9, fontFamily: "YS-text"}}>Bench</Text>
+              <Text style={{color: textColor, fontSize: windowAverage * 9, fontFamily: "YS-text"}}>press</Text>
             </View>
             <View style={{top: windowAverage * 15}}>
               <BenchPressSVG width="162px" height="210px" color={textColor}/>
@@ -95,23 +95,23 @@ export default function MainPartActions({bgColor, textColor, bgItemColor}: MainP
       </View>
 
       <View>
-        <Text style={{color: textColor, fontSize: windowAverage * 12, paddingLeft: windowAverage * 5}}>
+        <Text style={{color: textColor, fontSize: windowAverage * 12, paddingLeft: windowAverage * 5, fontFamily: "YS-text"}}>
           Others:
         </Text>
         <View style={{backgroundColor: textColor, height: 2, width: (windowWidth - windowAverage * 10), alignSelf: "center"}}></View>
       </View>
 
       <View style={{flexDirection: "row", justifyContent: "space-evenly"}}> 
-        <View style={[styles.item, {backgroundColor: bgItemColor}]}>
+        <View style={[styles.item, {backgroundColor: bgItemColor, boxShadow: "2px 2px 8px 0px rgba(34, 60, 80, 0.2)"}]}>
           <View style={{flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-            <Text style={{color: textColor, fontSize: windowAverage * 12}}>Coming</Text>
-            <Text style={{color: textColor, fontSize: windowAverage * 12}}>soon</Text>
+            <Text style={{color: textColor, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>Coming</Text>
+            <Text style={{color: textColor, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>soon</Text>
           </View>
         </View>
-        <View style={[styles.item, {backgroundColor: bgItemColor}]}>
+        <View style={[styles.item, {backgroundColor: bgItemColor, boxShadow: "2px 2px 8px 0px rgba(34, 60, 80, 0.2)"}]}>
           <View style={{flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-            <Text style={{color: textColor, fontSize: windowAverage * 12}}>Coming</Text>
-            <Text style={{color: textColor, fontSize: windowAverage * 12}}>soon</Text>
+            <Text style={{color: textColor, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>Coming</Text>
+            <Text style={{color: textColor, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>soon</Text>
           </View>
         </View>
       </View>

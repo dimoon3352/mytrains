@@ -45,7 +45,7 @@ export default function App() {
         <Stack.Screen name="(trains)" options={{ 
           headerShown: false, 
           statusBarBackgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground, 
-          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground,
+          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.background : Colors.dark.background,
           animation: "slide_from_right",
           animationDuration: 400
         }}/>
@@ -56,6 +56,12 @@ export default function App() {
           animation: "none"
         }}/>
         <Stack.Screen name="(createMockup)" options={{ 
+          headerShown: false, 
+          statusBarBackgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground, 
+          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.background : Colors.dark.background,
+          animation: "none"
+        }}/>
+        <Stack.Screen name="(addExercise)" options={{ 
           headerShown: false, 
           statusBarBackgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground, 
           navigationBarColor: AppTheme?.theme === "light" ? Colors.light.background : Colors.dark.background,
