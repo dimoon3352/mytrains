@@ -2,7 +2,7 @@ import { Svg, Path, G } from 'react-native-svg';
 
 interface ReactNativeSVGProps {
   color: string,
-  size: string
+  size: number
 }
 
 export default function BenchPressNavSVG({ color, size }: ReactNativeSVGProps) {

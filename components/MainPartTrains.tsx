@@ -7,7 +7,7 @@ import { PanGestureHandler } from 'react-native-gesture-handler';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { windowAverage, windowHeight, windowWidth } from '@/constants/Dimensions';
-import { setTrains } from '@/store/trainsSlice';
+import { setTrains, Train, Trains } from '@/store/trainsSlice';
 
 import SortSVG from '@/assets/images/common/SortSVG';
 import AddSVG from '@/assets/images/common/AddSVG';
@@ -45,14 +45,13 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, control
   const [sortType, setSortType] = useState<"date" | "date_invert">("date")
   const [isSquaresSelected, setIsSquaresSelected] = useState<boolean>(false)
 
-
   const dispatch = useAppDispatch()
 
   const trains = useAppSelector((state) => state.trains)
   const exercises = useAppSelector((state) => state.exercises)
 
-  const [sortedArr, setSortedArr] = useState(trains)
-
+  const [sortedArr, setSortedArr] = useState<Trains | undefined>(trains)
+ 
   useEffect(() => {
     const getAsync = async () => {
       try {
@@ -62,7 +61,7 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, control
           dispatch(setTrains(parsed))
         }
       } catch (error) {
-        console.log(error);
+        console.log(error, "errrror");
       }
     };
     getAsync()
@@ -121,29 +120,31 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, control
     return () => backHandler.remove();
   }, [isSortPopupActive]);
 
+  
+
   return (
     <>
     <View style={[styles.header, {backgroundColor: bgItemColor}]}>
       <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", gap: windowAverage * 5, paddingLeft: windowAverage * 8}}>
         <View style={[styles.searchContainer, {backgroundColor: controlsBackground}]}>
-          <SearchSVG size="18px" color='#838383'/>
+          <SearchSVG size={windowAverage * 9} color='#838383'/>
           <TextInput placeholder={AppTheme?.language === "rus" ? "Введите дату тренировки" : AppTheme?.language === "eng" ? "Enter the training date" : "Geben Sie das trainingsdatum ein"} placeholderTextColor="#838383" cursorColor="#008ef4" style={[styles.search, {backgroundColor: controlsBackground, color: textColor}]} onChange={(e) => onSearch(e)}/>
         </View> 
         <TouchableOpacity onPress={handleSortPopup}>
           <View style={[styles.icon, {backgroundColor: controlsBackground}]}>
-            <SortSVG size='18px' color={textColor}/>
+            <SortSVG size={windowAverage * 9} color={textColor}/>
           </View> 
         </TouchableOpacity>
         <TouchableOpacity onPress={handleSquaresSelected}>
           <View style={[styles.icon, {backgroundColor: isSquaresSelected ? green : controlsBackground}]}>
-            <Squares2x2SVG size='24px' color={textColor}/>
+            <Squares2x2SVG size={windowAverage * 12} color={textColor}/>
           </View> 
         </TouchableOpacity>
       </View>
       <View style={{flexDirection: "row", gap: windowAverage * 5, paddingLeft: windowAverage * 8}}>
         <TouchableOpacity onPress={() => router.push("/(createTrain)/CreateTrain")}>
           <View style={[styles.icon, {backgroundColor: controlsBackground, width: "auto", paddingHorizontal: windowAverage * 5, flexDirection: "row", gap: windowAverage * 3}]}>
-            <AddSVG size='22px' color={textColor}/>
+            <AddSVG size={windowAverage * 11} color={textColor}/>
             <Text style={{color: textColor, borderLeftColor: "#838383", borderLeftWidth: 1, paddingLeft: windowAverage * 6, fontFamily: "YS-text"}}>
               {AppTheme?.language === "rus" ? "Создать тренировку" : AppTheme?.language === "eng" ? "Create new train" : "Neuen zug erstellen"}
             </Text>
@@ -151,7 +152,7 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, control
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push("/(createMockup)/CreateMockup")}>
           <View style={[styles.icon, {backgroundColor: controlsBackground, width: "auto", paddingHorizontal: windowAverage * 5, flexDirection: "row", gap: windowAverage * 3}]}>
-            <AddSVG size='22px' color={textColor}/>
+            <AddSVG size={windowAverage * 11} color={textColor}/>
             <Text style={{color: textColor, borderLeftColor: "#838383", borderLeftWidth: 1, paddingLeft: windowAverage * 6, fontFamily: "YS-text"}}>
               {AppTheme?.language === "rus" ? "Заготовки" : AppTheme?.language === "eng" ? "Add mockup" : "Modell erstellen"}
             </Text>
@@ -162,35 +163,35 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, control
     
     <View style={[styles.container, {backgroundColor: bgColor}]}>   
       <View style={isSquaresSelected ? styles.wrapperSquares : styles.wrapper}> 
-      {sortedArr.map((item: any, index: any) => (
-        <Link key={item.ID} href={`/(trains)/${item.ID}:`}>       
-          <View style={[isSquaresSelected ? styles.itemSquares : styles.item, {backgroundColor: bgItemColor}]}>
-            <View style={{width: "90%", alignSelf: "center", justifyContent: "center", alignItems: "center"}}>
-              <Text style={[styles.text, {color: textColor}]}>
-                {item.Date}
-              </Text>
-            </View>
-            <View style={{gap: windowAverage * 4}}>
-              {Object.entries<string[]>(item.Exercises).map((item, index) => (
-                <View key={index} style={{flexDirection: "row", borderTopColor: controlsBackground, borderTopWidth: 1, paddingTop: windowAverage * 4}}>
-                  <View style={{width: "50%", justifyContent: "flex-start", alignItems: "flex-start"}}>
-                    <Text style={{color: textColor, fontSize: isSquaresSelected ? windowAverage * 6 : windowAverage * 8, fontFamily: "YS-text"}}>
-                      {defineExerciseTitle(Number(item[0]), exercises)}:
-                    </Text>
+        {sortedArr && sortedArr.length > 0 && sortedArr.map((item: Train, index: any) => (
+          <Link key={item.ID} href={`/(trains)/${item.ID}:`}>       
+            <View style={[isSquaresSelected ? styles.itemSquares : styles.item, {backgroundColor: bgItemColor}]}>
+              <View style={{width: "90%", alignSelf: "center", justifyContent: "center", alignItems: "center"}}>
+                <Text style={[styles.text, {color: textColor}]}>
+                  {item.Date}
+                </Text>
+              </View>
+              <View style={{gap: windowAverage * 4}}>
+                {Object.entries<string[]>(item.Exercises).map((item, index) => (
+                  <View key={index} style={{flexDirection: "row", borderTopColor: controlsBackground, borderTopWidth: 1, paddingTop: windowAverage * 4}}>
+                    <View style={{width: "50%", justifyContent: "flex-start", alignItems: "flex-start"}}>
+                      <Text style={{color: textColor, fontSize: isSquaresSelected ? windowAverage * 6 : windowAverage * 8, fontFamily: "YS-text"}}>
+                        {defineExerciseTitle(Number(item[0]), exercises)}:
+                      </Text>
+                    </View>
+                    <View style={{flexDirection: "row", width: "50%", justifyContent: "center", alignItems: "center", gap: windowAverage * 2, flexWrap: "wrap", overflow: "hidden"}}>
+                      {item[1].map((item, index) => (        
+                        <Text key={index} style={{color: textColor, fontSize: isSquaresSelected ? windowAverage * 6 : windowAverage * 8, alignSelf: "center", fontFamily: "YS-text"}}>
+                          {item}
+                        </Text>                 
+                      ))}
+                    </View>
                   </View>
-                  <View style={{flexDirection: "row", width: "50%", justifyContent: "center", alignItems: "center", gap: windowAverage * 2, flexWrap: "wrap", overflow: "hidden"}}>
-                    {item[1].map((item, index) => (        
-                      <Text key={index} style={{color: textColor, fontSize: isSquaresSelected ? windowAverage * 6 : windowAverage * 8, alignSelf: "center", fontFamily: "YS-text"}}>
-                        {item}
-                      </Text>                 
-                    ))}
-                  </View>
-                </View>
-              ))}
-            </View>
-          </View>         
-        </Link>
-      ))}
+                ))}
+              </View>
+            </View>         
+          </Link>
+        ))}
       </View>     
     
       <DraggableSort AppTheme={AppTheme} BgItemColor={bgItemColor} textColor={textColor} green={green} sortSigns={sortSigns} isPopupActive={isSortPopupActive} draggableItemBg={draggableItemBg} setIsPopupActive={setIsSortPopupActive} sortType={sortType} setSortType={setSortType} scrollY={scrollY}/>
@@ -215,7 +216,7 @@ interface SortPopupProps {
 }
 
 const DraggableSort = ({ BgItemColor, sortSigns, textColor, green, draggableItemBg, isPopupActive, setIsPopupActive, sortType, setSortType, scrollY, AppTheme }: SortPopupProps) => {
-  const translateY = useSharedValue(0); // Изначальное положение
+  const translateY = useSharedValue(windowHeight); // Изначальное положение
   const isDismissing = useSharedValue(false);
   
 

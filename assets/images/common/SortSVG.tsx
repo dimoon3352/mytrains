@@ -2,7 +2,7 @@ import { Svg, Path } from 'react-native-svg';
 
 interface ReactNativeSVGProps {
   color: string,
-  size: string
+  size: number
 }
 
 export default function SortSVG({ color, size }: ReactNativeSVGProps) {

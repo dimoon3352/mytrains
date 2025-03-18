@@ -142,24 +142,24 @@ export default function MainPartExercises({bgColor, textColor, bgItemColor, cont
 
     <View style={[styles.header, {backgroundColor: bgItemColor}]}>
       <View style={[styles.searchContainer, {backgroundColor: controlsBackground}]}>
-        <SearchSVG size="18px" color='#838383'/>
+        <SearchSVG size={windowAverage * 9} color='#838383'/>
         <TextInput placeholder={AppTheme?.language === "rus" ? "Введите название" : AppTheme?.language === "eng" ? "Enter the exercise's name" : "Geben Sie den Namen"} placeholderTextColor="#838383" cursorColor="#008ef4" style={[styles.search, {backgroundColor: controlsBackground, color: textColor, fontFamily: "YS-text"}]} onChange={(e) => onSearch(e)}/>
       </View> 
       <TouchableOpacity onPress={() => setIsSortPopupActive(isSortPopupActive => !isSortPopupActive)}>
         <View style={[styles.icon, {backgroundColor: controlsBackground}]}>     
-          <SortSVG size='18px' color={textColor}/>
+          <SortSVG size={windowAverage * 9} color={textColor}/>
         </View> 
       </TouchableOpacity>
       <TouchableOpacity onPress={handlePopup}>
         <View style={[styles.icon, {backgroundColor: controlsBackground, width: windowAverage * 26}]}>
-          <AddSVG size='22px' color={textColor}/>
+          <AddSVG size={windowAverage * 11} color={textColor}/>
         </View>  
       </TouchableOpacity>
     </View>
     
     <View style={[styles.container, {backgroundColor: bgColor}]}>
       <View style={styles.wrapper}> 
-      {sortedArr.map((item: Exercise, index: number) => (
+      {sortedArr && sortedArr.length > 0 && sortedArr.map((item: Exercise, index: number) => (
         <Link key={item.ID} href={`/(exercises)/${item.ID}:`}>
           <View 
             key={item.ID} 

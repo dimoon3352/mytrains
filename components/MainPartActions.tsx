@@ -6,6 +6,8 @@ import BenchPressSVG from '@/assets/images/actions/BenchPressSVG';
 import PullUpSVG from '@/assets/images/actions/PullUpSVG';
 import PushUpSVG from '@/assets/images/actions/PushUpSVG';
 import SquatSVG from '@/assets/images/actions/SquatSVG';
+import UploadSVG from '@/assets/images/common/UploadSVG';
+import DownloadSVG from '@/assets/images/common/DownloadSVG';
 
 
 interface MainPartCalculatorsProps {
@@ -35,7 +37,7 @@ export default function MainPartActions({bgColor, textColor, bgItemColor, AppThe
               </Text>
             </View>
             <View style={{}}>
-              <PullUpSVG width="99px" height="155px" color={textColor}/>
+              <PullUpSVG width={windowAverage * 50} height={windowAverage * 78} color={textColor}/>
             </View>        
           </View>
         </Link>
@@ -47,7 +49,7 @@ export default function MainPartActions({bgColor, textColor, bgItemColor, AppThe
               </Text>
             </View>
             <View style={{}}>
-              <PushUpSVG width="168px" height="86px" color={textColor}/>
+              <PushUpSVG width={windowAverage * 84} height={windowAverage * 43} color={textColor}/>
             </View>        
           </View>
         </Link>
@@ -62,7 +64,7 @@ export default function MainPartActions({bgColor, textColor, bgItemColor, AppThe
               </Text>
             </View>
             <View style={{}}>
-              <SquatSVG width="135px" height="161px" color={textColor}/>
+              <SquatSVG width={windowAverage * 68} height={windowAverage * 80} color={textColor}/>
             </View>        
           </View>
         </Link>
@@ -107,7 +109,7 @@ export default function MainPartActions({bgColor, textColor, bgItemColor, AppThe
               </Text>
             </View>
             <View style={{top: windowAverage * 15}}>
-              <BenchPressSVG width="162px" height="210px" color={textColor}/>
+              <BenchPressSVG width={windowAverage * 81} height={windowAverage * 105} color={textColor}/>
             </View>        
           </View>
         </Link>
@@ -121,18 +123,30 @@ export default function MainPartActions({bgColor, textColor, bgItemColor, AppThe
       </View>
 
       <View style={{flexDirection: "row", justifyContent: "space-evenly"}}> 
-        <View style={[styles.item, {backgroundColor: bgItemColor, boxShadow: "2px 2px 8px 0px rgba(34, 60, 80, 0.2)"}]}>
-          <View style={{flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-            <Text style={{color: textColor, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>Coming</Text>
-            <Text style={{color: textColor, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>soon</Text>
+        <Link href="/(upload)/Upload">
+          <View style={[styles.item, {backgroundColor: bgItemColor, position: "relative", boxShadow: "2px 2px 8px 0px rgba(34, 60, 80, 0.2)", flexDirection: "column-reverse", alignItems: "center"}]}>
+            <View style={{flexDirection: "row"}}>
+              <Text style={{color: textColor, fontSize: windowAverage * 9, fontFamily: "YS-text"}}>
+                {AppTheme?.language === "rus" ? "Загрузить" : AppTheme?.language === "eng" ? "Upload" : "Laden"}
+              </Text>
+            </View>
+            <View style={{}}>
+              <UploadSVG size={windowAverage * 60} color={textColor}/>
+            </View>        
           </View>
-        </View>
-        <View style={[styles.item, {backgroundColor: bgItemColor, boxShadow: "2px 2px 8px 0px rgba(34, 60, 80, 0.2)"}]}>
-          <View style={{flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-            <Text style={{color: textColor, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>Coming</Text>
-            <Text style={{color: textColor, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>soon</Text>
+        </Link>
+        <Link href="/(download)/Download">
+          <View style={[styles.item, {backgroundColor: bgItemColor, position: "relative", boxShadow: "2px 2px 8px 0px rgba(34, 60, 80, 0.2)", flexDirection: "column-reverse", alignItems: "center"}]}>
+            <View style={{flexDirection: "row"}}>
+              <Text style={{color: textColor, fontSize: windowAverage * 9, fontFamily: "YS-text"}}>
+                {AppTheme?.language === "rus" ? "Выгрузить" : AppTheme?.language === "eng" ? "Download" : "Herunterladen"}
+              </Text>
+            </View>
+            <View style={{}}>
+              <DownloadSVG size={windowAverage * 60} color={textColor}/>
+            </View>        
           </View>
-        </View>
+        </Link>
       </View>
 
     </View>

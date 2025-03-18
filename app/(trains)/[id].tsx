@@ -11,7 +11,7 @@ import TrainsIndex from '@/components/TrainsIndex';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function ExercisesIndex() {
+export default function Trains() {
 
     const { id } = useLocalSearchParams();
     const pid = id.slice(0, id.length - 1)
@@ -31,7 +31,7 @@ export default function ExercisesIndex() {
     }; 
 
   return (
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <GestureHandlerRootView>
           <PanGestureHandler onGestureEvent={onGestureEvent}>                     
             <View>          

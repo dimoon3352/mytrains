@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 
-interface Settings {
+export interface Settings {
   theme: "light" | "dark",
   language: "eng" | "rus" | "ger"
 }

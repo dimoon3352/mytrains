@@ -2,8 +2,8 @@ import { Svg, Path, G, ClipPath, Defs, Rect } from 'react-native-svg';
 
 interface ReactNativeSVGProps {
   color: string,
-  width: string,
-  height: string
+  width: number,
+  height: number
 }
 
 export default function SquatSVG({ color, width, height }: ReactNativeSVGProps) {

@@ -11,7 +11,7 @@ import TrashSVG from '@/assets/images/common/TrashSVG';
 import AddSVG from '@/assets/images/common/AddSVG';
 
 
-interface MainPartHomeProps {
+interface TrainsIndexProps {
   bgColor: string;
   textColor: string;
   input: string;
@@ -20,7 +20,7 @@ interface MainPartHomeProps {
   ID: string | string[]
 }
 
-export default function TrainsIndex({ bgColor, textColor, input, checkModal, AppTheme, ID }: MainPartHomeProps) {
+export default function TrainsIndex({ bgColor, textColor, input, checkModal, AppTheme, ID }: TrainsIndexProps) {
 
   const router = useRouter()
   const dispatch = useAppDispatch()
@@ -157,14 +157,14 @@ export default function TrainsIndex({ bgColor, textColor, input, checkModal, App
       <View style={{width: windowWidth, paddingVertical: windowAverage * 7, paddingHorizontal: windowAverage * 5, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: windowAverage * 4}}>
         <TextInput value={date} cursorColor="#008ef4" style={{backgroundColor: input, color: textColor, width: windowAverage * 164, fontSize: windowAverage * 13, fontFamily: "YS-text", borderRadius: windowAverage * 5, paddingLeft: windowAverage * 5}} onChange={onDateChange}/>
         <TouchableOpacity onPress={handleDeletePopup}>
-          <TrashSVG color='#6F6F6F' size='40px'/>
+          <TrashSVG color='#6F6F6F' size={windowAverage * 20}/>
         </TouchableOpacity>
       </View>
       <View style={{width: windowWidth}}>
         {typeof trainArr !== "undefined" && Object.entries<string[]>(trainArr.Exercises).map((item, index) => (
           <View key={index} style={{flexDirection: "row", alignItems: "center", borderTopColor: input, borderTopWidth: 1, paddingVertical: windowAverage * 6, gap: windowAverage * 7, paddingLeft: windowAverage * 4}}>
             <TouchableOpacity onPress={() => handlePopup(Number(item[0]))}>
-              <TrashSVG color='#6F6F6F' size='24px'/>
+              <TrashSVG color='#6F6F6F' size={windowAverage * 12}/>
             </TouchableOpacity>
             <View style={{justifyContent: "flex-start", alignItems: "flex-start", width: "37%"}}>
               <Text style={{color: textColor, fontSize: windowAverage * 9, fontFamily: "YS-text"}}>
@@ -178,7 +178,7 @@ export default function TrainsIndex({ bgColor, textColor, input, checkModal, App
         ))}
         <TouchableOpacity activeOpacity={0.5} onPress={handleAddExercise}>
           <View style={{flexDirection: "row", alignItems: "center", borderTopColor: input, borderTopWidth: 1, paddingVertical: windowAverage * 6, gap: windowAverage * 7, paddingLeft: windowAverage * 4}}>
-            <AddSVG color='#6F6F6F' size='24px'/>
+            <AddSVG color='#6F6F6F' size={windowAverage * 12}/>
             <View style={{justifyContent: "flex-start", alignItems: "flex-start"}}>
               <Text style={{color: "#818181", fontSize: windowAverage * 9, fontFamily: "YS-text"}}>
               {AppTheme?.language === "rus" ? "Добавить упражнение" : AppTheme?.language === "eng" ? "Add new exercise" : "Übung hinzufügen"}

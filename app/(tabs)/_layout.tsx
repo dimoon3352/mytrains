@@ -38,25 +38,25 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          tabBarIcon: ({focused}) => <HomeSVG color={focused && AppTheme?.theme === "light" ? Colors.light.navIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.navIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} size={`${windowAverage*20}px`}/>,
+          tabBarIcon: ({focused}) => <HomeSVG color={focused && AppTheme?.theme === "light" ? Colors.light.navIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.navIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} size={windowAverage*20}/>,
         }}
       />
       <Tabs.Screen
         name="TrainsPage"
         options={{
-          tabBarIcon: ({focused}) => <TrainsSVG color={focused && AppTheme?.theme === "light" ? Colors.light.navIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.navIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} size={`${windowAverage*20}px`}/>,
+          tabBarIcon: ({focused}) => <TrainsSVG color={focused && AppTheme?.theme === "light" ? Colors.light.navIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.navIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} size={windowAverage*20}/>,
         }}
       />
       <Tabs.Screen
         name="ExercisesPage"
         options={{
-          tabBarIcon: ({focused}) => <ExercisesSVG color={focused && AppTheme?.theme === "light" ? Colors.light.navIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.navIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} size={`${windowAverage*20}px`}/>,
+          tabBarIcon: ({focused}) => <ExercisesSVG color={focused && AppTheme?.theme === "light" ? Colors.light.navIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.navIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} size={windowAverage*20}/>,
         }}
       />
       <Tabs.Screen
         name="ActionsPage"
         options={{
-          tabBarIcon: ({focused}) => <CalcSVG color={focused && AppTheme?.theme === "light" ? Colors.light.navIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.navIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} size={`${windowAverage*20}px`}/>,
+          tabBarIcon: ({focused}) => <CalcSVG color={focused && AppTheme?.theme === "light" ? Colors.light.navIconFocused : focused && AppTheme?.theme === "dark" ? Colors.dark.navIconFocused : AppTheme?.theme === "light" ? Colors.light.navIcon : Colors.dark.navIcon} size={windowAverage*20}/>,
         }}
       />
     </Tabs>

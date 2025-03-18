@@ -32,7 +32,7 @@ export default function Header({bgColor, textColor, iconColor, children}: Header
       </View>
       <TouchableOpacity  onPress={onPress}>
         <View style={[styles.item, {justifyContent: "center", alignItems: "center", right: windowAverage * 8}]}>
-          <SettingsSVG color={iconColor} size={`${windowAverage * 15}px`} />
+          <SettingsSVG color={iconColor} size={windowAverage * 15} />
         </View> 
       </TouchableOpacity> 
     </View>

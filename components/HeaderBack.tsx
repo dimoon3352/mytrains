@@ -26,7 +26,7 @@ export default function HeaderBack({children, bgColor, textColor, iconColor, rou
     <View style={[styles.container, {backgroundColor: bgColor}]}>
       <View style={styles.item}>
         <TouchableOpacity onPress={onTouchEnd}>
-          <ArrowLeftSVG color={iconColor} size={`${windowAverage * 15}px`} />
+          <ArrowLeftSVG color={iconColor} size={windowAverage * 15} />
         </TouchableOpacity>
       </View>  
       <View style={styles.textContainer}>
