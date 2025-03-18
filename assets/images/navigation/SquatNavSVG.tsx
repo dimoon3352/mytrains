@@ -2,7 +2,7 @@ import { Svg, Path, G, ClipPath, Defs, Rect } from 'react-native-svg';
 
 interface ReactNativeSVGProps {
   color: string,
-  size: string
+  size: number
 }
 
 export default function SquatNavSVG({ color, size }: ReactNativeSVGProps) {

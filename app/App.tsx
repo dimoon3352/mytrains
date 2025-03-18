@@ -67,6 +67,18 @@ export default function App() {
           navigationBarColor: AppTheme?.theme === "light" ? Colors.light.background : Colors.dark.background,
           animation: "none"
         }}/>
+        <Stack.Screen name="(upload)" options={{ 
+          headerShown: false, 
+          statusBarBackgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground, 
+          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.background : Colors.dark.background,
+          animation: "none"
+        }}/>
+        <Stack.Screen name="(download)" options={{ 
+          headerShown: false, 
+          statusBarBackgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground, 
+          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.background : Colors.dark.background,
+          animation: "none"
+        }}/>
       </Stack>  
     </View>
   );

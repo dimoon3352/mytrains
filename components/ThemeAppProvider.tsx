@@ -1,7 +1,8 @@
-import { createContext, useState, useContext, ReactNode } from 'react';
+import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { changeAppTheme, changeAppLanguage } from '@/store/settingsSlice';
+import { changeAppTheme, changeAppLanguage, setSettings, Settings } from '@/store/settingsSlice';
 
 
 interface ThemeContextType {
@@ -15,11 +16,33 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeAppProvider = ({ children }: {children: ReactNode}) => {
 
-  const settings = useAppSelector((state) => state.settings)
   const dispatch = useAppDispatch()
+  const settings = useAppSelector(state => state.settings)
+  const [isSettings, setIsSettings] = useState<Settings>(settings);
+  const [theme, setTheme] = useState<"light" | "dark">(isSettings.theme);
+  const [language, setLanguage] = useState<'rus' | 'eng' | 'ger'>(isSettings.language);
 
-  const [theme, setTheme] = useState<"light" | "dark">(settings.theme);
-  const [language, setLanguage] = useState<'rus' | 'eng' | 'ger'>(settings.language);
+  useEffect(() => {
+    const getAsync = async () => {
+      try {
+        const stored = await AsyncStorage.getItem("settings");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          dispatch(setSettings(parsed))
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getAsync()
+  }, [dispatch])
+
+  useEffect(() => {
+    setIsSettings(settings)
+    setTheme(settings.theme)
+    setLanguage(settings.language)
+  }, [settings])
   
   const changeTheme = (theme: "light" | "dark") => {
     dispatch(changeAppTheme(theme))

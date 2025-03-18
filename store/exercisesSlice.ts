@@ -23,30 +23,7 @@ export interface Exercise {
 
 export type Exercises = Exercise[]
 
-const initialState: Exercises = [{
-    ID: 0,
-    ExerciseName: "barbell 60kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 1,
-    ExerciseName: "barbell 70kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 2,
-    ExerciseName: "barbell 80kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  },
-  {
-    ID: 3,
-    ExerciseName: "barbell 90kg",
-    AdditionDate: "01.05.2021",
-    ImagePath: ""
-  }]
+const initialState: Exercises = []
 
 const storeAsync = async (value: any) => {
   try {

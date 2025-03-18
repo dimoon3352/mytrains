@@ -128,7 +128,7 @@ export default function CreateTrain() {
               {AppTheme?.language === "rus" ? "Добавить из заготовок" : AppTheme?.language === "eng" ? "Add from mockups" : "Aus modells hinzufügen"}
             </Text>
             <View style={{backgroundColor: "#16A34A", padding: windowAverage * 1, borderRadius: windowAverage * 2}}>
-              <AddSVG color="#fff" size="18px"/>
+              <AddSVG color="#fff" size={windowAverage * 9}/>
             </View>
           </View>
         </TouchableOpacity>
@@ -280,13 +280,13 @@ const Popup = ({ isGestureEnabled, setIsGestureEnabled, isPopupActive, setIsPopu
             </Text>
             <TouchableOpacity onPress={onPress}>
               <View style={{transform: "rotate(45deg)"}}>
-                <AddSVG color='#fff' size='34px'/>
+                <AddSVG color='#fff' size={windowAverage * 17}/>
               </View>
             </TouchableOpacity>
           </View>
           <ScrollView style={{height: windowHeight}}> 
             <View style={[styles.wrapperSquares]}>
-              {mockups.map((item: any, index: any) => (
+              {mockups && mockups.length > 0 && mockups.map((item: any, index: any) => (
                 <TouchableOpacity key={index} activeOpacity={0.85} onPress={() => handleConfirmPopup(item)}>     
                   <View style={[styles.itemSquares, {backgroundColor: AppTheme?.theme === "light" ? light.bgMockup : dark.bgMockup}]}>
                     <View style={{width: "90%", alignSelf: "center", justifyContent: "center", alignItems: "center"}}>
@@ -295,7 +295,7 @@ const Popup = ({ isGestureEnabled, setIsGestureEnabled, isPopupActive, setIsPopu
                       </Text>
                     </View>
                     <View style={{gap: windowAverage * 4}}>
-                      {Object.entries<string[]>(item.Exercises).map((item, index) => (
+                      {item.Exercises && Object.entries<string[]>(item.Exercises).length > 0 && Object.entries<string[]>(item.Exercises).map((item, index) => (
                         <View key={index} style={{flexDirection: "row", borderTopColor: "#303134", borderTopWidth: 1, paddingTop: windowAverage * 4}}>
                           <View style={{width: "100%", justifyContent: "flex-start", alignItems: "flex-start"}}>
                             <Text style={{color: AppTheme?.theme === "light" ? light.text : dark.text, fontSize: windowAverage * 6, fontFamily: "YS-text"}}>
@@ -375,7 +375,7 @@ const ConfirmPopup = ({ isPopupActive, setIsPopupActive, item }: ConfirmPopupPro
             <TouchableOpacity activeOpacity={0.7} onPress={() => addMockupTrain(item)}>
               <View style={[styles.PopupButton, {backgroundColor: "#16a34a"}]}>
                 <Text style={{color: "#fff", fontFamily: "YS-text"}}>
-                 {AppTheme?.language === "rus" ? "Добавить тренировку" : AppTheme?.language === "eng" ? "Add train" : "Zug hinzufügen"}
+                 {AppTheme?.language === "rus" ? "Добавить" : AppTheme?.language === "eng" ? "Add train" : "Zug hinzufügen"}
                 </Text>
               </View>
             </TouchableOpacity>

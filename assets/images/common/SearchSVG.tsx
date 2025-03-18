@@ -2,7 +2,7 @@ import { Svg, Path, G, Circle } from 'react-native-svg';
 
 interface ReactNativeSVGProps {
   color: string,
-  size: string
+  size: number
 }
 
 export default function SearchSVG({ color, size }: ReactNativeSVGProps) {

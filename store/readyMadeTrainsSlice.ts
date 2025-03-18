@@ -23,7 +23,11 @@ export const readyMadeTrainsSlice = createSlice({
       return action.payload
     },
     addReadyMadeTrain: (state, action: PayloadAction<Train>) => {
-      state.push(action.payload)
+      if (state) {
+        state.push(action.payload)
+      } else {
+        state = [{ID: action.payload.ID, Date: action.payload.Date, Exercises: action.payload.Exercises}]
+      }
       storeAsync(state)
     },
     delReadyMadeTrain: (state, action: PayloadAction<number>) => {

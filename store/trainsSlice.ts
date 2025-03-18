@@ -28,39 +28,7 @@ export interface Train {
 
 export type Trains = Train[]
 
-const initialState: Trains = [{
-  ID: 0,
-  Date: "17.01.2024",
-  Exercises: {
-    0: ["5", "4", "3", "3", "3"],
-    1: ["5", "4", "3", "3", "3"],
-    2: ["5", "4", "3", "3", "3"],
-    3: ["5", "4", "3", "3", "3"],
-    4: ["5", "4", "3", "3", "3"]
-  }
-},
-{
-  ID: 1,
-  Date: "18.01.2024",
-  Exercises: {
-    0: ["5", "4", "3", "3", "3"],
-    1: ["5", "4", "3", "3", "3"],
-    2: ["5", "4", "3", "3", "3"],
-    3: ["5", "4", "3", "3", "3"],
-    4: ["5", "4", "3", "3", "3"]
-  }
-},
-{
-  ID: 2,
-  Date: "19.01.2024",
-  Exercises: {
-    0: ["5", "4", "3", "3", "3"],
-    1: ["5", "4", "3", "3", "3"],
-    2: ["5", "4", "3", "3", "3"],
-    3: ["5", "4", "3", "3", "3"],
-    4: ["5", "4", "3", "3", "3"]
-  }
-}]
+const initialState: Trains = []
 
 const storeAsync = async (value: any) => {
   try {
@@ -78,7 +46,11 @@ export const trainsSlice = createSlice({
       return action.payload
     },
     addTrain: (state, action: PayloadAction<Train>) => {
-      state.push(action.payload)
+      if (state) {
+        state.push(action.payload)
+      } else {
+        state = [{ID: action.payload.ID, Date: action.payload.Date, Exercises: action.payload.Exercises}]
+      }
       storeAsync(state)
     },
     delTrain: (state, action: PayloadAction<number>) => {

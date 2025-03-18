@@ -1,127 +1,60 @@
-import { StyleSheet, Image, Platform, View, Text, ScrollView, Alert} from 'react-native';
-import { useRouter } from 'expo-router';
+import { View, ScrollView } from 'react-native';
+import { SplashScreen, useLocalSearchParams, useRouter } from 'expo-router';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import MainPartHome from '@/components/MainPartHome';
-import { useEffect } from 'react';
-import { windowAverage } from '@/constants/Dimensions';
-import BenchPress from '@/components/BenchPress';
-import MainPartCalculators from '@/components/MainPartActions';
-import { useFonts } from 'expo-font';
-import { SplashScreen } from 'expo-router';
+
 import { useAppTheme } from '@/components/ThemeAppProvider';
-import { ThemeAppProvider } from '@/components/ThemeAppProvider';
-import { useLocalSearchParams } from 'expo-router';
-import HeaderBack from '@/components/HeaderBack';
-import { useAppDispatch } from '@/store/hooks';
-import { changeImage } from '@/store/exercisesSlice';
-import * as ImagePicker from 'expo-image-picker';
-import * as MediaLibrary from 'expo-media-library';
 import { Colors } from '@/constants/Colors';
+
+import HeaderBack from '@/components/HeaderBack';
+import ExercisesIndex from '@/components/ExercisesIndex';
+
 
 SplashScreen.preventAutoHideAsync();
 
-export default function ExercisesIndex() {
+export default function Exercises() {
 
     const { id } = useLocalSearchParams();
-
-    const pageID = Number(id.slice(0, id.length - 1))
+    const pid = id.slice(0, id.length - 1)
 
     const router = useRouter();
 
-    const dispatch = useAppDispatch()
-
     const AppTheme = useAppTheme()
     const { light, dark } = Colors
-
-    const [loaded] = useFonts({
-            SpaceMono: require("../../assets/fonts/SpaceMono-Regular.ttf"),
-          });
-        
-          useEffect(() => {
-            if (loaded) {
-              SplashScreen.hideAsync();
-            }
-          }, [loaded]);
-        
-          if (!loaded) {
-            return null;
-          }
-
-    const [status, requestPermission] = MediaLibrary.usePermissions();
   
     const onGestureEvent = (event: any) => {
       const { translationX, translationY } = event.nativeEvent;
-  
-      //console.error(Math.abs(translationX), Math.abs(translationY))
 
       if (Math.abs(translationX) > Math.abs(translationY)) {
         if (translationX > 40) {
           router.push('/(tabs)/ExercisesPage');
         }
       }
-    }; //<Text style={{color: "#fff", fontSize: windowAverage * 10}}>Bench-press calculator</Text>
-
-    useEffect(() => {
-      (async () => {
-        if (status === null) {
-          requestPermission();
-        }
-      })();
-    }, [status]);
-  
-    const pickImage = async (ID: number) => {
-      // Запрашиваем разрешение на доступ к галерее
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  
-      if (status !== 'granted') {
-        Alert.alert(
-          'Разрешение необходимо',
-          'Для выбора изображения из галереи необходимо предоставить разрешение.',
-          [{ text: 'OK' }]
-        );
-        return;
-      }
-
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
-  
-      if (!result.canceled) {
-        dispatch(changeImage({ID: ID, ImagePath: result.assets[0].uri}))
-      }
     };
 
   return (
-    <ScrollView style={{backgroundColor: AppTheme?.theme === "light" ? "#ffffff" : "#070707" }}>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <GestureHandlerRootView>
         <PanGestureHandler onGestureEvent={onGestureEvent}>                     
           <View>          
-            <HeaderBack bgColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} textColor={AppTheme?.theme === "light" ? light.text : dark.text} iconColor={AppTheme?.theme === "light" ? light.navIcon : dark.navIcon} routerPath='(tabs)/ExercisesPage'>
-              Exercise ID: {pageID}
+            <HeaderBack 
+              bgColor={AppTheme?.theme === "light" ? light.itemBackground : dark.itemBackground} 
+              textColor={AppTheme?.theme === "light" ? light.text : dark.text} 
+              iconColor={AppTheme?.theme === "light" ? light.navIcon : dark.navIcon} 
+              routerPath='(tabs)/ExercisesPage'
+            >
+              Exercise ID: {pid}
             </HeaderBack>
-            <View style={{backgroundColor: "#16A34A", padding: windowAverage * 6}} onTouchEnd={() => pickImage(pageID)}>
-              <Text style={{color: "#fff"}}>Change image {pageID}</Text> 
-            </View>
-                     
+            <ExercisesIndex 
+              bgColor={AppTheme?.theme === "light" ? Colors.light.background : Colors.dark.background} 
+              textColor={AppTheme?.theme === "light" ? Colors.light.text : Colors.dark.text} 
+              input={AppTheme?.theme === "light" ? Colors.light.trainsInput : Colors.dark.trainsInput} 
+              checkModal={AppTheme?.theme === "light" ? Colors.light.checkModal : Colors.dark.checkModal} 
+              AppTheme={AppTheme} 
+              ID={pid} 
+            />  
           </View>             
         </PanGestureHandler>
       </GestureHandlerRootView>
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-});

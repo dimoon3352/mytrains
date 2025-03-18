@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 import { windowAverage, windowHeight, windowWidth } from '@/constants/Dimensions';
 import { useAppTheme } from './ThemeAppProvider';
@@ -64,6 +64,7 @@ export default function MainPartHome({ bgColor, textColor, specialText }: MainPa
   const favourite = useMemo(() => {
     return getFavouriteExercise(trains, exercises)
   }, [])
+
 
   return (
     <View style={[styles.container, {backgroundColor: bgColor}]}>

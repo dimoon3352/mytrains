@@ -7,13 +7,17 @@ export default function TabLayout() {
     <Tabs 
       screenOptions={{
         headerShown: false,
-        tabBarShowLabel: false,      
+        tabBarShowLabel: false, 
+        animation: "none",     
         tabBarStyle: {
           display: "none"      
         }
       }}>
       <Tabs.Screen
-        name="[id]"
+        name="Upload"
+        options={{
+          animation: "none"
+        }}
       />
     </Tabs>
   );
