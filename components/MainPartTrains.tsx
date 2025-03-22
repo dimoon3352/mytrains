@@ -72,20 +72,28 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, control
   }, [trains])
 
   useEffect(() => {
+    function parseDate(date: string) {
+      const parts = date.split('.'); // делим строку по точкам
+      const day = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1; // месяц от 0 до 11
+      const year = parseInt(parts[2], 10);
+      return new Date(year, month, day).getTime();
+    }
+  
     function onSort(): void {
       if (sortType === "date") {
-        const arr = [...trains].sort((a, b) => a.ID - b.ID)
+        const arr = [...trains].sort((a, b) => parseDate(a.Date) - parseDate(b.Date))
         setSortedArr(arr)
       }
 
       if (sortType === "date_invert") {
-        const arr = [...trains].sort((a, b) => a.ID - b.ID)
+        const arr = [...trains].sort((a, b) => parseDate(a.Date) - parseDate(b.Date))
         setSortedArr(arr.reverse())
       }
     }
 
     onSort()
-  }, [sortType])
+  }, [sortType, trains])
 
   function onSearch(event: NativeSyntheticEvent<TextInputChangeEventData>) {
     const filteredArr = [...trains].filter(item =>
@@ -119,8 +127,6 @@ export default function MainPartTrains({bgColor, textColor, bgItemColor, control
     // Убираем слушатель при размонтировании компонента
     return () => backHandler.remove();
   }, [isSortPopupActive]);
-
-  
 
   return (
     <>

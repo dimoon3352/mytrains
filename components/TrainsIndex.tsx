@@ -4,7 +4,7 @@ import { RelativePathString, useRouter } from 'expo-router';
 
 import { windowAverage, windowHeight, windowWidth } from '@/constants/Dimensions';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { changeTrainDate, changeTrainExercise, delTrain, delTrainExercise, Train, Trains } from '@/store/trainsSlice';
+import { changeTrainDate, changeTrainExercise, delTrain, delTrainExercise, Train } from '@/store/trainsSlice';
 import { defineExerciseTitle } from './MainPartTrains';
 
 import TrashSVG from '@/assets/images/common/TrashSVG';
@@ -155,7 +155,7 @@ export default function TrainsIndex({ bgColor, textColor, input, checkModal, App
   return (
     <View style={[styles.container, {backgroundColor: bgColor}]}>
       <View style={{width: windowWidth, paddingVertical: windowAverage * 7, paddingHorizontal: windowAverage * 5, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: windowAverage * 4}}>
-        <TextInput value={date} cursorColor="#008ef4" style={{backgroundColor: input, color: textColor, width: windowAverage * 164, fontSize: windowAverage * 13, fontFamily: "YS-text", borderRadius: windowAverage * 5, paddingLeft: windowAverage * 5}} onChange={onDateChange}/>
+        <TextInput value={date} cursorColor="#008ef4" style={{backgroundColor: input, color: textColor, width: windowAverage * 164, height: windowAverage * 26, fontSize: windowAverage * 13, fontFamily: "YS-text", borderRadius: windowAverage * 5, paddingLeft: windowAverage * 5}} onChange={onDateChange}/>
         <TouchableOpacity onPress={handleDeletePopup}>
           <TrashSVG color='#6F6F6F' size={windowAverage * 20}/>
         </TouchableOpacity>
@@ -172,7 +172,7 @@ export default function TrainsIndex({ bgColor, textColor, input, checkModal, App
               </Text>
             </View>
             <View style={{flexDirection: "row", justifyContent: "flex-start", flexWrap: "wrap", overflow: "hidden"}}>                 
-              <TextInput value={value !== null && typeof value[Number(item[0])] !== "undefined" ? value[Number(item[0])].join(' ') : ' '} cursorColor="#008ef4" style={{backgroundColor: input, color: textColor, fontSize: windowAverage * 9, fontFamily: "YS-text", width: "68%", paddingLeft: windowAverage * 5, borderRadius: windowAverage * 5}} onChange={(e) => onChange(e, item[0])}/>                
+              <TextInput value={value !== null && typeof value[Number(item[0])] !== "undefined" ? value[Number(item[0])].join(' ') : ' '} cursorColor="#008ef4" style={{backgroundColor: input, color: textColor, fontSize: windowAverage * 9, fontFamily: "YS-text", width: "68%", paddingLeft: windowAverage * 5, borderRadius: windowAverage * 5, height: windowAverage * 21}} onChange={(e) => onChange(e, item[0])}/>                
             </View>
           </View>
         ))}

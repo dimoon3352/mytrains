@@ -38,7 +38,7 @@ export default function App() {
         <Stack.Screen name="(exercises)" options={{ 
           headerShown: false, 
           statusBarBackgroundColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground, 
-          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.itemBackground : Colors.dark.itemBackground,
+          navigationBarColor: AppTheme?.theme === "light" ? Colors.light.background : Colors.dark.background,
           animation: "slide_from_right",
           animationDuration: 400
         }}/>

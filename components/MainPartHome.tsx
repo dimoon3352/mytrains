@@ -65,7 +65,6 @@ export default function MainPartHome({ bgColor, textColor, specialText }: MainPa
     return getFavouriteExercise(trains, exercises)
   }, [])
 
-
   return (
     <View style={[styles.container, {backgroundColor: bgColor}]}>
       <View style={{gap: windowAverage * 2}}>
@@ -93,7 +92,7 @@ export default function MainPartHome({ bgColor, textColor, specialText }: MainPa
         </View>
         <View style={{flexDirection:  "row", gap: windowAverage * 5, paddingLeft: windowAverage * 8, alignItems: "center"}}>
           <Text style={[styles.text, {color: textColor}]}>
-            {AppTheme?.language === "rus" ? "Любимое упр" : AppTheme?.language === "eng" ? "Favourite ex" : "Lieblingsübung"}:
+            {AppTheme?.language === "rus" ? "Избранное" : AppTheme?.language === "eng" ? "Favourite ex" : "Lieblingsübung"}:
           </Text>
           <View style={{flexDirection: "row", maxWidth: windowWidth / 2.1}}>
             <Text style={{color: specialText, fontSize: windowAverage * 12, fontFamily: "YS-text"}}>
@@ -104,10 +103,20 @@ export default function MainPartHome({ bgColor, textColor, specialText }: MainPa
         <View style={{backgroundColor: textColor, height: 2, width: (windowWidth - windowAverage * 16), alignSelf: "center", marginTop: windowAverage * 2}}></View>
       </View>
 
-      <View style={{paddingTop: windowAverage * 8, width: windowWidth, alignItems: "center"}}>
-        <Text style={[styles.text, {color: textColor}]}>
-          {AppTheme?.language === "rus" ? "Описание" : AppTheme?.language === "eng" ? "About" : "Über"}
-        </Text>
+      <View style={{paddingTop: windowAverage * 8, width: windowWidth, paddingHorizontal: windowAverage * 5}}>
+        <View style={{width: windowWidth - windowAverage * 5, alignItems: "center"}}>
+          <Text style={[styles.text, {color: textColor}]}>
+            {AppTheme?.language === "rus" ? "Вопросы" : AppTheme?.language === "eng" ? "About" : "Über"}
+          </Text>
+        </View>
+        <View style={{paddingTop: windowAverage * 5, gap: windowAverage * 5}}>
+          <Text style={[styles.text, {color: textColor, fontSize: windowAverage * 11}]}>
+            {AppTheme?.language === "rus" ? "Выгрузить: если вам нужно сохранить данные из этого приложения можно выгрузить желаемое нажатием определенной кнопки" : AppTheme?.language === "eng" ? "Upload: If you need to save data from this application, you can upload what you want by pressing a certain button." : "Entladen: Wenn Sie Daten aus dieser Anwendung speichern möchten, können Sie das Gewünschte durch Drücken einer bestimmten Taste entladen"}
+          </Text>
+          <Text style={[styles.text, {color: textColor, fontSize: windowAverage * 11}]}>
+            {AppTheme?.language === "rus" ? "Загрузить: если вам нужно загрузить данные о тренировках/упражнениях можно вставить текст в соотвествующем формате в поле для текста и нажать на кнопку" : AppTheme?.language === "eng" ? "Upload: If you need to upload training/exercise data, you can insert text in the appropriate format in the text field and click the button" : "Laden: Wenn Sie Trainings-/Übungsdaten herunterladen möchten, können Sie den Text im entsprechenden Format in das Textfeld einfügen und auf die Schaltfläche klicken"}
+          </Text>
+        </View>
       </View>
     </View>
   );
