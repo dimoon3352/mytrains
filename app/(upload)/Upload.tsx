@@ -83,7 +83,7 @@ export default function Upload() {
     <GestureHandlerRootView>
       <View style={[styles.container, {backgroundColor: AppTheme?.theme === "light" ? light.background : dark.background}]}>
         <View style={styles.wrapper}>
-          <View style={{flexDirection: "row-reverse"}}>
+          <View style={{flexDirection: "row-reverse", width: windowWidth, justifyContent: "center", alignItems: "center"}}>
             <TouchableOpacity style={{flexDirection: "row", width: windowWidth / 2}} onPress={storeTrains}>
               <View style={styles.button}>
                 <Text style={{color: "#fff", fontFamily: "YS-text", fontSize: windowAverage * 9}}>
@@ -91,12 +91,12 @@ export default function Upload() {
                 </Text>
               </View> 
             </TouchableOpacity> 
-            <View style={{width: windowWidth / 2, justifyContent: "center", alignItems: "center"}}>
-              <TextInput value={trainsText} onChange={trainsOnChange} placeholder={AppTheme?.language === "rus" ? "Вставьте тренировки" : AppTheme?.language === "eng" ? "Enter trains" : "Züge eingeben"} placeholderTextColor="#838383" cursorColor="#008ef4" style={{width: windowWidth / 100 * 45, height: windowAverage * 28, backgroundColor: AppTheme?.theme === "light" ? light.controlsBackground : dark.controlsBackground, color: AppTheme?.theme === "light" ? light.text : dark.text, paddingLeft: windowAverage * 4, borderRadius: windowAverage * 2}}/> 
+            <View style={{width: windowWidth / 2, justifyContent: "center", alignItems: "flex-start"}}>
+              <TextInput value={trainsText} onChange={trainsOnChange} placeholder={AppTheme?.language === "rus" ? "Вставьте тренировки" : AppTheme?.language === "eng" ? "Enter trains" : "Züge eingeben"} placeholderTextColor="#838383" cursorColor="#008ef4" style={{width: windowWidth / 100 * 46, height: windowAverage * 28, backgroundColor: AppTheme?.theme === "light" ? light.controlsBackground : dark.controlsBackground, color: AppTheme?.theme === "light" ? light.text : dark.text, paddingLeft: windowAverage * 8, borderRadius: windowAverage * 2}}/> 
             </View>
           </View> 
 
-          <View style={{flexDirection: "row-reverse"}}>
+          <View style={{flexDirection: "row-reverse", width: windowWidth, justifyContent: "center", alignItems: "center"}}>
             <TouchableOpacity style={{flexDirection: "row", width: windowWidth / 2}} onPress={storeExercises}>
               <View style={styles.button}>
                 <Text style={{color: "#fff", fontFamily: "YS-text", fontSize: windowAverage * 9}}>
@@ -104,12 +104,12 @@ export default function Upload() {
                 </Text>
               </View> 
             </TouchableOpacity> 
-            <View style={{width: windowWidth / 2, justifyContent: "center", alignItems: "center"}}>
-              <TextInput value={exercisesText} onChange={exercisesOnChange} placeholder={AppTheme?.language === "rus" ? "Вставьте упражнения" : AppTheme?.language === "eng" ? "Enter exercises" : "Übungen eingeben"} placeholderTextColor="#838383" cursorColor="#008ef4" style={{width: windowWidth / 100 * 45, height: windowAverage * 28, backgroundColor: AppTheme?.theme === "light" ? light.controlsBackground : dark.controlsBackground, color: AppTheme?.theme === "light" ? light.text : dark.text, paddingLeft: windowAverage * 4, borderRadius: windowAverage * 2}}/> 
+            <View style={{width: windowWidth / 2, justifyContent: "center", alignItems: "flex-start"}}>
+              <TextInput value={exercisesText} onChange={exercisesOnChange} placeholder={AppTheme?.language === "rus" ? "Вставьте упражнения" : AppTheme?.language === "eng" ? "Enter exercises" : "Übungen eingeben"} placeholderTextColor="#838383" cursorColor="#008ef4" style={{width: windowWidth / 100 * 46, height: windowAverage * 28, backgroundColor: AppTheme?.theme === "light" ? light.controlsBackground : dark.controlsBackground, color: AppTheme?.theme === "light" ? light.text : dark.text, paddingLeft: windowAverage * 8, borderRadius: windowAverage * 2}}/> 
             </View>
           </View>
 
-          <View style={{flexDirection: "row-reverse"}}>
+          <View style={{flexDirection: "row-reverse", width: windowWidth, justifyContent: "center", alignItems: "center"}}>
             <TouchableOpacity style={{flexDirection: "row", width: windowWidth / 2}} onPress={storeMockups}>
               <View style={styles.button}>
                 <Text style={{color: "#fff", fontFamily: "YS-text", fontSize: windowAverage * 9}}>
@@ -117,8 +117,8 @@ export default function Upload() {
                 </Text>
               </View> 
             </TouchableOpacity> 
-            <View style={{width: windowWidth / 2, justifyContent: "center", alignItems: "center"}}>
-              <TextInput value={mockupsText} onChange={mockupsOnChange} placeholder={AppTheme?.language === "rus" ? "Вставьте заготовки" : AppTheme?.language === "eng" ? "Enter mockups" : "Modelle eingeben"} placeholderTextColor="#838383" cursorColor="#008ef4" style={{width: windowWidth / 100 * 45, height: windowAverage * 28, backgroundColor: AppTheme?.theme === "light" ? light.controlsBackground : dark.controlsBackground, color: AppTheme?.theme === "light" ? light.text : dark.text, paddingLeft: windowAverage * 4, borderRadius: windowAverage * 2}}/> 
+            <View style={{width: windowWidth / 2, justifyContent: "center", alignItems: "flex-start"}}>
+              <TextInput value={mockupsText} onChange={mockupsOnChange} placeholder={AppTheme?.language === "rus" ? "Вставьте заготовки" : AppTheme?.language === "eng" ? "Enter mockups" : "Modelle eingeben"} placeholderTextColor="#838383" cursorColor="#008ef4" style={{width: windowWidth / 100 * 46, height: windowAverage * 28, backgroundColor: AppTheme?.theme === "light" ? light.controlsBackground : dark.controlsBackground, color: AppTheme?.theme === "light" ? light.text : dark.text, paddingLeft: windowAverage * 8, borderRadius: windowAverage * 2}}/> 
             </View>
           </View>
           
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#16A34A", 
     height: windowAverage * 28,
-    width: windowAverage * 88, 
+    width: windowWidth / 100 * 44, 
     borderRadius: windowAverage * 2,
     justifyContent: "center",
     alignItems: "center"

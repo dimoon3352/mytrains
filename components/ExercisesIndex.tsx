@@ -3,12 +3,14 @@ import { StyleSheet, View, Text, TouchableOpacity, TextInput, NativeSyntheticEve
 import { useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
+import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart } from "react-native-chart-kit";
 
 import { windowAverage, windowHeight, windowWidth } from '@/constants/Dimensions';
 import { changeExerciseTitle, changeImage, delExercise, Exercise } from '@/store/exercisesSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
 import TrashSVG from '@/assets/images/common/TrashSVG';
+import { Trains } from '@/store/trainsSlice';
 
 
 interface ExercisesIndexProps {
@@ -167,6 +169,60 @@ export default function ExercisesIndex({ bgColor, textColor, input, checkModal, 
     return () => backHandler.remove();
   }, [isPopupActive]);
 
+  function getMaxChartData(trains: Trains, exerciseID: number) {
+    function defineTrainsArr(trains: Trains, trainId: number): Trains {
+      let arr: Trains = [] 
+      for (let i = 0; i < trains.length; i++) {
+        for (let j in trains[i].Exercises) {
+          if (Number(j) === trainId) {
+            arr.push(trains[i])
+          }
+        }   
+      }
+      return arr
+    }
+
+    function defineSum(arr: {[key: number]: string[]}, exerciseId: number): number {
+      let result: number = 0;
+      for (let i of Object.keys(arr)) {
+        if (Number(i) === exerciseId) {
+          for (let j = 0; j < arr[Number(i)].length; j++) {
+            result += Number(arr[Number(i)][j])
+          }
+        }
+      }
+      return result
+    }
+  
+    function defineMax(arr: {[key: number]: string[]}, exerciseId: number): number {
+      let result: number = 0;
+      for (let i of Object.keys(arr)) {
+        if (Number(i) === exerciseId) {
+          for (let j = 0; j < arr[Number(i)].length; j++) {
+            if (Number(arr[Number(i)][j]) > result) {
+              result = Number(arr[Number(i)][j])
+            }        
+          }
+        }
+      }
+      return result
+    }
+
+    const trainsArr = defineTrainsArr(trains, exerciseID)
+    let labelsArr: string[] = []
+    let dataArr: number[] = []
+    let sumArr: number[] = []
+
+    for (let i = 0; i < trainsArr.length; i++) {
+      labelsArr.push(trainsArr[i].Date)
+      dataArr.push(defineMax(trainsArr[i].Exercises, exerciseID))
+      sumArr.push(defineSum(trainsArr[i].Exercises, exerciseID))
+    }
+    return { labelsArr, dataArr, sumArr }
+  }
+
+  const data = getMaxChartData(trains, Number(ID))
+
   return (
     <View style={[styles.container, {backgroundColor: bgColor}]}>
       <View style={{width: windowWidth, flexDirection: "row", paddingVertical: windowAverage * 7, paddingHorizontal: windowAverage * 2}}>
@@ -179,7 +235,7 @@ export default function ExercisesIndex({ bgColor, textColor, input, checkModal, 
           </View>}
         </View>
         <View style={{width: windowWidth / 100 * 49, alignItems: "center", justifyContent: "flex-start", gap: windowHeight / 100 * 2}}>
-          <TextInput value={exerciseTitle} cursorColor="#008ef4" style={{backgroundColor: input, color: textColor, top: windowAverage * 4, width: windowWidth / 100 * 46, fontSize: windowAverage * 9, fontFamily: "YS-text", borderRadius: windowAverage * 5, paddingLeft: windowAverage * 5, boxShadow: "2px 2px 3px 0px rgba(34, 60, 80, 0.2)"}} onChange={onTitleChange}/>
+          <TextInput value={exerciseTitle} cursorColor="#008ef4" style={{backgroundColor: input, color: textColor, top: windowAverage * 4, width: windowWidth / 100 * 46, fontSize: windowAverage * 9, fontFamily: "YS-text", borderRadius: windowAverage * 5, paddingLeft: windowAverage * 5, boxShadow: "2px 2px 3px 0px rgba(34, 60, 80, 0.2)", height: windowAverage * 21}} onChange={onTitleChange}/>
           <View style={{width: windowWidth / 100 * 46, backgroundColor: input, paddingVertical: windowAverage * 4, borderRadius: windowAverage * 5, justifyContent: "center", alignItems: "center", boxShadow: "2px 2px 2px 0px rgba(34, 60, 80, 0.2)"}}>
             <Text style={{fontSize: windowAverage * 9, fontFamily: "YS-text", color: textColor}}>
               {AppTheme?.language === "rus" ? "Тренировки" : AppTheme?.language === "eng" ? "Quantity of trains" : "Anzahl der Züge"}:
@@ -194,7 +250,87 @@ export default function ExercisesIndex({ bgColor, textColor, input, checkModal, 
         </View>
       </View> 
 
-      <View style={{borderTopColor: input, borderTopWidth: 1, paddingVertical: windowAverage * 6}}></View>
+      <View style={{borderTopColor: input, borderTopWidth: 1, paddingVertical: windowAverage * 2}}></View>
+
+      <View style={{justifyContent: "center", alignItems: "center"}}>
+        <Text style={{fontSize: windowAverage * 9, fontFamily: "YS-text", color: textColor}}>
+          {AppTheme?.language === "rus" ? "Максимум повторений" : AppTheme?.language === "eng" ? "Max repeats" : "Maximale Wiederholungen"}
+        </Text>
+        <LineChart
+          data={{
+            labels: data.labelsArr.length > 0 ? data.labelsArr : ["Hello", "World!"],
+            datasets: [
+              {
+                data: data.dataArr.length > 0 ? data.dataArr : [1, 0]
+              }
+            ]
+          }}
+          width={windowWidth - windowAverage * 4} // from react-native
+          height={220}
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#e26a00",
+            backgroundGradientFrom: "#fb8c00",
+            backgroundGradientTo: "#ffa726",
+            decimalPlaces: 0, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#ffa726"
+            }
+          }}
+          bezier
+          style={{
+            marginVertical: 8,
+            borderRadius: 16
+          }}
+        />
+      </View>
+
+      <View style={{justifyContent: "center", alignItems: "center"}}>
+        <Text style={{fontSize: windowAverage * 9, fontFamily: "YS-text", color: textColor}}>
+          {AppTheme?.language === "rus" ? "Всего повторений" : AppTheme?.language === "eng" ? "Total Repeats" : "Wiederholungen insgesamt"}
+        </Text>
+        <LineChart
+          data={{
+            labels: data.labelsArr.length > 0 ? data.labelsArr : ["Hello", "World!"],
+            datasets: [
+              {
+                data: data.sumArr.length > 0 ? data.sumArr : [0, 1]
+              }
+            ]
+          }}
+          width={windowWidth - windowAverage * 4} // from react-native
+          height={220}
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#e26a00",
+            backgroundGradientFrom: "#fb8c00",
+            backgroundGradientTo: "#ffa726",
+            decimalPlaces: 0, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#ffa726"
+            }
+          }}
+          bezier
+          style={{
+            marginVertical: 8,
+            borderRadius: 16
+          }}
+        />
+      </View>
       
       <Popup bgColor={checkModal} textColor={textColor} isPopupActive={isPopupActive} setIsPopupActive={setIsPopupActive} AppTheme={AppTheme} ID={Number(ID)}/>
     </View>
